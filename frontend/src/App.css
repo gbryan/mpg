@@ -149,10 +149,6 @@ button.delete:hover {
     flex: 1 1 100%;
   }
 
-  .box-label-container {
-    padding-left: 25px;
-  }
-
   .recharts-tooltip-item-name {
     display: inline-block;
     text-overflow: ellipsis;
