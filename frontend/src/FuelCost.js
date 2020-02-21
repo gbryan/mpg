@@ -11,7 +11,7 @@ class FuelCost extends Component {
     super(props);
 
     this.state = {
-      isEditing: false
+      isEditing: {}
     };
 
     this.handlePriceUpdated = this.handlePriceUpdated.bind(this);
@@ -21,18 +21,20 @@ class FuelCost extends Component {
   }
 
   handlePriceUpdated(e) {
-    const fuelType = e.currentTarget.getAttribute('data-fuel-type');
+    const fuelType = e.currentTarget.name;
     const dollars = e.currentTarget.value;
 
     this.props.onChange(fuelType, dollars);
   }
 
-  handleFocus() {
-    this.setState({isEditing: true});
+  handleFocus(e) {
+    const name = e.currentTarget.name;
+    this.setState({isEditing: {[name]: true}});
   }
 
-  handleBlur() {
-    this.setState({isEditing: false});
+  handleBlur(e) {
+    const name = e.currentTarget.name;
+    this.setState({isEditing: {[name]: false}});
   }
 
   formatPrice(price) {
@@ -53,10 +55,10 @@ class FuelCost extends Component {
               <div>{t}</div>
               <div>
                 {
-                  this.state.isEditing ?
+                  this.state.isEditing[t] ?
                     <input
                       key={key}
-                      data-fuel-type={t}
+                      name={t}
                       type="number"
                       placeholder="$0.00"
                       value={this.props.prices[t]}
@@ -65,7 +67,7 @@ class FuelCost extends Component {
                     /> :
                     <input
                       key={key}
-                      data-fuel-type={t}
+                      name={t}
                       type="text"
                       placeholder="$0.00"
                       value={this.formatPrice(this.props.prices[t])}
