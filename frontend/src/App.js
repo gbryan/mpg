@@ -203,16 +203,18 @@ class App extends Component {
                         <p className="instructions">Purchase Price</p>
                         {this.state.selectedVehicles.map((v) => {
                             return (
-                                <div key={v.id} className="wrapper">
-                                    <div>
-                                        <button
-                                          className="btn btn-left delete"
-                                          data-vehicle-id={v.id}
-                                          onClick={this.deselectVehicle}
-                                        ><i className="fas fa-trash"></i></button>
-                                        {v.make} {v.model} {v.year}
+                                <div key={v.id} className="wrapper spaced-row">
+                                    <div className="box-label-container">
+                                        <div className="box-label">
+                                            <button
+                                              className="btn btn-left delete"
+                                              data-vehicle-id={v.id}
+                                              onClick={this.deselectVehicle}
+                                            ><i className="fas fa-trash"></i></button>
+                                        </div>
+                                        {v.make} {v.model} {v.year} super long-ass name
                                     </div>
-                                    <div>
+                                    <div className="box-label-container">
                                         <PriceInput
                                           placeholder="Enter the purchase price."
                                           onChange={this.handleUpdatePrice}

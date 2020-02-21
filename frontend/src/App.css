@@ -1,14 +1,24 @@
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   font-family: Montserrat, sans-serif;
   min-width: 300px;
+  margin-bottom: 30px;
 }
 
 .wrapper {
   display: flex;
   flex-wrap: wrap;
 }
+
 .wrapper > div {
-  flex: 1 1 150px;
+  flex: 1 1 50%;
+}
+
+.wrapper > div:not(:last-child) {
+  padding-bottom: 10px;
 }
 
 .btn-left {
@@ -30,6 +40,25 @@ body {
   font-size: 1.2em;
 }
 
+table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+}
+
+table tr {
+  background: white;
+  border-bottom: 1px solid;
+}
+
+table th, table td {
+  padding: 10px 20px;
+}
+
+table td .heading {
+  display: none;
+}
+
 table.results th {
   text-align: left;
 }
@@ -48,45 +77,15 @@ table.results tr.selected:hover {
 }
 
 table.results tbody tr:hover {
-  color: rosybrown;
+  color: #926565;
 }
 
-/* Year */
-.results th:nth-child(1), .results td:nth-child(1) {
-  min-width: 50px;
+.recharts-text, .recharts-legend-item-text, .recharts-cartesian-axis-tick {
+  font-size: 14px;
 }
 
-/* Make */
-.results th:nth-child(2), td:nth-child(2) {
-  min-width: 100px;
-}
-
-/* Model */
-.results th:nth-child(3), td:nth-child(3) {
-  min-width: 200px;
-}
-
-.recharts-text, .recharts-legend-item-text {
-  font-size: 0.85em;
-}
-
-.chart-placeholder {
-  height: 300px;
-  position: relative;
-  background-color: #b4b8d485;
-  text-align: center;
-  font-weight: bold;
-  color: #5d5d5d;
-  font-size: 1.2em;
-}
-
-.chart-placeholder > div {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+.recharts-default-tooltip {
+  font-size: 0.8em;
 }
 
 .subsection {
@@ -99,12 +98,73 @@ table.results tbody tr:hover {
   margin-bottom: 20px;
 }
 
+.spaced-row:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.box-label-container {
+  position: relative;
+  padding-left: 40px;
+}
+
+.box-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 button.delete:hover {
   cursor: pointer;
   color: darkred;
 }
 
-/* Remove last tick on right side since it overflows. */
-.recharts-cartesian-axis-tick:last-child {
-  display: none;
+@media(max-width: 800px) {
+  .container {
+    padding: 0;
+  }
+
+  .wrapper > div {
+    flex: 1 1 100%;
+  }
+
+  .box-label-container {
+    padding-left: 25px;
+  }
+
+  /* Remove last tick on right side since it overflows. */
+  .recharts-cartesian-axis-tick:last-child {
+    display: none;
+  }
+
+  table thead {
+    left: -9999px;
+    position: absolute;
+    visibility: hidden;
+  }
+
+  table tr {
+    border-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  table td {
+    position: relative;
+    margin: 0 -1px -1px 0;
+    width: 100%;
+    border: 1px solid;
+    padding-top: 25px;
+  }
+
+  table td .heading {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: bold;
+    font-size: .7em;
+    padding: 5px;
+  }
 }

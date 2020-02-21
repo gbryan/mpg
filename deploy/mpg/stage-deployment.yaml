@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stage-mpg
+spec:
+  selector:
+    matchLabels:
+      app: stage-mpg
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stage-mpg
+    spec:
+      containers:
+        - name: stage-mpg
+          image: gbryan/mpg
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          ports:
+            - containerPort: 4000

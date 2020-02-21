@@ -49,7 +49,7 @@ class FuelCost extends Component {
         <p className="instructions">Fuel Costs</p>
         {
           this.props.visibleFuelTypes.map((t, key) => (
-            <div key={key} className="wrapper">
+            <div key={key} className="wrapper spaced-row">
               <div>{t}</div>
               <div>
                 {

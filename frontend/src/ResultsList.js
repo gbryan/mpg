@@ -40,9 +40,9 @@ class ResultsList extends Component {
                               onClick={this.handleClick}
                               className={this.isSelected(row.id) ? 'selected': ''}
                             >
-                                <td>{row.year}</td>
-                                <td>{row.make}</td>
-                                <td>{row.model}</td>
+                                <td><span className="heading">Year</span>{row.year}</td>
+                                <td><span className="heading">Make</span>{row.make}</td>
+                                <td><span className="heading">Model</span>{row.model}</td>
                             </tr>
                         );
                     })}
