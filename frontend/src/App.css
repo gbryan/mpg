@@ -132,6 +132,14 @@ button.delete:hover {
   color: darkred;
 }
 
+.rc-slider .rc-slider-handle {
+  border-color: #74a0b3;
+}
+
+.rc-slider .rc-slider-track {
+  background-color: #74a0b3;
+}
+
 @media (max-width: 800px) {
   .container {
     padding: 0;
