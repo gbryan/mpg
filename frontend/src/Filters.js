@@ -19,7 +19,7 @@ class Filters extends Component {
     render() {
         return (
             <div className="filters">
-                <p className="instructions large">1. Search for vehicles.</p>
+                <p className="instructions large">1. Search for vehicles</p>
                 <Select
                     name="year"
                     value={this.props.values.year}

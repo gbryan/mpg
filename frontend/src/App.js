@@ -196,7 +196,7 @@ class App extends Component {
                     onUpdatePrice={this.onUpdatePrice}
                     vehiclePrices={this.state.vehiclePrices}
                 />
-                <p className="instructions large">3. Add your details.</p>
+                <p className="instructions large">3. Add your details</p>
                 {
                     this.state.selectedVehicles.length ?
                     <div className="subsection">

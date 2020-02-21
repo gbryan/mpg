@@ -3,9 +3,13 @@
 }
 
 body {
-  font-family: Montserrat, sans-serif;
+  font-family: Domine, serif;
   min-width: 300px;
   margin-bottom: 30px;
+}
+
+h1, h2, h3, h4, h5, p.instructions {
+  font-family: Montserrat, sans-serif;
 }
 
 .wrapper {
