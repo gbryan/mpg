@@ -212,7 +212,7 @@ class App extends Component {
                                               onClick={this.deselectVehicle}
                                             ><i className="fas fa-trash"></i></button>
                                         </div>
-                                        {v.make} {v.model} {v.year} super long-ass name
+                                        {v.year} {v.make} {v.model}
                                     </div>
                                     <div className="box-label-container">
                                         <PriceInput

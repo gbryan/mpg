@@ -2,13 +2,18 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
+  position: relative;
   font-family: Domine, serif;
   min-width: 300px;
   margin-bottom: 30px;
 }
 
-h1, h2, h3, h4, h5, p.instructions {
+h1, h2, h3, h4, h5, p.instructions, .heading {
   font-family: Montserrat, sans-serif;
 }
 
@@ -71,7 +76,7 @@ table.results tbody tr:hover {
   cursor: pointer;
 }
 
-table.results tr.selected {
+table.results tr.selected, table.results tr.selected .heading {
   color: lightgrey;
 }
 
@@ -81,11 +86,16 @@ table.results tr.selected:hover {
 }
 
 table.results tbody tr:hover {
-  color: #926565;
+  color: #9c4d4d;
 }
 
 .recharts-text, .recharts-legend-item-text, .recharts-cartesian-axis-tick {
   font-size: 14px;
+}
+
+/* Remove last tick on right side since it overflows. */
+.recharts-cartesian-axis-tick:last-child {
+  display: none;
 }
 
 .recharts-default-tooltip {
@@ -93,9 +103,9 @@ table.results tbody tr:hover {
 }
 
 .subsection {
-  background-color: #f0f0f0;
+  background-color: #f3f3f3;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 .subsection:not(:last-child) {
@@ -122,7 +132,7 @@ button.delete:hover {
   color: darkred;
 }
 
-@media(max-width: 800px) {
+@media (max-width: 800px) {
   .container {
     padding: 0;
   }
@@ -135,9 +145,12 @@ button.delete:hover {
     padding-left: 25px;
   }
 
-  /* Remove last tick on right side since it overflows. */
-  .recharts-cartesian-axis-tick:last-child {
-    display: none;
+  .recharts-tooltip-item-name {
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
   }
 
   table thead {
@@ -158,7 +171,7 @@ button.delete:hover {
     position: relative;
     margin: 0 -1px -1px 0;
     width: 100%;
-    border: 1px solid;
+    border: 1px solid lightgrey;
     padding-top: 25px;
   }
 
@@ -170,5 +183,12 @@ button.delete:hover {
     font-weight: bold;
     font-size: .7em;
     padding: 5px;
+    color: #5d5d5d;
+  }
+}
+
+@media (max-width: 400px) {
+  .recharts-tooltip-item-name {
+    max-width: 10em;
   }
 }

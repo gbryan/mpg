@@ -21,20 +21,6 @@ const colors = [
 ];
 const numColors = colors.length;
 
-class RotatedAxisTick extends PureComponent {
-  render() {
-    const {
-      x, y, stroke, payload,
-    } = this.props;
-
-    return (
-      <g transform={`translate(${x},${y})`}>
-        <text x={0} y={10} dy={0} textAnchor="start" fill="#666" transform="rotate(35)">{payload.value}</text>
-      </g>
-    );
-  }
-}
-
 class VehicleChart extends PureComponent {
   constructor(props) {
     super(props);
@@ -45,11 +31,11 @@ class VehicleChart extends PureComponent {
       <ResponsiveContainer width="100%" height={300}>
         <LineChart>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} tick={<RotatedAxisTick />} />
+          <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} />
           <YAxis dataKey="value" tickFormatter={dollars => {
             return currencyFormatter.format(dollars);
           }}/>
-          <Tooltip formatter={val => {return currencyFormatter.format(val)}} />
+          <Tooltip formatter={val => {return currencyFormatter.format(val)}} labelStyle={{marginBottom: 10}} contentStyle={{whiteSpace: 'normal'}} />
           <Legend />
           {this.props.series.map((s, i) => (
             <Line dataKey="value" data={s.data} name={s.name} key={s.name} stroke={colors[i % numColors]} />
