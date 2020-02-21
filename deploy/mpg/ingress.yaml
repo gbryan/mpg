@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: mpg-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - mpgcompare.com
+      secretName: mpg-tls
+  rules:
+    - host: mpgcompare.com
+      http:
+        paths:
+          - backend:
+              serviceName: mpg
+              servicePort: 80

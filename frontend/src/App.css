@@ -1,0 +1,110 @@
+body {
+  font-family: Montserrat, sans-serif;
+  min-width: 300px;
+}
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+.wrapper > div {
+  flex: 1 1 150px;
+}
+
+.btn-left {
+  margin-right: 15px;
+}
+
+.container {
+  padding: 0 20px 20px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.instructions {
+  color: #5d5d5d;
+  font-weight: bold;
+}
+
+.instructions.large {
+  font-size: 1.2em;
+}
+
+table.results th {
+  text-align: left;
+}
+
+table.results tbody tr:hover {
+  cursor: pointer;
+}
+
+table.results tr.selected {
+  color: lightgrey;
+}
+
+table.results tr.selected:hover {
+  cursor: default;
+  color: lightgrey;
+}
+
+table.results tbody tr:hover {
+  color: rosybrown;
+}
+
+/* Year */
+.results th:nth-child(1), .results td:nth-child(1) {
+  min-width: 50px;
+}
+
+/* Make */
+.results th:nth-child(2), td:nth-child(2) {
+  min-width: 100px;
+}
+
+/* Model */
+.results th:nth-child(3), td:nth-child(3) {
+  min-width: 200px;
+}
+
+.recharts-text, .recharts-legend-item-text {
+  font-size: 0.85em;
+}
+
+.chart-placeholder {
+  height: 300px;
+  position: relative;
+  background-color: #b4b8d485;
+  text-align: center;
+  font-weight: bold;
+  color: #5d5d5d;
+  font-size: 1.2em;
+}
+
+.chart-placeholder > div {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.subsection {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.subsection:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+button.delete:hover {
+  cursor: pointer;
+  color: darkred;
+}
+
+/* Remove last tick on right side since it overflows. */
+.recharts-cartesian-axis-tick:last-child {
+  display: none;
+}
