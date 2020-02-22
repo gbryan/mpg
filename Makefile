@@ -12,4 +12,5 @@ build-stage: build-frontend-stage docker-build
 
 deploy-stage:
 	kubectl -n mpg apply -f deploy/mpg/stage-deployment.yaml
-	kubectl -n mpg set image deployment/stage-mpg stage-mpg=gbryan/mpg:latest
+	# Since the new image is pulled when a new pod is started, forcing restart deploys new image version.
+	kubectl -n mpg rollout restart deployment/stage-mpg

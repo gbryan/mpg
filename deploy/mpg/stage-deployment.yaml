@@ -15,6 +15,7 @@ spec:
       containers:
         - name: stage-mpg
           image: gbryan/mpg
+          imagePullPolicy: Always
           resources:
             requests:
               cpu: 50m
