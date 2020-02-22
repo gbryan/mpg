@@ -6,9 +6,11 @@ import {getMatchingVehicles} from './VehicleService';
 import VehicleChart from './VehicleChart';
 import FuelCost from './FuelCost';
 import PriceInput from './PriceInput';
-import './App.css';
+import styles from './App.module.css';
 import 'rc-slider/assets/index.css';
 import Slider from 'rc-slider';
+import './rc-slider.css';
+
 
 /*
 TODO
@@ -173,15 +175,11 @@ class App extends Component {
         }
 
         return (
-            <div className="container">
+            <div className={styles.container}>
                 <h1>Vehicle Cost Calculator</h1>
                 {
                     !this.state.chartData.length ?
-                      null
-                      // <div className="chart-placeholder">
-                      //     <div>Select a vehicle to get started.</div>
-                      // </div>
-                      :
+                      null :
                       <VehicleChart series={this.state.chartData}/>
                 }
                 <Filters
@@ -196,25 +194,25 @@ class App extends Component {
                     onUpdatePrice={this.onUpdatePrice}
                     vehiclePrices={this.state.vehiclePrices}
                 />
-                <p className="instructions large">3. Add your details</p>
+                <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
                 {
                     this.state.selectedVehicles.length ?
-                    <div className="subsection">
-                        <p className="instructions">Purchase Price</p>
+                    <div className={styles.subsection}>
+                        <p className={styles.instructions}>Purchase Price</p>
                         {this.state.selectedVehicles.map((v) => {
                             return (
-                                <div key={v.id} className="wrapper spaced-row">
-                                    <div className="box-label-container">
-                                        <div className="box-label">
+                                <div key={v.id} className={`${styles.wrapper} ${styles.spacedRow}`}>
+                                    <div className={styles.boxLabelContainer}>
+                                        <div className={styles.boxLabel}>
                                             <button
-                                              className="btn btn-left delete"
+                                              className={`${styles.delete} ${styles.btnLeft}`}
                                               data-vehicle-id={v.id}
                                               onClick={this.deselectVehicle}
                                             ><i className="fas fa-trash"></i></button>
                                         </div>
                                         {v.year} {v.make} {v.model}
                                     </div>
-                                    <div className="box-label-container">
+                                    <div className={styles.boxLabelContainer}>
                                         <PriceInput
                                           placeholder="Enter the purchase price."
                                           onChange={this.handleUpdatePrice}
@@ -232,8 +230,8 @@ class App extends Component {
                     prices={this.state.fuelCostDollars}
                     onChange={this.onUpdateFuelCost}
                 />
-                <div className="subsection">
-                    <p className="instructions">Miles driven per year: {this.state.milesPerYear}</p>
+                <div className={styles.subsection}>
+                    <p className={styles.instructions}>Miles driven per year: {this.state.milesPerYear}</p>
                     <Slider
                       min={0}
                       max={100000}

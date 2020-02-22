@@ -1,0 +1,90 @@
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  position: relative;
+  font-family: Domine, serif;
+  min-width: 300px;
+  margin-bottom: 30px;
+}
+
+h1, h2, h3, h4, h5, p.instructions, .heading {
+  font-family: Montserrat, sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.wrapper > div {
+  flex: 1 1 50%;
+}
+
+.wrapper > div:not(:last-child) {
+  padding-bottom: 10px;
+}
+
+.btnLeft {
+  margin-right: 15px;
+}
+
+.container {
+  padding: 0 20px 20px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.instructions {
+  color: #5d5d5d;
+  font-weight: bold;
+}
+
+.instructions.large {
+  font-size: 1.2em;
+}
+
+.subsection {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.subsection:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.spacedRow:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.boxLabelContainer {
+  position: relative;
+  padding-left: 40px;
+}
+
+.boxLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+button.delete:hover {
+  cursor: pointer;
+  color: darkred;
+}
+
+@media (max-width: 800px) {
+  .container {
+    padding: 0;
+  }
+
+  .wrapper > div {
+    flex: 1 1 100%;
+  }
+}

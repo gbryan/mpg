@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import mainStyles from './App.module.css';
+import styles from './ResultsList.module.css';
 
 class ResultsList extends Component {
     constructor(props) {
@@ -22,8 +24,8 @@ class ResultsList extends Component {
     render() {
         return (
             <div>
-                <p className="instructions large">2. Select vehicles</p>
-                <table className="results">
+                <p className={`${mainStyles.instructions} ${mainStyles.large}`}>2. Select vehicles</p>
+                <table className={styles.results}>
                     <thead>
                         <tr>
                             <th>Year</th>
@@ -38,11 +40,11 @@ class ResultsList extends Component {
                               key={row.id}
                               data-vehicle-id={row.id}
                               onClick={this.handleClick}
-                              className={this.isSelected(row.id) ? 'selected': ''}
+                              className={this.isSelected(row.id) ? styles.selected: ''}
                             >
-                                <td><span className="heading">Year</span>{row.year}</td>
-                                <td><span className="heading">Make</span>{row.make}</td>
-                                <td><span className="heading">Model</span>{row.model}</td>
+                                <td><span className={styles.heading}>Year</span>{row.year}</td>
+                                <td><span className={styles.heading}>Make</span>{row.make}</td>
+                                <td><span className={styles.heading}>Model</span>{row.model}</td>
                             </tr>
                         );
                     })}

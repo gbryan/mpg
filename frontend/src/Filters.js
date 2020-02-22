@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import Select from 'react-select';
+import styles from './App.module.css';
 
 class Filters extends Component {
     constructor(props) {
@@ -18,8 +19,8 @@ class Filters extends Component {
 
     render() {
         return (
-            <div className="filters">
-                <p className="instructions large">1. Search for vehicles</p>
+            <div>
+                <p className={`${styles.instructions} ${styles.large}`}>1. Search for vehicles</p>
                 <Select
                     name="year"
                     value={this.props.values.year}

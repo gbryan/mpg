@@ -1,0 +1,28 @@
+.recharts-text, .recharts-legend-item-text, .recharts-cartesian-axis-tick {
+  font-size: 14px;
+}
+
+/* Remove last tick on right side since it overflows. */
+.recharts-cartesian-axis-tick:last-child {
+  display: none;
+}
+
+.recharts-default-tooltip {
+  font-size: 0.8em;
+}
+
+@media (max-width: 800px) {
+  .recharts-tooltip-item-name {
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+}
+
+@media (max-width: 400px) {
+  .recharts-tooltip-item-name {
+    max-width: 10em;
+  }
+}

@@ -1,0 +1,73 @@
+table.results {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+}
+
+table.results tr {
+  border-bottom: 1px solid;
+}
+
+table.results th, table.results td {
+  padding: 10px 20px;
+}
+
+table.results td .heading {
+  display: none;
+}
+
+table.results th {
+  text-align: left;
+}
+
+table.results tbody tr:hover {
+  cursor: pointer;
+}
+
+table.results tr.selected, table.results tr.selected .heading {
+  color: lightgrey;
+}
+
+table.results tr.selected:hover {
+  cursor: default;
+  color: lightgrey;
+}
+
+table.results tbody tr:hover {
+  color: #9c4d4d;
+}
+
+@media (max-width: 800px) {
+  table.results thead {
+    left: -9999px;
+    position: absolute;
+    visibility: hidden;
+  }
+
+  table.results tr {
+    border-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  table.results td {
+    position: relative;
+    margin: 0 -1px -1px 0;
+    width: 100%;
+    border: 1px solid lightgrey;
+    padding-top: 25px;
+  }
+
+  table.results td .heading {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: bold;
+    font-size: .7em;
+    padding: 5px;
+    color: #5d5d5d;
+  }
+}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import './recharts.css';
 
 
 const currencyFormatter = new Intl.NumberFormat('en-US', {
@@ -22,10 +23,6 @@ const colors = [
 const numColors = colors.length;
 
 class VehicleChart extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <ResponsiveContainer width="100%" height={300}>
