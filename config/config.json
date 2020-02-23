@@ -1,0 +1,28 @@
+{
+  "development": {
+    "username": "root",
+    "password": "asdfasdf",
+    "database": "mpg",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "asdfasdf",
+    "database": "mpg-test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "mpg",
+    "host": "mysql-read",
+    "dialect": "mysql",
+    "pool": {
+      "max": 15,
+      "min": 1,
+      "idle": 10000
+    }
+  }
+}

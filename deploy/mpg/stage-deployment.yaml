@@ -16,6 +16,9 @@ spec:
         - name: stage-mpg
           image: gbryan/mpg
           imagePullPolicy: Always
+          env:
+            - name: NODE_ENV
+              value: "production"
           resources:
             requests:
               cpu: 50m
