@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 app.use('/', indexRouter);
-app.use('/vehicles', vehiclesRouter);
+app.use('/api/v1/vehicles', vehiclesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
