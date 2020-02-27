@@ -19,6 +19,18 @@ spec:
           env:
             - name: NODE_ENV
               value: "production"
+            - name: DB_HOST
+              value: "mysql-read"
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mpgdb
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mpgdb
+                  key: password
           resources:
             requests:
               cpu: 50m

@@ -1,4 +1,6 @@
-{
+require('dotenv').config();
+
+module.exports = {
   "development": {
     "username": "root",
     "password": "asdfasdf",
@@ -15,10 +17,10 @@
     "logging": false
   },
   "production": {
-    "username": "root",
-    "password": null,
+    "username": process.env.DB_USERNAME,
+    "password": process.env.DB_PASSWORD,
     "database": "mpg",
-    "host": "mysql-read",
+    "host": process.env.DB_HOST,
     "dialect": "mysql",
     "pool": {
       "max": 15,
@@ -26,4 +28,4 @@
       "idle": 10000
     }
   }
-}
+};
