@@ -181,5 +181,14 @@ describe('Vehicle API endpoints', () => {
       expect(resp.statusCode).toEqual(200);
       expect(resp.body).toEqual(expected);
     });
+    test('Filters by make.', async () => {
+      await generateVehicle({model: 'Highlander', make: 'Toyota'});
+      await generateVehicle({model: 'Civic', make: 'Honda'});
+
+      const resp = await request.get('/api/v1/vehicles/models?make=Honda');
+      const expected = {"models": ["Civic"]};
+      expect(resp.statusCode).toEqual(200);
+      expect(resp.body).toEqual(expected);
+    });
   });
 });

@@ -34,17 +34,25 @@ router.get('/makes', async (req, res) => {
 });
 
 router.get('/models', async (req, res) => {
-  const vehicleModels = await getUniquesForAttr('model');
+  const filters = req.query.make ? {make: req.query.make} : null;
+  const vehicleModels = await getUniquesForAttr('model', filters);
 
   res.json({models: vehicleModels});
 });
 
-async function getUniquesForAttr(attr) {
-  const results = await models.vehicle.findAll({
+async function getUniquesForAttr(attr, filters) {
+  const options = {
     attributes: [attr],
     group: attr,
     order: [attr],
-  });
+  };
+
+  if (filters) {
+    options.where = filters;
+  }
+
+  const results = await models.vehicle.findAll(options);
+
   return results.map(v => {
     return v.get(attr);
   })
