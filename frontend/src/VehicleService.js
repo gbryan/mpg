@@ -1,54 +1,56 @@
-//TODO: remove
-const pause = () => new Promise(resolve => setTimeout(resolve, 200));
+let BASE_URL = '/api/v1';
+
+if (process.env.NODE_ENV !== 'production') {
+    BASE_URL = 'http://127.0.0.1:4000/api/v1';
+}
+
+const respKeyMap = {
+    combMpgFuel1: 'mpg',
+    fuelType1: 'fuelType',
+};
 
 export async function getMatchingVehicles(filters) {
-    await pause();
+    const queryString = ['year', 'make', 'model'].map(key => {
+        return filters[key] ? `${key}=${filters[key].value}` : null;
+    }).filter(val => {
+        return val !== null;
+    }).join('&');
+    const response = await fetch(`${BASE_URL}/vehicles?${queryString}`);
+    const json = await response.json();
 
-    const allVehicles = [
-        {
-            id: 1,
-            year: 2020,
-            make: 'Toyota',
-            model: 'Corolla Hybrid',
-            mpg: 53,
-            fuelType: 'Regular Gasoline',
-            kwh100m: null
-        },
-        {
-            id: 2,
-            year: 2020,
-            make: 'Toyota',
-            model: 'Corolla Hatchback',
-            mpg: 35,
-            fuelType: 'Regular Gasoline',
-            kwh100m: null
-        },
-        {
-            id: 3,
-            year: 2020,
-            make: 'Tesla',
-            model: 'Model 3 Long Range',
-            mpg: 130,
-            fuelType: 'Electricity',
-            kwh100m: 24.6923
-        }
-    ];
+    //TODO: error handling
+    return json.vehicles.map(v => {
+        const formattedVehicle = Object.assign({}, v);
 
-    const response = {
-        count: 2,
-        pageNum: 1,
-        vehicles: allVehicles.filter((vehicle) => {
-            for (let key in filters) {
-                if (!filters.hasOwnProperty(key)) {
-                    continue;
-                }
-                if (vehicle[key] !== filters[key].value) {
-                    return false;
-                }
-            }
+        Object.keys(respKeyMap).forEach(origKey => {
+            const newKey = respKeyMap[origKey];
+            formattedVehicle[newKey] = formattedVehicle[origKey];
+            delete formattedVehicle[origKey];
+        });
 
-            return true;
-        })
-    };
-    return Promise.resolve(response.vehicles);
+        return formattedVehicle;
+    });
+}
+
+export async function getMakes() {
+    //TODO: error handling
+    const response = await fetch(`${BASE_URL}/vehicles/makes`);
+    const json = await response.json();
+
+    return json.makes;
+}
+
+export async function getModels(make) {
+    //TODO: error handling
+    const response = await fetch(`${BASE_URL}/vehicles/models?make=${make}`);
+    const json = await response.json();
+
+    return json.models;
+}
+
+export function getYears() {
+    const startYear = 1985;
+    const numYears = (new Date().getFullYear() - startYear) + 1;
+
+    return [...Array(numYears).keys()].map((_, i) => i + startYear);
 }
