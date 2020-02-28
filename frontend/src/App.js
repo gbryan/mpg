@@ -23,7 +23,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: true,
+            isLoading: false,
             milesPerYear: 10000,
             fuelCostDollars: {
                 'Regular Gasoline': 3.00,
