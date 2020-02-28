@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: stage-mpg
-          image: gbryan/mpg
+          image: gbryan/mpg:latest-stage
           imagePullPolicy: Always
           env:
             - name: NODE_ENV
@@ -33,6 +33,9 @@ spec:
                   key: password
           resources:
             requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
               cpu: 50m
               memory: 64Mi
           ports:

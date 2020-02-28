@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mpg
+spec:
+  selector:
+    matchLabels:
+      app: mpg
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mpg
+    spec:
+      containers:
+        - name: mpg
+          image: gbryan/mpg:latest-prod
+          imagePullPolicy: Always
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: DB_HOST
+              value: "mysql-read"
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mpgdb
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mpgdb
+                  key: password
+          resources:
+            requests:
+              cpu: 200m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 4000
