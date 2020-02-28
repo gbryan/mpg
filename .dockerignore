@@ -1,3 +1,6 @@
+deploy
+sql
+frontend
+backend/node_modules
 node_modules
 npm-debug.log
-frontend/node_modules

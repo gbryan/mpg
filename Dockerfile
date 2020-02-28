@@ -3,8 +3,10 @@
 FROM node:13
 RUN mkdir /code
 WORKDIR /code
-COPY package*.json ./
+COPY backend/package*.json ./
 RUN npm ci --only=production
-COPY . .
+COPY backend ./backend
+COPY build ./build
+WORKDIR /code/backend
 EXPOSE 4000
 CMD [ "npm", "start" ]
