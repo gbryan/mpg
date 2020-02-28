@@ -28,7 +28,8 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/makes', async (req, res) => {
-  const makes = await getUniquesForAttr('make');
+  const filters = req.query.year ? {year: req.query.year} : null;
+  const makes = await getUniquesForAttr('make', filters);
 
   res.json({makes});
 });

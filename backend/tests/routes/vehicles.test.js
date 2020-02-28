@@ -154,6 +154,15 @@ describe('Vehicle API endpoints', () => {
       expect(resp.statusCode).toEqual(200);
       expect(resp.body).toEqual(expected);
     });
+    test('Filters by year.', async () => {
+      await generateVehicle({make: 'Toyota', year: 2019});
+      await generateVehicle({make: 'Honda', year: 2020});
+
+      const resp = await request.get('/api/v1/vehicles/makes?year=2020');
+      const expected = {"makes": ["Honda"]};
+      expect(resp.statusCode).toEqual(200);
+      expect(resp.body).toEqual(expected);
+    });
   });
   describe('/vehicles/models', () => {
     test('Returns an empty array when there are 0 records in the DB.', async () => {
