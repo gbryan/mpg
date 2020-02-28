@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -27,15 +27,17 @@ class VehicleChart extends PureComponent {
     return (
       <ResponsiveContainer width="100%" height={300}>
         <LineChart>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} />
+          <CartesianGrid strokeDasharray="3 3"/>
+          <XAxis dataKey="category" type="category" allowDuplicatedCategory={false}/>
           <YAxis dataKey="value" tickFormatter={dollars => {
             return currencyFormatter.format(dollars);
           }}/>
-          <Tooltip formatter={val => {return currencyFormatter.format(val)}} labelStyle={{marginBottom: 10}} contentStyle={{whiteSpace: 'normal'}} />
-          <Legend />
+          <Tooltip formatter={val => {
+            return currencyFormatter.format(val)
+          }} labelStyle={{marginBottom: 10}} contentStyle={{whiteSpace: 'normal'}}/>
+          <Legend/>
           {this.props.series.map((s, i) => (
-            <Line dataKey="value" data={s.data} name={s.name} key={s.name} stroke={colors[i % numColors]} />
+            <Line dataKey="value" data={s.data} name={s.name} key={s.name} stroke={colors[i % numColors]}/>
           ))}
         </LineChart>
       </ResponsiveContainer>
@@ -44,7 +46,7 @@ class VehicleChart extends PureComponent {
 }
 
 VehicleChart.propTypes = {
-    series: PropTypes.array.isRequired
+  series: PropTypes.array.isRequired
 };
 
 export default VehicleChart;
