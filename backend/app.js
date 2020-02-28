@@ -13,6 +13,13 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// In dev environment, allow cross-origin requests.
+if (!process.env.NODE_ENV || ['dev', 'development'].includes(process.env.NODE_ENV)) {
+  const cors = require('cors');
+  app.use(cors());
+  app.options('*', cors());
+}
+
 app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
