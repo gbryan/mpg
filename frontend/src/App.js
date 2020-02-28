@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {SpinnerComponent, SpinnerPositionEnum} from 'react-element-spinner';
 import Filters from './Filters';
 import ResultsList from './ResultsList';
-import {getMatchingVehicles} from './VehicleService';
+import {getMakes, getMatchingVehicles, getModels, getYears} from './VehicleService';
 import VehicleChart from './VehicleChart';
 import FuelCost from './FuelCost';
 import PriceInput from './PriceInput';
@@ -15,8 +14,7 @@ import './rc-slider.css';
 /*
 TODO
 
-* Mock out server response for chart data.
-* Fetch actual search results from server.
+* Handle "Natural Gas"
 * Summary under chart
 * Write unit tests.
 * Redo it in Typescript.
@@ -29,16 +27,24 @@ class App extends Component {
             milesPerYear: 10000,
             fuelCostDollars: {
                 'Regular Gasoline': 3.00,
+                'Midgrade Gasoline': 3.25,
+                'Premium Gasoline': 3.50,
 
-                // TODO: not sure this is the exact label.
-                // TODO: What about premium gas? Are there other distinct values?
                 Diesel: 3.50,
                 Electricity: 0.10
             },
             vehiclePrices: {},
             selectedVehicles: [],
-            selectedFilters: {},
-            availableFilters: {},
+            selectedFilters: {
+                year: {label: undefined, value: undefined},
+                make: {label: undefined, value: undefined},
+                model: {label: undefined, value: undefined},
+            },
+            availableFilters: {
+                year: [],
+                make: [],
+                model: [],
+            },
             matchingVehicles: [],
             chartData: []
         };
@@ -52,23 +58,13 @@ class App extends Component {
     }
 
     componentDidMount() {
-        //TODO: fetch values from server.
-        (async () => {
-            this.setState({
-                availableFilters: {
-                    year: [2020, 2019, 2018, 2017].map((v) => { return {label: v, value: v}}),
-                    make: ['Toyota', 'Honda'].map((v) => { return {label: v, value: v}}),
-                    model: ['Corolla Hybrid', 'Corolla Hatchback', 'Camry XLE'].map(
-                        (v) => { return {label: v, value: v}})
-                }
-            });
-
-            //TODO: force user to select at least one filter before displaying any results.
-            const matchingVehicles = await getMatchingVehicles(this.state.selectedFilters);
-            this.setState({matchingVehicles: matchingVehicles});
-
-            this.setState({isLoading: false});
-        })();
+        this.setState({
+            availableFilters: {
+                year: getYears().map(v => { return {label: v, value: v}}),
+                make: [],
+                model: [],
+            }
+        });
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -81,17 +77,65 @@ class App extends Component {
         }
     }
 
-    handleSelectorsChanged(updatedObj) {
-        const newState = Object.assign({}, this.state);
-        newState.selectedFilters[updatedObj.name] = updatedObj.option;
-        this.setState(newState);
+    requiredFieldsPresent() {
+        return Object.keys(this.state.selectedFilters)
+          .map(k => !!this.state.selectedFilters[k].value)
+          .filter(v => v === true)
+          .length === 3;
+    }
 
-        (async () => {
-            this.setState({isLoading: true});
-            const matchingVehicles = await getMatchingVehicles(newState.selectedFilters);
-            this.setState({matchingVehicles: matchingVehicles});
-            this.setState({isLoading: false});
-        })();
+    handleSelectorsChanged(updatedObj) {
+        const selectedFilters = Object.assign({}, this.state.selectedFilters);
+        selectedFilters[updatedObj.name] = updatedObj.option;
+
+        // Fetch makes if year changed.
+        if (updatedObj.name === 'year') {
+            (async () => {
+                this.setState({isLoading: true});
+
+                const makes = await getMakes(updatedObj.option.value);
+                const makeOptions = makes.map(v => { return {label: v, value: v}});
+                const availableFilters = Object.assign({}, this.state.availableFilters);
+                availableFilters.make = makeOptions;
+                this.setState({availableFilters});
+
+                // Reset make and model.
+                selectedFilters.make = {label: undefined, value: undefined};
+                selectedFilters.model = {label: undefined, value: undefined};
+
+                this.setState({isLoading: false});
+            })();
+        }
+
+        // Fetch models if make changed.
+        else if (updatedObj.name === 'make') {
+            (async () => {
+                this.setState({isLoading: true});
+
+                const availableFilters = Object.assign({}, this.state.availableFilters);
+                const models = await getModels(
+                    this.state.selectedFilters.year.value,
+                    updatedObj.option.value
+                );
+                availableFilters.model = models.map(v => {return {label: v, value: v};});
+                this.setState({availableFilters});
+                this.setState({isLoading: false});
+            })();
+
+            selectedFilters.model = {label: undefined, value: undefined};
+        }
+
+        this.setState({selectedFilters});
+
+        // Fetch matching vehicles only if year, make, and model are all selected.
+        if (selectedFilters.year.value && selectedFilters.make.value && selectedFilters.model.value) {
+            (async () => {
+                this.setState({isLoading: true});
+                const matchingVehicles = await getMatchingVehicles(selectedFilters);
+                this.setState({matchingVehicles: matchingVehicles});
+                this.setState({isLoading: false});
+            })();
+        }
     }
 
     updateChart(state) {
@@ -107,7 +151,7 @@ class App extends Component {
 
             if (vehicle.fuelType === 'Electricity') {
                 dollarsPerMile = (
-                  this.state.fuelCostDollars.Electricity * (vehicle.kwh100m / 100));
+                  this.state.fuelCostDollars.Electricity * (vehicle.kwh100Miles / 100));
             } else {
                 dollarsPerMile = this.state.fuelCostDollars[vehicle.fuelType] / vehicle.mpg;
             }
@@ -170,10 +214,6 @@ class App extends Component {
     }
 
     render() {
-        if (this.state.isLoading) {
-            return <SpinnerComponent loading={true} position={SpinnerPositionEnum.GLOBAL}/>;
-        }
-
         return (
             <div className={styles.container}>
                 <h1>Vehicle Cost Calculator</h1>
@@ -186,60 +226,69 @@ class App extends Component {
                     options={this.state.availableFilters}
                     values={this.state.selectedFilters}
                     onChange={this.handleSelectorsChanged}
+                    isDisabled={this.state.isLoading}
                 />
-                <ResultsList
-                    values={this.state.matchingVehicles}
-                    selectedVehicles={this.state.selectedVehicles}
-                    onClick={this.handleVehicleSelected}
-                    onUpdatePrice={this.onUpdatePrice}
-                    vehiclePrices={this.state.vehiclePrices}
-                />
-                <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
+                {
+                    this.requiredFieldsPresent() ?
+                    <ResultsList
+                        values={this.state.matchingVehicles}
+                        selectedVehicles={this.state.selectedVehicles}
+                        onClick={this.handleVehicleSelected}
+                        onUpdatePrice={this.onUpdatePrice}
+                        vehiclePrices={this.state.vehiclePrices}
+                    /> : null
+                }
+
+                {/*TODO: break into smaller components. */}
                 {
                     this.state.selectedVehicles.length ?
-                    <div className={styles.subsection}>
-                        <p className={styles.instructions}>Purchase Price</p>
-                        {this.state.selectedVehicles.map((v) => {
-                            return (
-                                <div key={v.id} className={`${styles.wrapper} ${styles.spacedRow}`}>
-                                    <div className={styles.boxLabelContainer}>
-                                        <div className={styles.boxLabel}>
-                                            <button
-                                              className={`${styles.delete} ${styles.btnLeft}`}
-                                              data-vehicle-id={v.id}
-                                              onClick={this.deselectVehicle}
-                                            ><i className="fas fa-trash"></i></button>
+                        <div>
+                            <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
+                            <div className={styles.subsection}>
+                                <p className={styles.instructions}>Purchase Price</p>
+                                {this.state.selectedVehicles.map((v) => {
+                                    return (
+                                        <div key={v.id} className={`${styles.wrapper} ${styles.spacedRow}`}>
+                                            <div className={styles.boxLabelContainer}>
+                                                <div className={styles.boxLabel}>
+                                                    <button
+                                                      className={`${styles.delete} ${styles.btnLeft}`}
+                                                      data-vehicle-id={v.id}
+                                                      onClick={this.deselectVehicle}
+                                                    ><i className="fas fa-trash"></i></button>
+                                                </div>
+                                                {v.year} {v.make} {v.model}
+                                            </div>
+                                            <div className={styles.boxLabelContainer}>
+                                                <PriceInput
+                                                  placeholder="Enter the purchase price."
+                                                  onChange={this.handleUpdatePrice}
+                                                  value={this.state.vehiclePrices[v.id] || ''}
+                                                  fieldId={v.id}
+                                                />
+                                            </div>
                                         </div>
-                                        {v.year} {v.make} {v.model}
-                                    </div>
-                                    <div className={styles.boxLabelContainer}>
-                                        <PriceInput
-                                          placeholder="Enter the purchase price."
-                                          onChange={this.handleUpdatePrice}
-                                          value={this.state.vehiclePrices[v.id] || ''}
-                                          fieldId={v.id}
-                                        />
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div> : null
+                                    );
+                                })}
+                            </div>
+                            <FuelCost
+                                visibleFuelTypes={[...new Set(this.state.selectedVehicles.map(v => v.fuelType))]}
+                                prices={this.state.fuelCostDollars}
+                                onChange={this.onUpdateFuelCost}
+                            />
+                            <div className={styles.subsection}>
+                                <p className={styles.instructions}>Miles driven per year: {this.state.milesPerYear}</p>
+                                <Slider
+                                  min={0}
+                                  max={100000}
+                                  step={500}
+                                  value={this.state.milesPerYear}
+                                  onChange={this.handleUpdateMiles}
+                                />
+                            </div>
+                        </div>
+                      : null
                 }
-                <FuelCost
-                    visibleFuelTypes={[...new Set(this.state.selectedVehicles.map(v => v.fuelType))]}
-                    prices={this.state.fuelCostDollars}
-                    onChange={this.onUpdateFuelCost}
-                />
-                <div className={styles.subsection}>
-                    <p className={styles.instructions}>Miles driven per year: {this.state.milesPerYear}</p>
-                    <Slider
-                      min={0}
-                      max={100000}
-                      step={500}
-                      value={this.state.milesPerYear}
-                      onChange={this.handleUpdateMiles}
-                    />
-                </div>
             </div>
         );
     }
