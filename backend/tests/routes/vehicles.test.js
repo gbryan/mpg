@@ -190,5 +190,14 @@ describe('Vehicle API endpoints', () => {
       expect(resp.statusCode).toEqual(200);
       expect(resp.body).toEqual(expected);
     });
+    test('Filters by year.', async () => {
+      await generateVehicle({model: 'Highlander', make: 'Toyota', year: 2019});
+      await generateVehicle({model: 'Civic', make: 'Honda', year: 2020});
+
+      const resp = await request.get('/api/v1/vehicles/models?year=2020');
+      const expected = {"models": ["Civic"]};
+      expect(resp.statusCode).toEqual(200);
+      expect(resp.body).toEqual(expected);
+    });
   });
 });

@@ -1,7 +1,6 @@
 const models = require('../models');
 const express = require('express');
 const router = express.Router();
-const humps = require('humps');
 
 router.get('/', async (req, res) => {
   let perPage = Math.min(req.query['perPage'] || 25, 25);
@@ -24,9 +23,8 @@ router.get('/', async (req, res) => {
   }
 
   const vehicles = await models.vehicle.findAll(queryOptions);
-  const camelized = humps.camelizeKeys(vehicles.map(v => v.dataValues));
 
-  res.json({vehicles: camelized});
+  res.json({vehicles});
 });
 
 router.get('/makes', async (req, res) => {
@@ -36,7 +34,18 @@ router.get('/makes', async (req, res) => {
 });
 
 router.get('/models', async (req, res) => {
-  const filters = req.query.make ? {make: req.query.make} : null;
+  let filters = null;
+
+  ['year', 'make'].forEach(k => {
+    if (req.query[k]) {
+      if (!filters) {
+        filters = {};
+      }
+
+      filters[k] = req.query[k];
+    }
+  });
+
   const vehicleModels = await getUniquesForAttr('model', filters);
 
   res.json({models: vehicleModels});
