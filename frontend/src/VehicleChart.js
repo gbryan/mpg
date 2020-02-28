@@ -13,12 +13,12 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
 });
 
 const colors = [
-  '#8884d8',
-  '#82ca9d',
+  '#6a66ba',
+  '#69ab82',
   '#ca536e',
-  '#bb63ca',
   '#ca9878',
-  '#6e80ca',
+  '#bb63ca',
+  '#81a1ca',
 ];
 const numColors = colors.length;
 
