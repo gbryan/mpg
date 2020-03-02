@@ -45,7 +45,10 @@ class ResultsList extends Component {
                 onClick={this.handleClick}
                 className={this.isSelected(row.id) ? styles.selected : ''}
               >
-                <td><span className={styles.heading}>Year</span>{row.year}</td>
+                <td>
+                  <span className={styles.addBtn}><i className="fas fa-plus-circle"></i></span>
+                  <span className={styles.heading}>Year</span>{row.year}
+                </td>
                 <td><span className={styles.heading}>Make</span>{row.make}</td>
                 <td><span className={styles.heading}>Model</span>{row.model}</td>
                 <td><span className={styles.heading}>Cylinders</span>{row.cylinders}</td>

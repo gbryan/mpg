@@ -255,6 +255,12 @@ class App extends Component {
               onUpdatePrice={this.onUpdatePrice}
               vehiclePrices={this.state.vehiclePrices}
             />
+            {
+              !this.state.matchingVehicles.length
+              ?
+                <p>Search for vehicles to get started.</p>
+                : null
+            }
           </div>
 
           {/*TODO: break into smaller components. */}

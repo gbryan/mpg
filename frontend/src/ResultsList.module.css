@@ -41,7 +41,11 @@ table.results tr.selected:hover {
 }
 
 table.results tbody tr:hover {
-  color: #9c4d4d;
+  color: #577963;
+}
+
+.addBtn {
+  display: none;
 }
 
 @media (max-width: 800px) {
@@ -52,10 +56,14 @@ table.results tbody tr:hover {
   }
 
   table.results tr {
-    border-bottom: 0;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+  }
+
+  table.results tr:not(:last-child) {
     margin-bottom: 40px;
   }
 
@@ -63,7 +71,7 @@ table.results tbody tr:hover {
     position: relative;
     margin: 0 -1px -1px 0;
     width: 100%;
-    border: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
     padding-top: 25px;
   }
 
@@ -76,5 +84,12 @@ table.results tbody tr:hover {
     font-size: .7em;
     padding: 5px;
     color: #5d5d5d;
+  }
+
+  .addBtn {
+    display: block;
+    position: absolute;
+    top: -15px;
+    left: -15px;
   }
 }
