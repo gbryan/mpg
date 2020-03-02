@@ -10,8 +10,7 @@ body {
   position: relative;
   font-family: Domine, serif;
   min-width: 300px;
-  margin-bottom: 30px;
-  min-height: 700px;
+  margin: 0;
 }
 
 h1, h2, h3, h4, h5, p.instructions, .heading {
@@ -35,14 +34,35 @@ h1, h2, h3, h4, h5, p.instructions, .heading {
   margin-right: 15px;
 }
 
-.container {
-  padding: 0 20px 20px;
-  width: 90%;
-  margin: 0 auto;
+.collapsibleContainer {
+  display: flex;
+}
+
+body, .introContainer {
+  min-height: 700px;
+}
+
+.introContainer {
+  background-color: #d9d9d970;
+  flex: 0 0 275px;
+  padding: 0 20px;
+}
+
+.introContainer p {
+  color: #444444;
+}
+
+.introContainer h1 {
+  font-size: 1.5em;
+}
+
+.calculatorContainer {
+  padding: 20px;
+  flex: 1 1 auto;
 }
 
 .instructions {
-  color: #5d5d5d;
+  color: #444444;
   font-weight: bold;
 }
 
@@ -85,8 +105,27 @@ button.delete:hover {
 }
 
 @media (max-width: 800px) {
-  .container {
+  .collapsibleContainer {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .introContainer {
+    flex: 1 0 auto;
+    background-color: inherit;
+    min-height: 0;
+    border-bottom: 3px solid darkgrey;
+    padding: 0 0 20px 0;
+    margin-bottom: 20px;
+  }
+
+  .calculatorContainer {
     padding: 0;
+    width: 100%;
+  }
+
+  .introContainer h1 {
+    font-size: 1.4em;
   }
 
   .wrapper > div {

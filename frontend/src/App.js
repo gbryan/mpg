@@ -15,11 +15,12 @@ import './rc-slider.css';
 TODO
 
 * Come up with better name for the title.
-* Handle "Natural Gas"
 * Summary under chart
+* Note in writeup that it excludes natural gas vehicles.
+* Add context (e.g. data source is EPA, how to interpret, etc.).
+* Need to tell units in price input (e.g. "per gallon" or "per KWH").
 * WRITE UNIT TESTS.
 * Add CO2 emissions feature.
-* Add context (e.g. data source is EPA, how to interpret, etc.).
  */
 class App extends Component {
   constructor(props) {
@@ -31,7 +32,6 @@ class App extends Component {
         'Regular Gasoline': 3.00,
         'Midgrade Gasoline': 3.25,
         'Premium Gasoline': 3.50,
-
         Diesel: 3.50,
         Electricity: 0.10
       },
@@ -223,80 +223,92 @@ class App extends Component {
 
   render() {
     return (
-      <div className={styles.container}>
-        <h1>Vehicle Cost Calculator</h1>
-        {
-          !this.state.chartData.length ?
-            null :
-            <VehicleChart series={this.state.chartData}/>
-        }
-        <Filters
-          options={this.state.availableFilters}
-          values={this.state.selectedFilters}
-          onChange={this.handleSelectorsChanged}
-          isDisabled={this.state.isLoading}
-        />
-        {
-          this.requiredFieldsPresent() ?
-            <ResultsList
-              values={this.state.matchingVehicles}
-              selectedVehicles={this.state.selectedVehicles}
-              onClick={this.handleVehicleSelected}
-              onUpdatePrice={this.onUpdatePrice}
-              vehiclePrices={this.state.vehiclePrices}
-            /> : null
-        }
+      <div className={styles.collapsibleContainer}>
+        <div className={styles.introContainer}>
+          <h1>Vehicle Cost Calculator</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id mollis urna. Aliquam pulvinar ornare
+            commodo. Duis euismod enim quis ante tincidunt, vel efficitur diam rhoncus. Nunc luctus purus libero,
+            quis egestas odio pretium vel. Vestibulum elit dolor, convallis ullamcorper mauris in, tincidunt placerat
+            mi. Cras finibus lobortis felis, non congue diam ultricies sit amet. Sed sed imperdiet nisl. Nunc dui eros,
+            pharetra sed mattis eget, malesuada quis felis. Proin vestibulum, erat ut tincidunt congue, massa magna
+            faucibus tellus, et rutrum felis ex at lacus. Integer nibh sapien, fringilla eu erat eu, auctor imperdiet
+            dolor. Etiam vel ex volutpat, lacinia ipsum nec, placerat ligula. Suspendisse tristique augue et tellus
+            tempus dictum. Duis suscipit finibus rhoncus. Curabitur eu feugiat risus, at tempor nunc.</p>
+        </div>
+        <div className={styles.calculatorContainer}>
+          {
+            !this.state.chartData.length ?
+              null :
+              <VehicleChart series={this.state.chartData}/>
+          }
+          <Filters
+            options={this.state.availableFilters}
+            values={this.state.selectedFilters}
+            onChange={this.handleSelectorsChanged}
+            isDisabled={this.state.isLoading}
+          />
+          {
+            this.requiredFieldsPresent() ?
+              <ResultsList
+                values={this.state.matchingVehicles}
+                selectedVehicles={this.state.selectedVehicles}
+                onClick={this.handleVehicleSelected}
+                onUpdatePrice={this.onUpdatePrice}
+                vehiclePrices={this.state.vehiclePrices}
+              /> : null
+          }
 
-        {/*TODO: break into smaller components. */}
-        {
-          this.state.selectedVehicles.length ?
-            <div>
-              <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
-              <div className={styles.subsection}>
-                <p className={styles.instructions}>Purchase Price</p>
-                {this.state.selectedVehicles.map((v) => {
-                  return (
-                    <div key={v.id} className={`${styles.wrapper} ${styles.spacedRow}`}>
-                      <div className={styles.boxLabelContainer}>
-                        <div className={styles.boxLabel}>
-                          <button
-                            className={`${styles.delete} ${styles.btnLeft}`}
-                            data-vehicle-id={v.id}
-                            onClick={this.deselectVehicle}
-                          ><i className="fas fa-trash"></i></button>
+          {/*TODO: break into smaller components. */}
+          {
+            this.state.selectedVehicles.length ?
+              <div>
+                <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
+                <div className={styles.subsection}>
+                  <p className={styles.instructions}>Purchase Price</p>
+                  {this.state.selectedVehicles.map((v) => {
+                    return (
+                      <div key={v.id} className={`${styles.wrapper} ${styles.spacedRow}`}>
+                        <div className={styles.boxLabelContainer}>
+                          <div className={styles.boxLabel}>
+                            <button
+                              className={`${styles.delete} ${styles.btnLeft}`}
+                              data-vehicle-id={v.id}
+                              onClick={this.deselectVehicle}
+                            ><i className="fas fa-trash"></i></button>
+                          </div>
+                          {v.year} {v.make} {v.model}
                         </div>
-                        {v.year} {v.make} {v.model}
+                        <div className={styles.boxLabelContainer}>
+                          <PriceInput
+                            placeholder="Enter the purchase price."
+                            onChange={this.handleUpdatePrice}
+                            value={this.state.vehiclePrices[v.id] || ''}
+                            fieldId={v.id}
+                          />
+                        </div>
                       </div>
-                      <div className={styles.boxLabelContainer}>
-                        <PriceInput
-                          placeholder="Enter the purchase price."
-                          onChange={this.handleUpdatePrice}
-                          value={this.state.vehiclePrices[v.id] || ''}
-                          fieldId={v.id}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <FuelCost
-                visibleFuelTypes={[...new Set(this.state.selectedVehicles.map(v => v.fuelType))]}
-                prices={this.state.fuelCostDollars}
-                onChange={this.onUpdateFuelCost}
-              />
-              <div className={styles.subsection}>
-                <p className={styles.instructions}>Miles driven per year: {this.state.milesPerYear}</p>
-                <Slider
-                  min={0}
-                  max={100000}
-                  step={500}
-                  value={this.state.milesPerYear}
-                  onChange={this.handleUpdateMiles}
+                    );
+                  })}
+                </div>
+                <FuelCost
+                  visibleFuelTypes={[...new Set(this.state.selectedVehicles.map(v => v.fuelType))]}
+                  prices={this.state.fuelCostDollars}
+                  onChange={this.onUpdateFuelCost}
                 />
+                <div className={styles.subsection}>
+                  <p className={styles.instructions}>Miles driven per year: {this.state.milesPerYear}</p>
+                  <Slider
+                    min={0}
+                    max={100000}
+                    step={500}
+                    value={this.state.milesPerYear}
+                    onChange={this.handleUpdateMiles}
+                  />
+                </div>
               </div>
-            </div>
-            : null
-        }
+              : null
+          }
+        </div>
       </div>
     );
   }
