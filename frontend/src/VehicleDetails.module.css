@@ -1,0 +1,23 @@
+button.delete:hover {
+  cursor: pointer;
+  color: darkred;
+}
+
+.btnLeft {
+  margin-right: 15px;
+}
+
+.boxLabelContainer {
+  position: relative;
+  padding-left: 40px;
+}
+
+.boxLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.fuel2Pct p {
+  margin: 0;
+}

@@ -4,16 +4,17 @@ import ResultsList from './ResultsList';
 import {getMakes, getMatchingVehicles, getModels, getYears} from './VehicleService';
 import VehicleChart from './VehicleChart';
 import FuelCost from './FuelCost';
-import PriceInput from './PriceInput';
 import styles from './App.module.css';
 import 'rc-slider/assets/index.css';
 import Slider from 'rc-slider';
 import './rc-slider.css';
+import VehicleDetails from "./VehicleDetails";
 
 
 /*
 TODO
 
+* Separate out more components within VehicleDetails.
 * Remove natural gas and propane vehicles.
 * Come up with better name for the title.
 * Summary under chart
@@ -59,6 +60,7 @@ class App extends Component {
     this.handleUpdatePrice = this.handleUpdatePrice.bind(this);
     this.onUpdateFuelCost = this.onUpdateFuelCost.bind(this);
     this.handleUpdateMiles = this.handleUpdateMiles.bind(this);
+    this.handleUpdateFuel2MilesPct = this.handleUpdateFuel2MilesPct.bind(this);
   }
 
   componentDidMount() {
@@ -229,8 +231,7 @@ class App extends Component {
     });
   }
 
-  deselectVehicle(e) {
-    const vehicleId = parseInt(e.currentTarget.getAttribute('data-vehicle-id'));
+  deselectVehicle(vehicleId) {
     this.setState((state) => {
       return {selectedVehicles: state.selectedVehicles.filter((v) => v.id !== vehicleId)};
     });
@@ -303,70 +304,16 @@ class App extends Component {
                 : null
             }
           </div>
-
-          {/*TODO: break into smaller components. */}
           <div>
             <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
-            {
-              this.state.selectedVehicles.length ?
-                <div className={styles.subsection}>
-                  <p className={styles.instructions}>
-                    Purchase Price
-                    {
-                      this.state.selectedVehicles.map(v => v.fuelType2).filter(t => !!t).length ?
-                        ' and Alternative Fuel Usage'
-                        : null
-                    }
-                  </p>
-                  {this.state.selectedVehicles.map((v) => {
-                    return (
-                      <div key={v.id} className={`${styles.wrapper} ${styles.spacedRow}`}>
-                        <div className={styles.boxLabelContainer}>
-                          <div className={styles.boxLabel}>
-                            <button
-                              className={`${styles.delete} ${styles.btnLeft}`}
-                              data-vehicle-id={v.id}
-                              onClick={this.deselectVehicle}
-                            ><i className="fas fa-trash"></i></button>
-                          </div>
-                          {v.year} {v.make} {v.model}
-                        </div>
-                        <div className={styles.boxLabelContainer}>
-                          <PriceInput
-                            placeholder="Enter the purchase price."
-                            onChange={this.handleUpdatePrice}
-                            value={this.state.vehiclePrices[v.id] || ''}
-                            fieldId={v.id}
-                          />
-                        </div>
-                        {
-                          v.fuelType2 ?
-                            <div className={`${styles.fuel2Pct} ${styles.boxLabelContainer}`}>
-                              <p>
-                                Miles driven using {
-                                v.fuelType2 === 'E85' ?
-                                  v.fuelType2 :
-                                  v.fuelType2.toLowerCase()
-                              }:
-                                &nbsp;{this.state.fuel2MilesPct[v.id] || 0}%
-                              </p>
-                              <Slider
-                                key={v.id}
-                                data-vehicle-id={v.id}
-                                min={0}
-                                max={100}
-                                value={this.state.fuel2MilesPct[v.id] || 0}
-                                onChange={this.handleUpdateFuel2MilesPct.bind(this, v.id)}
-                              />
-                            </div>
-                            : null
-                        }
-                      </div>
-                    );
-                  })}
-                </div>
-                : null
-            }
+            <VehicleDetails
+              selectedVehicles={this.state.selectedVehicles}
+              onDeselectVehicle={this.deselectVehicle}
+              onUpdatePrice={this.handleUpdatePrice}
+              vehiclePrices={this.state.vehiclePrices}
+              fuel2MilesPct={this.state.fuel2MilesPct}
+              onUpdateFuel2MilesPct={this.handleUpdateFuel2MilesPct}
+            />
             <FuelCost
               visibleFuelTypes={[
                 ...new Set([

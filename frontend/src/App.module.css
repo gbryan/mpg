@@ -27,14 +27,6 @@ h1, h2, h3, h4, h5, p.instructions, .heading {
   padding-bottom: 10px;
 }
 
-.fuel2Pct p {
-  margin: 0;
-}
-
-.btnLeft {
-  margin-right: 15px;
-}
-
 .collapsibleContainer {
   display: flex;
 }
@@ -89,22 +81,6 @@ body, .introContainer {
 
 .spacedRow:not(:last-child) {
   margin-bottom: 20px;
-}
-
-.boxLabelContainer {
-  position: relative;
-  padding-left: 40px;
-}
-
-.boxLabel {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-button.delete:hover {
-  cursor: pointer;
-  color: darkred;
 }
 
 .warning {
