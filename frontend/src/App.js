@@ -208,7 +208,7 @@ class App extends Component {
           <div>
             <p className={`${styles.instructions} ${styles.large}`}>2. Select vehicles</p>
             <ResultsList
-              values={this.state.matchingVehicles}
+              vehicles={this.state.matchingVehicles}
               selectedVehicles={this.state.selectedVehicles}
               onClick={this.handleVehicleSelected}
               onUpdatePrice={this.onUpdatePrice}

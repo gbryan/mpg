@@ -36,31 +36,31 @@ class ResultsList extends Component {
           </tr>
           </thead>
           <tbody>
-          {this.props.values.map(row => {
+          {this.props.vehicles.map(v => {
             return (
               <tr
-                key={row.id}
-                data-vehicle-id={row.id}
+                key={v.id}
+                data-vehicle-id={v.id}
                 onClick={this.handleClick}
-                className={this.isSelected(row.id) ? styles.selected : ''}
+                className={this.isSelected(v.id) ? styles.selected : ''}
               >
                 <td>
                   <span className={styles.addBtn}><i className="fas fa-plus-circle"></i></span>
-                  <span className={styles.heading}>Year</span>{row.year}
+                  <span className={styles.heading}>Year</span>{v.year}
                 </td>
-                <td><span className={styles.heading}>Make</span>{row.make}</td>
-                <td><span className={styles.heading}>Model</span>{row.model}</td>
-                <td><span className={styles.heading}>Cylinders</span>{row.cylinders}</td>
-                <td><span className={styles.heading}>Displacement</span>{row.displacement}</td>
-                <td><span className={styles.heading}>Drive</span>{row.drive}</td>
-                <td><span className={styles.heading}>Transmission</span>{row.transmission}</td>
+                <td><span className={styles.heading}>Make</span>{v.make}</td>
+                <td><span className={styles.heading}>Model</span>{v.model}</td>
+                <td><span className={styles.heading}>Cylinders</span>{v.cylinders}</td>
+                <td><span className={styles.heading}>Displacement</span>{v.displacement}</td>
+                <td><span className={styles.heading}>Drive</span>{v.drive}</td>
+                <td><span className={styles.heading}>Transmission</span>{v.transmission}</td>
               </tr>
             );
           })}
           </tbody>
         </table>
         {
-          !this.props.values.length ?
+          !this.props.vehicles.length ?
             <p>Search for vehicles to get started.</p>
             : null
         }
@@ -70,7 +70,7 @@ class ResultsList extends Component {
 }
 
 ResultsList.propTypes = {
-  values: PropTypes.array.isRequired,
+  vehicles: PropTypes.array.isRequired,
   selectedVehicles: PropTypes.array.isRequired,
   onClick: PropTypes.func.isRequired,
   vehiclePrices: PropTypes.object.isRequired,
