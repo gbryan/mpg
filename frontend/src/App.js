@@ -2,25 +2,26 @@ import React, {Component} from 'react';
 import Filters from './Filters';
 import ResultsList from './ResultsList';
 import {getMakes, getMatchingVehicles, getModels, getYears} from './VehicleService';
-import VehicleChart from './VehicleChart';
 import FuelCost from './FuelCost';
 import styles from './App.module.css';
 import 'rc-slider/assets/index.css';
 import Slider from 'rc-slider';
 import './rc-slider.css';
-import VehicleDetails from "./VehicleDetails";
+import VehicleDetails from './VehicleDetails';
+import VehicleChartWrapper from './VehicleChartWrapper';
 
 
 /*
 TODO
 
-* Separate out more components within VehicleDetails.
 * Remove natural gas and propane vehicles.
 * Come up with better name for the title.
 * Summary under chart
 * Note in writeup that it excludes natural gas and propane vehicles.
 * Add context (e.g. data source is EPA, how to interpret, etc.).
 * WRITE UNIT TESTS.
+* Update the readme.
+* Deploy prod.
 * Add CO2 emissions feature.
  */
 class App extends Component {
@@ -40,21 +41,20 @@ class App extends Component {
       },
       vehiclePrices: {},
       selectedVehicles: [],
-      selectedFilters: {
-        year: {label: undefined, value: undefined},
-        make: {label: undefined, value: undefined},
-        model: {label: undefined, value: undefined},
-      },
-      availableFilters: {
+      filterOptions: {
         year: [],
         make: [],
         model: [],
       },
+      filterValues: {
+        year: {label: undefined, value: undefined},
+        make: {label: undefined, value: undefined},
+        model: {label: undefined, value: undefined},
+      },
       matchingVehicles: [],
-      chartData: []
     };
 
-    this.handleSelectorsChanged = this.handleSelectorsChanged.bind(this);
+    this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
     this.handleVehicleSelected = this.handleVehicleSelected.bind(this);
     this.deselectVehicle = this.deselectVehicle.bind(this);
     this.handleUpdatePrice = this.handleUpdatePrice.bind(this);
@@ -65,7 +65,7 @@ class App extends Component {
 
   componentDidMount() {
     this.setState({
-      availableFilters: {
+      filterOptions: {
         year: getYears().map(v => {
           return {label: v, value: v}
         }),
@@ -75,147 +75,60 @@ class App extends Component {
     });
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.selectedVehicles !== this.state.selectedVehicles ||
-      prevState.vehiclePrices !== this.state.vehiclePrices ||
-      prevState.fuelCostDollars !== this.state.fuelCostDollars ||
-      prevState.milesPerYear !== this.state.milesPerYear ||
-      prevState.fuel2MilesPct !== this.state.fuel2MilesPct
-    ) {
-      this.updateChart(this.state);
-    }
-  }
-
-  requiredFieldsPresent() {
-    return Object.keys(this.state.selectedFilters)
-      .map(k => !!this.state.selectedFilters[k].value)
-      .filter(v => v === true)
-      .length === 3;
-  }
-
-  handleSelectorsChanged(updatedObj) {
-    const selectedFilters = Object.assign({}, this.state.selectedFilters);
-    selectedFilters[updatedObj.name] = updatedObj.option;
+  handleFiltersChanged(updatedFilters) {
+    const filterValues = Object.assign({}, this.state.filterValues);
+    filterValues[updatedFilters.name] = updatedFilters.option;
 
     // Fetch makes if year changed.
-    if (updatedObj.name === 'year') {
+    if (updatedFilters.name === 'year') {
       (async () => {
         this.setState({isLoading: true});
 
-        const makes = await getMakes(updatedObj.option.value);
+        const makes = await getMakes(updatedFilters.option.value);
         const makeOptions = makes.map(v => {
           return {label: v, value: v}
         });
-        const availableFilters = Object.assign({}, this.state.availableFilters);
-        availableFilters.make = makeOptions;
-        this.setState({availableFilters});
+        const filterOptions = Object.assign({}, this.state.filterOptions);
+        filterOptions.make = makeOptions;
+        this.setState({filterOptions});
 
         // Reset make and model.
-        selectedFilters.make = {label: undefined, value: undefined};
-        selectedFilters.model = {label: undefined, value: undefined};
+        filterValues.make = {label: undefined, value: undefined};
+        filterValues.model = {label: undefined, value: undefined};
 
         this.setState({isLoading: false, matchingVehicles: []});
       })();
     }
 
     // Fetch models if make changed.
-    else if (updatedObj.name === 'make') {
+    else if (updatedFilters.name === 'make') {
       (async () => {
         this.setState({isLoading: true});
 
-        const availableFilters = Object.assign({}, this.state.availableFilters);
+        const filterOptions = Object.assign({}, this.state.filterOptions);
         const models = await getModels(
-          this.state.selectedFilters.year.value,
-          updatedObj.option.value
+          this.state.filterValues.year.value,
+          updatedFilters.option.value
         );
-        availableFilters.model = models.map(v => {
+        filterOptions.model = models.map(v => {
           return {label: v, value: v};
         });
-        this.setState({availableFilters});
-        this.setState({isLoading: false, matchingVehicles: []});
+        this.setState({filterOptions, isLoading: false, matchingVehicles: []});
       })();
 
-      selectedFilters.model = {label: undefined, value: undefined};
+      filterValues.model = {label: undefined, value: undefined};
     }
 
     // Fetch matching vehicles only if year, make, and model are all selected.
-    else if (selectedFilters.year.value && selectedFilters.make.value && selectedFilters.model.value) {
+    else if (filterValues.year.value && filterValues.make.value && filterValues.model.value) {
       (async () => {
         this.setState({isLoading: true});
-        const matchingVehicles = await getMatchingVehicles(selectedFilters);
-        this.setState({matchingVehicles: matchingVehicles});
-        this.setState({isLoading: false});
+        const matchingVehicles = await getMatchingVehicles(filterValues);
+        this.setState({matchingVehicles: matchingVehicles, isLoading: false});
       })();
     }
 
-    this.setState({selectedFilters});
-  }
-
-  getElectricCostPerMile(vehicle) {
-    return this.state.fuelCostDollars.Electricity * (vehicle.kwh100Miles / 100);
-  }
-
-  getHydrocarbonCostPerMile(fuelType, mpg) {
-    return this.state.fuelCostDollars[fuelType] / mpg;
-  }
-
-  getCostPerYear(vehicle) {
-    let fuel2Cost = 0;
-
-    if (vehicle.fuelType2) {
-      const fuel2MilesPct = (this.state.fuel2MilesPct[vehicle.id] || 0) / 100;
-      const fuel2Miles = fuel2MilesPct * this.state.milesPerYear;
-      let dollarsPerMile;
-
-      if (vehicle.fuelType2 === 'Electricity') {
-        dollarsPerMile = this.getElectricCostPerMile(vehicle);
-      } else {
-        dollarsPerMile = this.getHydrocarbonCostPerMile(vehicle.fuelType2, vehicle.combMpgFuel2);
-      }
-
-      fuel2Cost = dollarsPerMile * fuel2Miles;
-    }
-
-    const fuel1MilesPct = 1 - ((this.state.fuel2MilesPct[vehicle.id] || 0) / 100);
-    const fuel1Miles = fuel1MilesPct * this.state.milesPerYear;
-    let dollarsPerMile;
-
-    if (vehicle.fuelType1 === 'Electricity') {
-      dollarsPerMile = this.getElectricCostPerMile(vehicle);
-    } else {
-      dollarsPerMile = this.getHydrocarbonCostPerMile(vehicle.fuelType1, vehicle.combMpgFuel1);
-    }
-
-    const fuel1Cost = dollarsPerMile * fuel1Miles;
-
-    return fuel1Cost + fuel2Cost;
-  }
-
-  updateChart(state) {
-    if (!state.selectedVehicles || state.selectedVehicles.length < 1) {
-      this.setState({chartData: []});
-      return;
-    }
-
-    const chartData = state.selectedVehicles.map(vehicle => {
-      const name = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
-      const data = [];
-
-      let dollarsPerYear = this.getCostPerYear(vehicle);
-      const currYear = new Date().getFullYear();
-      let prevYearCost = this.state.vehiclePrices[vehicle.id] || 0;
-
-      for (let year = currYear; year <= currYear + 20; year++) {
-        let thisYearCost = prevYearCost + dollarsPerYear;
-        data.push({category: year, value: thisYearCost});
-        prevYearCost = thisYearCost;
-      }
-
-      return {name, data};
-
-    });
-
-    this.setState({chartData});
+    this.setState({filterValues});
   }
 
   handleVehicleSelected(vehicleId) {
@@ -276,13 +189,19 @@ class App extends Component {
             faucibus tellus, et rutrum felis ex at lacus.</p>
         </div>
         <div className={styles.calculatorContainer}>
-          <VehicleChart series={this.state.chartData}/>
+          <VehicleChartWrapper
+            fuelCostDollars={this.state.fuelCostDollars}
+            fuel2MilesPct={this.state.fuel2MilesPct}
+            milesPerYear={this.state.milesPerYear}
+            selectedVehicles={this.state.selectedVehicles}
+            vehiclePrices={this.state.vehiclePrices}
+          />
           <div>
             <p className={`${styles.instructions} ${styles.large}`}>1. Search for vehicles</p>
             <Filters
-              options={this.state.availableFilters}
-              values={this.state.selectedFilters}
-              onChange={this.handleSelectorsChanged}
+              options={this.state.filterOptions}
+              values={this.state.filterValues}
+              onChange={this.handleFiltersChanged}
               isDisabled={this.state.isLoading}
             />
           </div>

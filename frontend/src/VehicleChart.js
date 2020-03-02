@@ -5,7 +5,6 @@ import {
 } from 'recharts';
 import './recharts.css';
 
-
 const currencyFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
