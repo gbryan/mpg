@@ -342,7 +342,7 @@ class App extends Component {
                         </div>
                         {
                           v.fuelType2 ?
-                            <div className={styles.fuel2Pct}>
+                            <div className={`${styles.fuel2Pct} ${styles.boxLabelContainer}`}>
                               <p>
                                 Miles driven using {
                                 v.fuelType2 === 'E85' ?
