@@ -24,6 +24,10 @@ const numColors = colors.length;
 
 class VehicleChart extends PureComponent {
   render() {
+    if (!this.props.series.length) {
+      return null;
+    }
+
     return (
       <ResponsiveContainer width="100%" height={300}>
         <LineChart>

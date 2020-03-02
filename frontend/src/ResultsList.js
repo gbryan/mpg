@@ -59,6 +59,11 @@ class ResultsList extends Component {
           })}
           </tbody>
         </table>
+        {
+          !this.props.values.length ?
+            <p>Search for vehicles to get started.</p>
+            : null
+        }
       </div>
     );
   }

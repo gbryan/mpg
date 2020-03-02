@@ -276,18 +276,16 @@ class App extends Component {
             faucibus tellus, et rutrum felis ex at lacus.</p>
         </div>
         <div className={styles.calculatorContainer}>
-          {
-            !this.state.chartData.length ?
-              null :
-              <VehicleChart series={this.state.chartData}/>
-          }
-          <Filters
-            options={this.state.availableFilters}
-            values={this.state.selectedFilters}
-            onChange={this.handleSelectorsChanged}
-            isDisabled={this.state.isLoading}
-          />
-
+          <VehicleChart series={this.state.chartData}/>
+          <div>
+            <p className={`${styles.instructions} ${styles.large}`}>1. Search for vehicles</p>
+            <Filters
+              options={this.state.availableFilters}
+              values={this.state.selectedFilters}
+              onChange={this.handleSelectorsChanged}
+              isDisabled={this.state.isLoading}
+            />
+          </div>
           <div>
             <p className={`${styles.instructions} ${styles.large}`}>2. Select vehicles</p>
             <ResultsList
@@ -297,12 +295,6 @@ class App extends Component {
               onUpdatePrice={this.onUpdatePrice}
               vehiclePrices={this.state.vehiclePrices}
             />
-            {
-              !this.state.matchingVehicles.length
-              ?
-                <p>Search for vehicles to get started.</p>
-                : null
-            }
           </div>
           <div>
             <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
