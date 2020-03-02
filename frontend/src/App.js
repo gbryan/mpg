@@ -14,7 +14,6 @@ import './rc-slider.css';
 /*
 TODO
 
-* Don't capitalize electricity in 2nd fuel type label.
 * Clear selected vehicles when changing year or make
 * Remove natural gas and propane vehicles.
 * Come up with better name for the title.
@@ -312,7 +311,14 @@ class App extends Component {
             {
               this.state.selectedVehicles.length ?
                 <div className={styles.subsection}>
-                  <p className={styles.instructions}>Purchase Price</p>
+                  <p className={styles.instructions}>
+                    Purchase Price
+                    {
+                      this.state.selectedVehicles.map(v => v.fuelType2).filter(t => !!t).length ?
+                        ' and Alternative Fuel Usage'
+                        : null
+                    }
+                  </p>
                   {this.state.selectedVehicles.map((v) => {
                     return (
                       <div key={v.id} className={`${styles.wrapper} ${styles.spacedRow}`}>
@@ -336,9 +342,13 @@ class App extends Component {
                         </div>
                         {
                           v.fuelType2 ?
-                            <div className={styles.boxLabelContainer}>
+                            <div className={styles.fuel2Pct}>
                               <p>
-                                Miles driven using {v.fuelType2}:
+                                Miles driven using {
+                                v.fuelType2 === 'E85' ?
+                                  v.fuelType2 :
+                                  v.fuelType2.toLowerCase()
+                              }:
                                 &nbsp;{this.state.fuel2MilesPct[v.id] || 0}%
                               </p>
                               <Slider

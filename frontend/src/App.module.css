@@ -18,16 +18,17 @@ h1, h2, h3, h4, h5, p.instructions, .heading {
 }
 
 .wrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.wrapper > div {
-  flex: 1 1 50%;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-gap: 0;
 }
 
 .wrapper > div:not(:last-child) {
   padding-bottom: 10px;
+}
+
+.fuel2Pct p {
+  margin: 0;
 }
 
 .btnLeft {
@@ -69,6 +70,7 @@ body, .introContainer {
 .instructions {
   color: #444444;
   font-weight: bold;
+  margin-top: 0;
 }
 
 .instructions.large {
@@ -134,7 +136,7 @@ button.delete:hover {
     font-size: 1.4em;
   }
 
-  .wrapper > div {
-    flex: 1 1 100%;
+  .wrapper {
+    grid-template-columns: 100%;
   }
 }

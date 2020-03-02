@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import styles from './App.module.css';
+import mainStyles from './App.module.css';
+import styles from './FuelCost.module.css';
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -52,11 +53,11 @@ class FuelCost extends Component {
     }
 
     return (
-      <div className={styles.subsection}>
-        <p className={styles.instructions}>Fuel Costs</p>
+      <div className={mainStyles.subsection}>
+        <p className={mainStyles.instructions}>Fuel Costs</p>
         {
           this.props.visibleFuelTypes.map((t, key) => (
-            <div key={key} className={`${styles.wrapper} ${styles.spacedRow}`}>
+            <div key={key} className={`${styles.wrapper} ${mainStyles.spacedRow}`}>
               <div>{this.formatLabel(t)}</div>
               <div>
                 {
