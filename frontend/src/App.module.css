@@ -69,8 +69,12 @@ body, .introContainer {
   font-size: 1.2em;
 }
 
+.instructions.medium {
+  border-bottom: 1px solid #4444444d;
+  padding-bottom: 5px;
+}
+
 .subsection {
-  background-color: #f3f3f3;
   padding: 10px;
   border-radius: 4px;
 }
@@ -85,6 +89,10 @@ body, .introContainer {
 
 .warning {
   color: darkred;
+}
+
+.milesPerYear {
+  max-width: 400px;
 }
 
 @media (max-width: 1024px) {

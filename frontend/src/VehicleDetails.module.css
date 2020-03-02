@@ -18,6 +18,10 @@ button.delete:hover {
   left: 0;
 }
 
+.fuel2Pct {
+  max-width: 400px;
+}
+
 .fuel2Pct p {
   margin: 0;
 }

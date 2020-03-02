@@ -54,7 +54,7 @@ class FuelCost extends Component {
 
     return (
       <div className={mainStyles.subsection}>
-        <p className={mainStyles.instructions}>Fuel Costs</p>
+        <p className={`${mainStyles.instructions} ${mainStyles.medium}`}>Fuel Costs</p>
         {
           this.props.visibleFuelTypes.map((t, key) => (
             <div key={key} className={`${styles.wrapper} ${mainStyles.spacedRow}`}>

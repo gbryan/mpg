@@ -28,7 +28,7 @@ class VehicleDetails extends Component {
 
     return (
       <div className={mainStyles.subsection}>
-        <p className={mainStyles.instructions}>
+        <p className={`${mainStyles.instructions} ${mainStyles.medium}`}>
           Purchase Price
           {
             this.hasAlternativeFuels() ?

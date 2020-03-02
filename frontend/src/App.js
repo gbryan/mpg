@@ -235,8 +235,10 @@ class App extends Component {
               prices={this.state.fuelCostDollars}
               onChange={this.onUpdateFuelCost}
             />
-            <div className={styles.subsection}>
-              <p className={styles.instructions}>Miles driven per year: {this.state.milesPerYear}</p>
+            <div className={`${styles.subsection} ${styles.milesPerYear}`}>
+              <p className={`${styles.instructions} ${styles.medium}`}>
+                Miles driven per year: {this.state.milesPerYear}
+              </p>
               <Slider
                 min={0}
                 max={100000}
