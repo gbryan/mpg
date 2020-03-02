@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import mainStyles from './App.module.css';
 import styles from './ResultsList.module.css';
 
 class ResultsList extends Component {

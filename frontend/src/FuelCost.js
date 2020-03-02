@@ -39,7 +39,7 @@ class FuelCost extends Component {
   }
 
   formatPrice(price) {
-    return formatter.format(price);
+    return formatter.format(price || 0);
   }
 
   render() {
@@ -61,8 +61,8 @@ class FuelCost extends Component {
                       key={key}
                       name={t}
                       type="number"
-                      placeholder="$0.00"
-                      value={this.props.prices[t]}
+                      placeholder={0}
+                      value={this.props.prices[t] || 0}
                       onChange={this.handlePriceUpdated}
                       onBlur={this.handleBlur}
                     /> :
