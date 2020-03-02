@@ -24,7 +24,6 @@ class ResultsList extends Component {
   render() {
     return (
       <div>
-        <p className={`${mainStyles.instructions} ${mainStyles.large}`}>2. Select vehicles</p>
         <table className={styles.results}>
           <thead>
           <tr>

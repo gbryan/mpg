@@ -1,7 +1,14 @@
 table.results {
   border-collapse: collapse;
   text-align: left;
+  table-layout: fixed;
   width: 100%;
+}
+
+table.results thead th {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 table.results tr {

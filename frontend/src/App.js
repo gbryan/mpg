@@ -231,9 +231,7 @@ class App extends Component {
             quis egestas odio pretium vel. Vestibulum elit dolor, convallis ullamcorper mauris in, tincidunt placerat
             mi. Cras finibus lobortis felis, non congue diam ultricies sit amet. Sed sed imperdiet nisl. Nunc dui eros,
             pharetra sed mattis eget, malesuada quis felis. Proin vestibulum, erat ut tincidunt congue, massa magna
-            faucibus tellus, et rutrum felis ex at lacus. Integer nibh sapien, fringilla eu erat eu, auctor imperdiet
-            dolor. Etiam vel ex volutpat, lacinia ipsum nec, placerat ligula. Suspendisse tristique augue et tellus
-            tempus dictum. Duis suscipit finibus rhoncus. Curabitur eu feugiat risus, at tempor nunc.</p>
+            faucibus tellus, et rutrum felis ex at lacus.</p>
         </div>
         <div className={styles.calculatorContainer}>
           {
@@ -247,22 +245,23 @@ class App extends Component {
             onChange={this.handleSelectorsChanged}
             isDisabled={this.state.isLoading}
           />
-          {
-            this.requiredFieldsPresent() ?
-              <ResultsList
-                values={this.state.matchingVehicles}
-                selectedVehicles={this.state.selectedVehicles}
-                onClick={this.handleVehicleSelected}
-                onUpdatePrice={this.onUpdatePrice}
-                vehiclePrices={this.state.vehiclePrices}
-              /> : null
-          }
+
+          <div>
+            <p className={`${styles.instructions} ${styles.large}`}>2. Select vehicles</p>
+            <ResultsList
+              values={this.state.matchingVehicles}
+              selectedVehicles={this.state.selectedVehicles}
+              onClick={this.handleVehicleSelected}
+              onUpdatePrice={this.onUpdatePrice}
+              vehiclePrices={this.state.vehiclePrices}
+            />
+          </div>
 
           {/*TODO: break into smaller components. */}
-          {
-            this.state.selectedVehicles.length ?
-              <div>
-                <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
+          <div>
+            <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
+            {
+              this.state.selectedVehicles.length ?
                 <div className={styles.subsection}>
                   <p className={styles.instructions}>Purchase Price</p>
                   {this.state.selectedVehicles.map((v) => {
@@ -290,24 +289,24 @@ class App extends Component {
                     );
                   })}
                 </div>
-                <FuelCost
-                  visibleFuelTypes={[...new Set(this.state.selectedVehicles.map(v => v.fuelType))]}
-                  prices={this.state.fuelCostDollars}
-                  onChange={this.onUpdateFuelCost}
-                />
-                <div className={styles.subsection}>
-                  <p className={styles.instructions}>Miles driven per year: {this.state.milesPerYear}</p>
-                  <Slider
-                    min={0}
-                    max={100000}
-                    step={500}
-                    value={this.state.milesPerYear}
-                    onChange={this.handleUpdateMiles}
-                  />
-                </div>
-              </div>
-              : null
-          }
+                : null
+            }
+            <FuelCost
+              visibleFuelTypes={[...new Set(this.state.selectedVehicles.map(v => v.fuelType))]}
+              prices={this.state.fuelCostDollars}
+              onChange={this.onUpdateFuelCost}
+            />
+            <div className={styles.subsection}>
+              <p className={styles.instructions}>Miles driven per year: {this.state.milesPerYear}</p>
+              <Slider
+                min={0}
+                max={100000}
+                step={500}
+                value={this.state.milesPerYear}
+                onChange={this.handleUpdateMiles}
+              />
+            </div>
+          </div>
         </div>
       </div>
     );
