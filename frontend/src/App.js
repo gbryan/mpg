@@ -14,7 +14,6 @@ import './rc-slider.css';
 /*
 TODO
 
-* Clear selected vehicles when changing year or make
 * Remove natural gas and propane vehicles.
 * Come up with better name for the title.
 * Summary under chart
@@ -113,7 +112,7 @@ class App extends Component {
         selectedFilters.make = {label: undefined, value: undefined};
         selectedFilters.model = {label: undefined, value: undefined};
 
-        this.setState({isLoading: false});
+        this.setState({isLoading: false, matchingVehicles: []});
       })();
     }
 
@@ -131,16 +130,14 @@ class App extends Component {
           return {label: v, value: v};
         });
         this.setState({availableFilters});
-        this.setState({isLoading: false});
+        this.setState({isLoading: false, matchingVehicles: []});
       })();
 
       selectedFilters.model = {label: undefined, value: undefined};
     }
 
-    this.setState({selectedFilters});
-
     // Fetch matching vehicles only if year, make, and model are all selected.
-    if (selectedFilters.year.value && selectedFilters.make.value && selectedFilters.model.value) {
+    else if (selectedFilters.year.value && selectedFilters.make.value && selectedFilters.model.value) {
       (async () => {
         this.setState({isLoading: true});
         const matchingVehicles = await getMatchingVehicles(selectedFilters);
@@ -148,6 +145,8 @@ class App extends Component {
         this.setState({isLoading: false});
       })();
     }
+
+    this.setState({selectedFilters});
   }
 
   getElectricCostPerMile(vehicle) {
