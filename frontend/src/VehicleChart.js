@@ -37,7 +37,7 @@ class VehicleChart extends PureComponent {
           }} labelStyle={{marginBottom: 10}} contentStyle={{whiteSpace: 'normal'}}/>
           <Legend/>
           {this.props.series.map((s, i) => (
-            <Line dataKey="value" data={s.data} name={s.name} key={s.name} stroke={colors[i % numColors]}/>
+            <Line dataKey="value" data={s.data} name={s.name} key={i} stroke={colors[i % numColors]}/>
           ))}
         </LineChart>
       </ResponsiveContainer>
