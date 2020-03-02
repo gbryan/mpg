@@ -14,11 +14,13 @@ import './rc-slider.css';
 /*
 TODO
 
+* Don't capitalize electricity in 2nd fuel type label.
+* Clear selected vehicles when changing year or make
+* Remove natural gas and propane vehicles.
 * Come up with better name for the title.
 * Summary under chart
-* Note in writeup that it excludes natural gas vehicles.
+* Note in writeup that it excludes natural gas and propane vehicles.
 * Add context (e.g. data source is EPA, how to interpret, etc.).
-* Need to tell units in price input (e.g. "per gallon" or "per KWH").
 * WRITE UNIT TESTS.
 * Add CO2 emissions feature.
  */
@@ -27,11 +29,13 @@ class App extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      milesPerYear: 10000,
+      milesPerYear: 12000,
+      fuel2MilesPct: {},
       fuelCostDollars: {
         'Regular Gasoline': 3.00,
         'Midgrade Gasoline': 3.25,
         'Premium Gasoline': 3.50,
+        'E85': 3.00,
         Diesel: 3.50,
         Electricity: 0.10
       },
@@ -75,7 +79,8 @@ class App extends Component {
     if (prevState.selectedVehicles !== this.state.selectedVehicles ||
       prevState.vehiclePrices !== this.state.vehiclePrices ||
       prevState.fuelCostDollars !== this.state.fuelCostDollars ||
-      prevState.milesPerYear !== this.state.milesPerYear
+      prevState.milesPerYear !== this.state.milesPerYear ||
+      prevState.fuel2MilesPct !== this.state.fuel2MilesPct
     ) {
       this.updateChart(this.state);
     }
@@ -146,6 +151,46 @@ class App extends Component {
     }
   }
 
+  getElectricCostPerMile(vehicle) {
+    return this.state.fuelCostDollars.Electricity * (vehicle.kwh100Miles / 100);
+  }
+
+  getHydrocarbonCostPerMile(fuelType, mpg) {
+    return this.state.fuelCostDollars[fuelType] / mpg;
+  }
+
+  getCostPerYear(vehicle) {
+    let fuel2Cost = 0;
+
+    if (vehicle.fuelType2) {
+      const fuel2MilesPct = (this.state.fuel2MilesPct[vehicle.id] || 0) / 100;
+      const fuel2Miles = fuel2MilesPct * this.state.milesPerYear;
+      let dollarsPerMile;
+
+      if (vehicle.fuelType2 === 'Electricity') {
+        dollarsPerMile = this.getElectricCostPerMile(vehicle);
+      } else {
+        dollarsPerMile = this.getHydrocarbonCostPerMile(vehicle.fuelType2, vehicle.combMpgFuel2);
+      }
+
+      fuel2Cost = dollarsPerMile * fuel2Miles;
+    }
+
+    const fuel1MilesPct = 1 - ((this.state.fuel2MilesPct[vehicle.id] || 0) / 100);
+    const fuel1Miles = fuel1MilesPct * this.state.milesPerYear;
+    let dollarsPerMile;
+
+    if (vehicle.fuelType1 === 'Electricity') {
+      dollarsPerMile = this.getElectricCostPerMile(vehicle);
+    } else {
+      dollarsPerMile = this.getHydrocarbonCostPerMile(vehicle.fuelType1, vehicle.combMpgFuel1);
+    }
+
+    const fuel1Cost = dollarsPerMile * fuel1Miles;
+
+    return fuel1Cost + fuel2Cost;
+  }
+
   updateChart(state) {
     if (!state.selectedVehicles || state.selectedVehicles.length < 1) {
       this.setState({chartData: []});
@@ -155,16 +200,8 @@ class App extends Component {
     const chartData = state.selectedVehicles.map(vehicle => {
       const name = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
       const data = [];
-      let dollarsPerMile;
 
-      if (vehicle.fuelType === 'Electricity') {
-        dollarsPerMile = (
-          this.state.fuelCostDollars.Electricity * (vehicle.kwh100Miles / 100));
-      } else {
-        dollarsPerMile = this.state.fuelCostDollars[vehicle.fuelType] / vehicle.mpg;
-      }
-
-      let dollarsPerYear = this.state.milesPerYear * dollarsPerMile;
+      let dollarsPerYear = this.getCostPerYear(vehicle);
       const currYear = new Date().getFullYear();
       let prevYearCost = this.state.vehiclePrices[vehicle.id] || 0;
 
@@ -219,6 +256,12 @@ class App extends Component {
 
   handleUpdateMiles(miles) {
     this.setState({milesPerYear: parseInt(miles)});
+  }
+
+  handleUpdateFuel2MilesPct(id, pct) {
+    const fuel2MilesPct = Object.assign({}, this.state.fuel2MilesPct);
+    fuel2MilesPct[id] = parseInt(pct);
+    this.setState({fuel2MilesPct});
   }
 
   render() {
@@ -291,6 +334,24 @@ class App extends Component {
                             fieldId={v.id}
                           />
                         </div>
+                        {
+                          v.fuelType2 ?
+                            <div className={styles.boxLabelContainer}>
+                              <p>
+                                Miles driven using {v.fuelType2}:
+                                &nbsp;{this.state.fuel2MilesPct[v.id] || 0}%
+                              </p>
+                              <Slider
+                                key={v.id}
+                                data-vehicle-id={v.id}
+                                min={0}
+                                max={100}
+                                value={this.state.fuel2MilesPct[v.id] || 0}
+                                onChange={this.handleUpdateFuel2MilesPct.bind(this, v.id)}
+                              />
+                            </div>
+                            : null
+                        }
                       </div>
                     );
                   })}
@@ -298,7 +359,12 @@ class App extends Component {
                 : null
             }
             <FuelCost
-              visibleFuelTypes={[...new Set(this.state.selectedVehicles.map(v => v.fuelType))]}
+              visibleFuelTypes={[
+                ...new Set([
+                  ...this.state.selectedVehicles.map(v => v.fuelType1),
+                  ...this.state.selectedVehicles.map(v => v.fuelType2),
+                ].filter(t => !!t)),
+              ]}
               prices={this.state.fuelCostDollars}
               onChange={this.onUpdateFuelCost}
             />

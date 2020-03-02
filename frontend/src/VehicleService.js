@@ -6,35 +6,20 @@ if (process.env.NODE_ENV !== 'production') {
   BASE_URL = 'http://127.0.0.1:4000/api/v1';
 }
 
-const respKeyMap = {
-  combMpgFuel1: 'mpg',
-  fuelType1: 'fuelType',
-};
-
 export async function getMatchingVehicles(filters) {
   const queryString = ['year', 'make', 'model'].map(key => {
     return filters[key].value ? `${key}=${filters[key].value}` : null;
   }).filter(val => {
     return val !== null;
   }).join('&');
+
+  //TODO: error handling
   const response = await fetch(`${BASE_URL}/vehicles?${queryString}`);
   const json = await response.json();
 
-  //TODO: error handling
   return json.vehicles.map(v => {
     return humps.camelizeKeys(v);
-  })
-    .map(v => {
-      const formattedVehicle = Object.assign({}, v);
-
-      Object.keys(respKeyMap).forEach(origKey => {
-        const newKey = respKeyMap[origKey];
-        formattedVehicle[newKey] = formattedVehicle[origKey];
-        delete formattedVehicle[origKey];
-      });
-
-      return formattedVehicle;
-    });
+  });
 }
 
 export async function getMakes(year) {

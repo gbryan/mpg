@@ -42,6 +42,10 @@ class FuelCost extends Component {
     return formatter.format(price || 0);
   }
 
+  formatLabel(fuelType) {
+    return `${fuelType} (per ${fuelType === "Electricity" ? "kWh" : "gallon"})`;
+  }
+
   render() {
     if (!this.props.visibleFuelTypes.length) {
       return null;
@@ -53,7 +57,7 @@ class FuelCost extends Component {
         {
           this.props.visibleFuelTypes.map((t, key) => (
             <div key={key} className={`${styles.wrapper} ${styles.spacedRow}`}>
-              <div>{t}</div>
+              <div>{this.formatLabel(t)}</div>
               <div>
                 {
                   this.state.isEditing[t] ?
@@ -62,7 +66,7 @@ class FuelCost extends Component {
                       name={t}
                       type="number"
                       placeholder={0}
-                      value={this.props.prices[t] || 0}
+                      value={this.props.prices[t]}
                       onChange={this.handlePriceUpdated}
                       onBlur={this.handleBlur}
                     /> :
