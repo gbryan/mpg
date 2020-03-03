@@ -1,0 +1,16 @@
+.backlinkHeader {
+  width: 100%;
+  height: 20px;
+  background-color: #3f61058f;
+  padding:20px;
+  font-size: 1.1em;
+}
+
+.backlinkHeader a {
+  text-decoration: none;
+  color: black;
+}
+
+.backlinkHeader a:hover {
+  color: white;
+}

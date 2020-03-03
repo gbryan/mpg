@@ -9,6 +9,7 @@ import Slider from 'rc-slider';
 import './rc-slider.css';
 import VehicleDetails from './VehicleDetails';
 import VehicleChartWrapper from './VehicleChartWrapper';
+import BackLinkHeader from './BackLinkHeader';
 
 
 /*
@@ -175,84 +176,87 @@ class App extends Component {
 
   render() {
     return (
-      <div className={styles.collapsibleContainer}>
-        <div className={styles.introContainer}>
-          <h1>Vehicle Cost Calculator</h1>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id mollis urna. Aliquam pulvinar ornare
-            commodo. Duis euismod enim quis ante tincidunt, vel efficitur diam rhoncus. Nunc luctus purus libero,
-            quis egestas odio pretium vel. Vestibulum elit dolor, convallis ullamcorper mauris in, tincidunt placerat
-            mi. Cras finibus lobortis felis, non congue diam ultricies sit amet. Sed sed imperdiet nisl. Nunc dui eros,
-            pharetra sed mattis eget, malesuada quis felis. Proin vestibulum, erat ut tincidunt congue, massa magna
-            faucibus tellus, et rutrum felis ex at lacus.
-          </p>
-          <p className={styles.finePrint}>
-            Data source:
-            &nbsp;<a href="https://www.fueleconomy.gov/feg/download.shtml" target="_blank">
-              U.S. Department of Energy Fuel Economy Data 1984-2020
-            </a>, downloaded 2020-01-28
-          </p>
-          <p className={styles.finePrint}>
-            Vehicles with a primary or secondary fuel type of natural gas or propane were excluded.
-          </p>
-        </div>
-        <div className={styles.calculatorContainer}>
-          <VehicleChartWrapper
-            fuelCostDollars={this.state.fuelCostDollars}
-            fuel2MilesPct={this.state.fuel2MilesPct}
-            milesPerYear={this.state.milesPerYear}
-            selectedVehicles={this.state.selectedVehicles}
-            vehiclePrices={this.state.vehiclePrices}
-          />
-          <div>
-            <p className={`${styles.instructions} ${styles.large}`}>1. Search for vehicles</p>
-            <Filters
-              options={this.state.filterOptions}
-              values={this.state.filterValues}
-              onChange={this.handleFiltersChanged}
-              isDisabled={this.state.isLoading}
-            />
+      <div>
+        <BackLinkHeader/>
+        <div className={styles.collapsibleContainer}>
+          <div className={styles.introContainer}>
+            <h1>Vehicle Cost Calculator</h1>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id mollis urna. Aliquam pulvinar ornare
+              commodo. Duis euismod enim quis ante tincidunt, vel efficitur diam rhoncus. Nunc luctus purus libero,
+              quis egestas odio pretium vel. Vestibulum elit dolor, convallis ullamcorper mauris in, tincidunt placerat
+              mi. Cras finibus lobortis felis, non congue diam ultricies sit amet. Sed sed imperdiet nisl. Nunc dui eros,
+              pharetra sed mattis eget, malesuada quis felis. Proin vestibulum, erat ut tincidunt congue, massa magna
+              faucibus tellus, et rutrum felis ex at lacus.
+            </p>
+            <p className={styles.finePrint}>
+              Data source:
+              &nbsp;<a href="https://www.fueleconomy.gov/feg/download.shtml" target="_blank" rel="noopener noreferrer">
+                U.S. Department of Energy Fuel Economy Data 1984-2020
+              </a>, downloaded 2020-01-28
+            </p>
+            <p className={styles.finePrint}>
+              Vehicles with a primary or secondary fuel type of natural gas or propane were excluded.
+            </p>
           </div>
-          <div>
-            <p className={`${styles.instructions} ${styles.large}`}>2. Select vehicles</p>
-            <ResultsList
-              vehicles={this.state.matchingVehicles}
-              selectedVehicles={this.state.selectedVehicles}
-              onClick={this.handleVehicleSelected}
-              onUpdatePrice={this.onUpdatePrice}
-            />
-          </div>
-          <div>
-            <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
-            <VehicleDetails
-              selectedVehicles={this.state.selectedVehicles}
-              onDeselectVehicle={this.deselectVehicle}
-              onUpdatePrice={this.handleUpdatePrice}
-              vehiclePrices={this.state.vehiclePrices}
+          <div className={styles.calculatorContainer}>
+            <VehicleChartWrapper
+              fuelCostDollars={this.state.fuelCostDollars}
               fuel2MilesPct={this.state.fuel2MilesPct}
-              onUpdateFuel2MilesPct={this.handleUpdateFuel2MilesPct}
+              milesPerYear={this.state.milesPerYear}
+              selectedVehicles={this.state.selectedVehicles}
+              vehiclePrices={this.state.vehiclePrices}
             />
-            <FuelCost
-              visibleFuelTypes={[
-                ...new Set([
-                  ...this.state.selectedVehicles.map(v => v.fuelType1),
-                  ...this.state.selectedVehicles.map(v => v.fuelType2),
-                ].filter(t => !!t)),
-              ]}
-              prices={this.state.fuelCostDollars}
-              onChange={this.onUpdateFuelCost}
-            />
-            <div className={`${styles.subsection} ${styles.milesPerYear}`}>
-              <p className={`${styles.instructions} ${styles.medium}`}>
-                Miles driven per year: {this.state.milesPerYear}
-              </p>
-              <Slider
-                min={0}
-                max={100000}
-                step={500}
-                value={this.state.milesPerYear}
-                onChange={this.handleUpdateMiles}
+            <div>
+              <p className={`${styles.instructions} ${styles.large}`}>1. Search for vehicles</p>
+              <Filters
+                options={this.state.filterOptions}
+                values={this.state.filterValues}
+                onChange={this.handleFiltersChanged}
+                isDisabled={this.state.isLoading}
               />
+            </div>
+            <div>
+              <p className={`${styles.instructions} ${styles.large}`}>2. Select vehicles</p>
+              <ResultsList
+                vehicles={this.state.matchingVehicles}
+                selectedVehicles={this.state.selectedVehicles}
+                onClick={this.handleVehicleSelected}
+                onUpdatePrice={this.onUpdatePrice}
+              />
+            </div>
+            <div>
+              <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
+              <VehicleDetails
+                selectedVehicles={this.state.selectedVehicles}
+                onDeselectVehicle={this.deselectVehicle}
+                onUpdatePrice={this.handleUpdatePrice}
+                vehiclePrices={this.state.vehiclePrices}
+                fuel2MilesPct={this.state.fuel2MilesPct}
+                onUpdateFuel2MilesPct={this.handleUpdateFuel2MilesPct}
+              />
+              <FuelCost
+                visibleFuelTypes={[
+                  ...new Set([
+                    ...this.state.selectedVehicles.map(v => v.fuelType1),
+                    ...this.state.selectedVehicles.map(v => v.fuelType2),
+                  ].filter(t => !!t)),
+                ]}
+                prices={this.state.fuelCostDollars}
+                onChange={this.onUpdateFuelCost}
+              />
+              <div className={`${styles.subsection} ${styles.milesPerYear}`}>
+                <p className={`${styles.instructions} ${styles.medium}`}>
+                  Miles driven per year: {this.state.milesPerYear}
+                </p>
+                <Slider
+                  min={0}
+                  max={100000}
+                  step={500}
+                  value={this.state.milesPerYear}
+                  onChange={this.handleUpdateMiles}
+                />
+              </div>
             </div>
           </div>
         </div>
