@@ -8,7 +8,6 @@ it('shows message when there are no results', () => {
   const {container} = render(
     <ResultsList
       vehicles={[]}
-      vehiclePrices={{}}
       selectedVehicles={[]}
       onClick={onClick}
     />
@@ -22,10 +21,6 @@ it('shows rows for selected vehicles with "selected" class', () => {
   const {container} = render(
     <ResultsList
       vehicles={vehicles}
-      vehiclePrices={{
-        40610: 18000,
-        40611: 19500,
-      }}
       selectedVehicles={[vehicles[1]]}
       onClick={onClick}
     />

@@ -212,7 +212,6 @@ class App extends Component {
               selectedVehicles={this.state.selectedVehicles}
               onClick={this.handleVehicleSelected}
               onUpdatePrice={this.onUpdatePrice}
-              vehiclePrices={this.state.vehiclePrices}
             />
           </div>
           <div>

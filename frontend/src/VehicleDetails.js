@@ -38,7 +38,11 @@ class VehicleDetails extends Component {
         </p>
         {this.props.selectedVehicles.map((v) => {
           return (
-            <div key={v.id} className={`${mainStyles.wrapper} ${mainStyles.spacedRow}`}>
+            <div
+              key={v.id}
+              className={`${styles.vehicleDetail} ${mainStyles.wrapper} ${mainStyles.spacedRow}`}
+              data-vehicle-id={v.id}
+            >
               <div className={styles.boxLabelContainer}>
                 <div className={styles.boxLabel}>
                   <button

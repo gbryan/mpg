@@ -73,7 +73,6 @@ ResultsList.propTypes = {
   vehicles: PropTypes.array.isRequired,
   selectedVehicles: PropTypes.array.isRequired,
   onClick: PropTypes.func.isRequired,
-  vehiclePrices: PropTypes.object.isRequired,
 };
 
 export default ResultsList;
