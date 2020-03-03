@@ -1,0 +1,23 @@
+{
+  "id": 42274,
+  "year": 2020,
+  "make": "Tesla",
+  "model": "Model 3 Long Range",
+  "cityMpgFuel1": 136,
+  "cityMpgFuel2": 0,
+  "hwyMpgFuel1": 123,
+  "hwyMpgFuel2": 0,
+  "combMpgFuel1": 130,
+  "combMpgFuel2": 0,
+  "co2GpmFuel1": 0,
+  "co2GpmFuel2": 0,
+  "cylinders": 0,
+  "displacement": 0,
+  "drive": "Rear-Wheel Drive",
+  "atvType": "EV",
+  "fuelType1": "Electricity",
+  "fuelType2": "",
+  "transmission": "Automatic (A1)",
+  "vehicleClass": "Midsize Cars",
+  "kwh100Miles": 24.6923
+}

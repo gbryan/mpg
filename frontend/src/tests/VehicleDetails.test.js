@@ -18,6 +18,7 @@ it('shows a row for each selected vehicle', () => {
       }}
       fuel2MilesPct={{}}
       onUpdateFuel2MilesPct={onUpdateFuel2MilesPct}
+      showVehiclePrices={true}
     />
   );
 
@@ -54,6 +55,7 @@ it('calls onDeselectVehicle when clicking delete button', () => {
       }}
       fuel2MilesPct={{}}
       onUpdateFuel2MilesPct={onUpdateFuel2MilesPct}
+      showVehiclePrices={true}
     />
   );
 
@@ -77,6 +79,7 @@ it('calls onUpdatePrice when updating price', () => {
       }}
       fuel2MilesPct={{}}
       onUpdateFuel2MilesPct={onUpdateFuel2MilesPct}
+     showVehiclePrices={true}
     />
   );
 
@@ -84,4 +87,29 @@ it('calls onUpdatePrice when updating price', () => {
   priceInput.focus();
   fireEvent.change(priceInput, { target: { value: 19000 } });
   expect(onUpdatePrice).lastCalledWith('40611', 19000);
+});
+
+it('should not show price input when showVehiclePrices is false', () => {
+  const onDeselect = jest.fn();
+  const onUpdatePrice = jest.fn();
+  const onUpdateFuel2MilesPct = jest.fn();
+  const {container} = render(
+    <VehicleDetails
+      selectedVehicles={vehicles}
+      onDeselectVehicle={onDeselect}
+      onUpdatePrice={onUpdatePrice}
+      vehiclePrices={{
+        40610: 18000,
+        40611: 19500,
+      }}
+      fuel2MilesPct={{}}
+      onUpdateFuel2MilesPct={onUpdateFuel2MilesPct}
+     showVehiclePrices={false}
+    />
+  );
+
+  [40610, 40611].forEach(id => {
+    const priceInput = container.querySelector(`input[data-id="${id}"]`);
+    expect(priceInput).toEqual(null);
+  });
 });

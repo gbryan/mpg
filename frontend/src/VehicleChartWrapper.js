@@ -1,41 +1,49 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import VehicleChart from './VehicleChart';
+import styles from './VehicleChartWrapper.module.css';
 
 class VehicleChartWrapper extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      chartSeries: [],
-    }
+    this.toggleShowCo2 = this.toggleShowCo2.bind(this);
+    this.getChartSeries = this.getChartSeries.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.selectedVehicles !== this.props.selectedVehicles ||
-      prevProps.vehiclePrices !== this.props.vehiclePrices ||
-      prevProps.fuelCostDollars !== this.props.fuelCostDollars ||
-      prevProps.milesPerYear !== this.props.milesPerYear ||
-      prevProps.fuel2MilesPct !== this.props.fuel2MilesPct
-    ) {
-      this.updateChart(this.props);
-    }
+  getKgCo2PerYear(vehicle) {
+    const fuel1Miles = this.getFuel1YearlyMiles(vehicle.id);
+    const fuel2Miles = this.getFuel2YearlyMiles(vehicle.id);
+    const fuel1Co2Gpm = parseFloat(vehicle.co2GpmFuel1) || 0;
+    const fuel2Co2Gpm = parseFloat(vehicle.co2GpmFuel2) || 0;
+    return ((fuel1Co2Gpm * fuel1Miles) + (fuel2Co2Gpm * fuel2Miles)) / 1000;
   }
 
   getElectricCostPerMile(vehicle) {
-    return this.props.fuelCostDollars.Electricity * (vehicle.kwh100Miles / 100);
+    return this.props.fuelCostsDollars.Electricity * (vehicle.kwh100Miles / 100);
   }
 
   getHydrocarbonCostPerMile(fuelType, mpg) {
-    return this.props.fuelCostDollars[fuelType] / mpg;
+    return this.props.fuelCostsDollars[fuelType] / mpg;
+  }
+
+  getFuel2MilesPct(vehicleId) {
+    return ((this.props.fuel2MilesPct[vehicleId] || 0) / 100);
+  }
+
+  getFuel1YearlyMiles(vehicleId) {
+    return (1 - this.getFuel2MilesPct(vehicleId)) * this.props.milesPerYear;
+  }
+
+  getFuel2YearlyMiles(vehicleId) {
+    return this.getFuel2MilesPct(vehicleId) * this.props.milesPerYear;
   }
 
   getCostPerYear(vehicle) {
     let fuel2Cost = 0;
 
     if (vehicle.fuelType2) {
-      const fuel2MilesPct = (this.props.fuel2MilesPct[vehicle.id] || 0) / 100;
-      const fuel2Miles = fuel2MilesPct * this.props.milesPerYear;
+      const fuel2Miles = this.getFuel2YearlyMiles(vehicle.id);
       let dollarsPerMile;
 
       if (vehicle.fuelType2 === 'Electricity') {
@@ -47,8 +55,7 @@ class VehicleChartWrapper extends Component {
       fuel2Cost = dollarsPerMile * fuel2Miles;
     }
 
-    const fuel1MilesPct = 1 - ((this.props.fuel2MilesPct[vehicle.id] || 0) / 100);
-    const fuel1Miles = fuel1MilesPct * this.props.milesPerYear;
+    const fuel1Miles = this.getFuel1YearlyMiles(vehicle.id);
     let dollarsPerMile;
 
     if (vehicle.fuelType1 === 'Electricity') {
@@ -62,40 +69,96 @@ class VehicleChartWrapper extends Component {
     return fuel1Cost + fuel2Cost;
   }
 
-  updateChart(props) {
-    if (!props.selectedVehicles.length) {
-      this.setState({chartSeries: []});
-      return;
+  getDollarPerYearData(vehicle) {
+    const data = [];
+    let dollarsPerYear = this.getCostPerYear(vehicle);
+    const currYear = new Date().getFullYear();
+    let prevYearCost = this.props.vehiclePrices[vehicle.id] || 0;
+
+    for (let year = currYear; year <= currYear + 20; year++) {
+      let cumulativeCost = prevYearCost + dollarsPerYear;
+      data.push({category: year, value: cumulativeCost});
+      prevYearCost = cumulativeCost;
     }
 
-    const chartSeries = props.selectedVehicles.map(vehicle => {
+    return data;
+  }
+
+  getCo2PerYearData(vehicle) {
+    const data = [];
+    const co2PerYear = this.getKgCo2PerYear(vehicle);
+    const currYear = new Date().getFullYear();
+    let prevYearCo2 = 0;
+
+    for (let year = currYear; year <= currYear + 20; year++) {
+      const cumulativeCo2 = co2PerYear + prevYearCo2;
+      data.push({category: year, value: cumulativeCo2});
+      prevYearCo2 = cumulativeCo2;
+    }
+
+    return data;
+  }
+
+  getChartSeries() {
+    if (!this.props.selectedVehicles.length) {
+      return [];
+    }
+
+    let dataFn;
+
+    if (this.props.isShowingFuelCost) {
+      dataFn = this.getDollarPerYearData;
+    } else {
+      dataFn = this.getCo2PerYearData;
+    }
+
+    dataFn = dataFn.bind(this);
+
+    return this.props.selectedVehicles.map(vehicle => {
       const name = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
-      const data = [];
-
-      let dollarsPerYear = this.getCostPerYear(vehicle);
-      const currYear = new Date().getFullYear();
-      let prevYearCost = this.props.vehiclePrices[vehicle.id] || 0;
-
-      for (let year = currYear; year <= currYear + 20; year++) {
-        let thisYearCost = prevYearCost + dollarsPerYear;
-        data.push({category: year, value: thisYearCost});
-        prevYearCost = thisYearCost;
-      }
-
+      const data = dataFn(vehicle);
       return {name, data};
-
     });
+  }
 
-    this.setState({chartSeries});
+  getToggleLabel() {
+    return this.props.isShowingFuelCost ? 'Show Emissions Data' : 'Show Fuel Cost';
+  }
+
+  toggleShowCo2() {
+    this.props.onToggleShowFuelCost();
   }
 
   render() {
-    return <VehicleChart series={this.state.chartSeries}/>;
+    const chartSeries = this.getChartSeries();
+
+    if (!chartSeries.length) {
+      return null;
+    }
+
+    return (
+      <div>
+        <h2 className={styles.chartTitle}>
+          {
+            this.props.isShowingFuelCost ?
+              'Cumulative Fuel Cost'
+              : <span>Cumulative Kilograms of CO<sub>2</sub> Emitted</span>
+          }
+        </h2>
+        <VehicleChart
+          series={chartSeries}
+          unit={this.props.isShowingFuelCost ? 'currency': 'kilograms CO₂'}
+        />
+        <button onClick={this.toggleShowCo2}>{this.getToggleLabel()}</button>
+      </div>
+    );
   }
 }
 
 VehicleChartWrapper.propTypes = {
-  fuelCostDollars: PropTypes.object.isRequired,
+  onToggleShowFuelCost: PropTypes.func.isRequired,
+  isShowingFuelCost: PropTypes.bool.isRequired,
+  fuelCostsDollars: PropTypes.object.isRequired,
   fuel2MilesPct: PropTypes.object.isRequired,
   milesPerYear: PropTypes.number.isRequired,
   selectedVehicles: PropTypes.array.isRequired,

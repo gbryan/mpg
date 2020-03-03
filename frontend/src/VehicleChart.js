@@ -32,11 +32,17 @@ class VehicleChart extends PureComponent {
         <LineChart>
           <CartesianGrid strokeDasharray="3 3"/>
           <XAxis dataKey="category" type="category" allowDuplicatedCategory={false}/>
-          <YAxis dataKey="value" tickFormatter={dollars => {
-            return currencyFormatter.format(dollars);
+          <YAxis dataKey="value" tickFormatter={val => {
+            if (this.props.unit === 'currency') {
+              return currencyFormatter.format(val);
+            }
+            return val;
           }}/>
           <Tooltip formatter={val => {
-            return currencyFormatter.format(val)
+            if (this.props.unit === 'currency') {
+              return currencyFormatter.format(val)
+            }
+            return `${val} ${this.props.unit}`;
           }} labelStyle={{marginBottom: 10}} contentStyle={{whiteSpace: 'normal'}}/>
           <Legend/>
           {this.props.series.map((s, i) => (
@@ -49,7 +55,8 @@ class VehicleChart extends PureComponent {
 }
 
 VehicleChart.propTypes = {
-  series: PropTypes.array.isRequired
+  series: PropTypes.array.isRequired,
+  unit: PropTypes.string.isRequired,
 };
 
 export default VehicleChart;

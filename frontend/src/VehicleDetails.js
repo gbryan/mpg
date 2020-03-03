@@ -53,14 +53,18 @@ class VehicleDetails extends Component {
                 </div>
                 {v.year} {v.make} {v.model}
               </div>
-              <div className={styles.boxLabelContainer}>
-                <PriceInput
-                  placeholder="Enter the purchase price."
-                  onChange={this.props.onUpdatePrice}
-                  value={this.props.vehiclePrices[v.id] || ''}
-                  fieldId={v.id}
-                />
-              </div>
+              {
+                this.props.showVehiclePrices ?
+                  <div className={styles.boxLabelContainer}>
+                    <PriceInput
+                      placeholder="Enter the purchase price."
+                      onChange={this.props.onUpdatePrice}
+                      value={this.props.vehiclePrices[v.id] || ''}
+                      fieldId={v.id}
+                    />
+                  </div>
+                  : null
+              }
               {
                 v.fuelType2 ?
                   <div className={`${styles.fuel2Pct} ${styles.boxLabelContainer}`}>
@@ -94,6 +98,7 @@ VehicleDetails.propTypes = {
   selectedVehicles: PropTypes.array.isRequired,
   onDeselectVehicle: PropTypes.func.isRequired,
   onUpdatePrice: PropTypes.func.isRequired,
+  showVehiclePrices: PropTypes.bool.isRequired,
   vehiclePrices: PropTypes.object.isRequired,
   fuel2MilesPct: PropTypes.object.isRequired,
   onUpdateFuel2MilesPct: PropTypes.func.isRequired,

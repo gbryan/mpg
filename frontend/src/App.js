@@ -20,7 +20,6 @@ TODO
 * Summary under chart, including info about how to interpret
 * Update the readme.
 * Deploy prod.
-* Add CO2 emissions feature.
  */
 class App extends Component {
   constructor(props) {
@@ -29,7 +28,8 @@ class App extends Component {
       isLoading: false,
       milesPerYear: 12000,
       fuel2MilesPct: {},
-      fuelCostDollars: {
+      isShowingFuelCost: true,
+      fuelCostsDollars: {
         'Regular Gasoline': 3.00,
         'Midgrade Gasoline': 3.25,
         'Premium Gasoline': 3.50,
@@ -59,6 +59,7 @@ class App extends Component {
     this.onUpdateFuelCost = this.onUpdateFuelCost.bind(this);
     this.handleUpdateMiles = this.handleUpdateMiles.bind(this);
     this.handleUpdateFuel2MilesPct = this.handleUpdateFuel2MilesPct.bind(this);
+    this.onToggleShowFuelCost = this.onToggleShowFuelCost.bind(this);
   }
 
   componentDidMount() {
@@ -158,9 +159,9 @@ class App extends Component {
 
   onUpdateFuelCost(fuelType, dollars) {
     this.setState(prevState => {
-      const fuelCostDollars = Object.assign({}, prevState.fuelCostDollars);
-      fuelCostDollars[fuelType] = dollars;
-      return {fuelCostDollars};
+      const fuelCostsDollars = Object.assign({}, prevState.fuelCostsDollars);
+      fuelCostsDollars[fuelType] = dollars;
+      return {fuelCostsDollars};
     });
   }
 
@@ -172,6 +173,12 @@ class App extends Component {
     const fuel2MilesPct = Object.assign({}, this.state.fuel2MilesPct);
     fuel2MilesPct[id] = parseInt(pct);
     this.setState({fuel2MilesPct});
+  }
+
+  onToggleShowFuelCost() {
+    this.setState(prevState => {
+      return {isShowingFuelCost: !prevState.isShowingFuelCost};
+    });
   }
 
   render() {
@@ -201,7 +208,9 @@ class App extends Component {
           </div>
           <div className={styles.calculatorContainer}>
             <VehicleChartWrapper
-              fuelCostDollars={this.state.fuelCostDollars}
+              onToggleShowFuelCost={this.onToggleShowFuelCost}
+              isShowingFuelCost={this.state.isShowingFuelCost}
+              fuelCostsDollars={this.state.fuelCostsDollars}
               fuel2MilesPct={this.state.fuel2MilesPct}
               milesPerYear={this.state.milesPerYear}
               selectedVehicles={this.state.selectedVehicles}
@@ -231,20 +240,25 @@ class App extends Component {
                 selectedVehicles={this.state.selectedVehicles}
                 onDeselectVehicle={this.deselectVehicle}
                 onUpdatePrice={this.handleUpdatePrice}
+                showVehiclePrices={this.state.isShowingFuelCost}
                 vehiclePrices={this.state.vehiclePrices}
                 fuel2MilesPct={this.state.fuel2MilesPct}
                 onUpdateFuel2MilesPct={this.handleUpdateFuel2MilesPct}
               />
-              <FuelCost
-                visibleFuelTypes={[
-                  ...new Set([
-                    ...this.state.selectedVehicles.map(v => v.fuelType1),
-                    ...this.state.selectedVehicles.map(v => v.fuelType2),
-                  ].filter(t => !!t)),
-                ]}
-                prices={this.state.fuelCostDollars}
-                onChange={this.onUpdateFuelCost}
-              />
+              {
+                this.state.isShowingFuelCost ?
+                <FuelCost
+                  visibleFuelTypes={[
+                    ...new Set([
+                      ...this.state.selectedVehicles.map(v => v.fuelType1),
+                      ...this.state.selectedVehicles.map(v => v.fuelType2),
+                    ].filter(t => !!t)),
+                  ]}
+                  prices={this.state.fuelCostsDollars}
+                  onChange={this.onUpdateFuelCost}
+                />
+                : null
+              }
               <div className={`${styles.subsection} ${styles.milesPerYear}`}>
                 <p className={`${styles.instructions} ${styles.medium}`}>
                   Miles driven per year: {this.state.milesPerYear}
