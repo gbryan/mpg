@@ -1,9 +1,10 @@
 import React, {PureComponent} from 'react';
 import styles from './BackLinkHeader.module.css';
+import PropTypes from 'prop-types';
 
 class BackLinkHeader extends PureComponent {
   getReturnUrl() {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(this.props.queryString);
     return params.get('returnUrl');
   }
 
@@ -31,11 +32,15 @@ class BackLinkHeader extends PureComponent {
     return (
       <div className={styles.backlinkHeader}>
         <a href={this.getReturnUrl()}>
-          <i className="fas fa-arrow-left"></i> Return to the Green Dream Board.
+          <i className="fas fa-arrow-left"></i>Return to Green Dream Board.
         </a>
       </div>
     );
   }
 }
+
+BackLinkHeader.propTypes = {
+  queryString: PropTypes.string.isRequired,
+};
 
 export default BackLinkHeader;

@@ -177,7 +177,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <BackLinkHeader/>
+        <BackLinkHeader queryString={window.location.search}/>
         <div className={styles.collapsibleContainer}>
           <div className={styles.introContainer}>
             <h1>Vehicle Cost Calculator</h1>

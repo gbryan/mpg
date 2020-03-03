@@ -1,7 +1,7 @@
 .backlinkHeader {
   width: 100%;
   height: 20px;
-  background-color: #3f61058f;
+  background-color: #18560473;
   padding:20px;
   font-size: 1.1em;
 }
@@ -13,4 +13,18 @@
 
 .backlinkHeader a:hover {
   color: white;
+}
+
+.backlinkHeader i {
+  margin-right: 20px;
+}
+
+@media (max-width: 350px) {
+  .backlinkHeader i {
+    margin-right: 5px;
+  }
+
+  .backlinkHeader {
+    font-size: 1em;
+  }
 }
