@@ -91,7 +91,7 @@ body, .introContainer {
   color: darkred;
 }
 
-.milesPerYear {
+.milesPerYear > div {
   max-width: 400px;
 }
 
