@@ -73,22 +73,3 @@ it('changes value when typing different fuel cost', () => {
   fireEvent.change(gasInput, { target: { value: newGasVal } });
   expect(onChange).lastCalledWith('Regular Gasoline', newGasVal);
 });
-
-/*
-filters
-- calls getMatchingVehicles when changing model
-- doesn't call it when changing year or make
-- resets filters for make and model when selecting new year
-
-results list
-- when there are results, each is rendered
-- when no results, show message
-
-selected vehicles
-- if a vehicle has fuelType2, show slider
-- inverse of above
-
-fuel types
-- show section for each fuel type
-- show (per gallon) unless electricity
-*/

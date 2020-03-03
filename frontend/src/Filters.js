@@ -22,6 +22,7 @@ class Filters extends Component {
       <div className={styles.container}>
         <Select
           name="year"
+          inputId="year"
           value={!this.props.values.year.value ? null : this.props.values.year}
           placeholder="Year"
           options={this.props.options.year}
@@ -31,6 +32,7 @@ class Filters extends Component {
         />
         <Select
           name="make"
+          inputId="make"
           value={!this.props.values.make.value ? null : this.props.values.make}
           placeholder="Make"
           options={this.props.options.make}
@@ -40,6 +42,7 @@ class Filters extends Component {
         />
         <Select
           name="model"
+          inputId="model"
           value={!this.props.values.model.value ? null : this.props.values.model}
           placeholder="Model"
           options={this.props.options.model}
