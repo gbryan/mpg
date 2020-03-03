@@ -16,10 +16,7 @@ TODO
 
 * Remove natural gas and propane vehicles.
 * Come up with better name for the title.
-* Summary under chart
-* Note in writeup that it excludes natural gas and propane vehicles.
-* Add context (e.g. data source is EPA, how to interpret, etc.).
-* WRITE UNIT TESTS.
+* Summary under chart, including info about how to interpret
 * Update the readme.
 * Deploy prod.
 * Add CO2 emissions feature.
@@ -181,12 +178,23 @@ class App extends Component {
       <div className={styles.collapsibleContainer}>
         <div className={styles.introContainer}>
           <h1>Vehicle Cost Calculator</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id mollis urna. Aliquam pulvinar ornare
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id mollis urna. Aliquam pulvinar ornare
             commodo. Duis euismod enim quis ante tincidunt, vel efficitur diam rhoncus. Nunc luctus purus libero,
             quis egestas odio pretium vel. Vestibulum elit dolor, convallis ullamcorper mauris in, tincidunt placerat
             mi. Cras finibus lobortis felis, non congue diam ultricies sit amet. Sed sed imperdiet nisl. Nunc dui eros,
             pharetra sed mattis eget, malesuada quis felis. Proin vestibulum, erat ut tincidunt congue, massa magna
-            faucibus tellus, et rutrum felis ex at lacus.</p>
+            faucibus tellus, et rutrum felis ex at lacus.
+          </p>
+          <p className={styles.finePrint}>
+            Data source:
+            &nbsp;<a href="https://www.fueleconomy.gov/feg/download.shtml" target="_blank">
+              U.S. Department of Energy Fuel Economy Data 1984-2020
+            </a>, downloaded 2020-01-28
+          </p>
+          <p className={styles.finePrint}>
+            Vehicles with a primary or secondary fuel type of natural gas or propane were excluded.
+          </p>
         </div>
         <div className={styles.calculatorContainer}>
           <VehicleChartWrapper

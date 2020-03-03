@@ -49,6 +49,11 @@ body, .introContainer {
   font-size: 1.5em;
 }
 
+p.finePrint, .finePrint a {
+  color: #747474;
+  font-size: 11px;
+}
+
 .calculatorContainer {
   padding: 20px;
   flex: 1 1 auto;
