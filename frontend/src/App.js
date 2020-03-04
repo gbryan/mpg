@@ -15,9 +15,11 @@ import BackLinkHeader from './BackLinkHeader';
 /*
 TODO
 
-* Currently, emissions are 0 for electricity as a fuel type. This is misleading because
+* Currently, emissions are based on national median carbon intensity for vehicles that use
+electricity as a fuel type. This is not precise because
 CO2 emissions will be based on the grid mix at the user's location where they charge the
 vehicle. Pull in a data set of carbon intensity by zip code, and use it for calculation.
+* Use constants for fuel types.
 * Add Google Analytics.
 * Add context about what this calculator does.
 * Summary under chart, including info about how to interpret

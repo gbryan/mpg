@@ -21,15 +21,29 @@ class VehicleChartWrapper extends Component {
   getKgCo2PerYear(vehicle) {
     const fuel1Miles = this.getFuel1YearlyMiles(vehicle.id);
     const fuel2Miles = this.getFuel2YearlyMiles(vehicle.id);
-    let fuel1Co2Gpm = parseFloat(vehicle.co2GpmFuel1) || 0;
-    let fuel2Co2Gpm = parseFloat(vehicle.co2GpmFuel2) || 0;
+    const electricRatio = (vehicle.combUtilityFactor || 0);
+
+    // For PHEV, the CO2 emissions (e.g. co2GpmFuel1) from the original data set are the
+    // total CO2 GPM for this fuel type * the percentage of
+    // assumed hydrocarbon-based fuel usage. For example, if the vehicle emits 200g CO2 per mile when
+    // running on gasoline (fuel type 1) and has a utility factor of 0.5, the value of vehicle.co2GpmFuel1
+    // will be 100.
+    const fuel1Co2GpmCombined = parseFloat(vehicle.co2GpmFuel1) || 0;
+    const fuel2Co2GpmCombined = parseFloat(vehicle.co2GpmFuel2) || 0;
+
+    let fuel1Co2Gpm;
+    let fuel2Co2Gpm;
 
     if (vehicle.fuelType1 === 'Electricity') {
       fuel1Co2Gpm = this.getPerMileGramsCo2e(vehicle.kwh100Miles);
+    } else {
+      fuel1Co2Gpm = electricRatio > 0 ? fuel1Co2GpmCombined / (1 - electricRatio) : fuel1Co2GpmCombined;
     }
 
     if (vehicle.fuelType2 === 'Electricity') {
       fuel2Co2Gpm = this.getPerMileGramsCo2e(vehicle.kwh100Miles);
+    } else {
+      fuel2Co2Gpm = electricRatio > 0 ? fuel2Co2GpmCombined / (1 - electricRatio) : fuel2Co2GpmCombined;
     }
 
     return ((fuel1Co2Gpm * fuel1Miles) + (fuel2Co2Gpm * fuel2Miles)) / 1000;
