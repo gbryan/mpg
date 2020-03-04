@@ -162,7 +162,7 @@ class VehicleChartWrapper extends Component {
         </h2>
         <VehicleChart
           series={chartSeries}
-          unit={this.props.isShowingFuelCost ? 'currency': 'kilograms CO₂'}
+          unit={this.props.isShowingFuelCost ? 'currency': 'kg CO₂'}
         />
       </div>
     );

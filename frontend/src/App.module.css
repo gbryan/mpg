@@ -46,7 +46,7 @@ body, .introContainer {
 }
 
 .introContainer h1 {
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 p.finePrint, .finePrint a {
@@ -119,10 +119,6 @@ p.finePrint, .finePrint a {
     margin-top: 20px;
     padding: 0;
     width: 100%;
-  }
-
-  .introContainer h1 {
-    font-size: 1.4em;
   }
 
   .wrapper {

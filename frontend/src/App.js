@@ -15,8 +15,7 @@ import BackLinkHeader from './BackLinkHeader';
 /*
 TODO
 
-* Remove natural gas and propane vehicles.
-* Come up with better name for the title.
+* Add context about what this calculator does.
 * Summary under chart, including info about how to interpret
 * Update the readme.
 * Deploy prod.
@@ -185,7 +184,7 @@ class App extends Component {
         <BackLinkHeader queryString={window.location.search}/>
         <div className={styles.collapsibleContainer}>
           <div className={styles.introContainer}>
-            <h1>Vehicle Cost Calculator</h1>
+            <h1>Vehicle Fuel Cost and CO<sub>2</sub> Emissions Calculator</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id mollis urna. Aliquam pulvinar ornare
               commodo. Duis euismod enim quis ante tincidunt, vel efficitur diam rhoncus. Nunc luctus purus libero,
