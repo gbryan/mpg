@@ -30,6 +30,8 @@ class App extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      co2eLbsMwh: 1086.2, // initially set to national average
+      zipCode: null,
       milesPerYear: 12000,
       fuel2MilesPct: {},
       isShowingFuelCost: true,
@@ -217,6 +219,7 @@ class App extends Component {
               milesPerYear={this.state.milesPerYear}
               selectedVehicles={this.state.selectedVehicles}
               vehiclePrices={this.state.vehiclePrices}
+              co2eLbsMwh={this.state.co2eLbsMwh}
             />
             <div>
               <p className={`${styles.instructions} ${styles.large}`}>1. Search for vehicles</p>

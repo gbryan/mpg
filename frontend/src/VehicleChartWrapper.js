@@ -11,11 +11,27 @@ class VehicleChartWrapper extends Component {
     this.getChartSeries = this.getChartSeries.bind(this);
   }
 
+  getPerMileGramsCo2e(kwh100Miles) {
+    const gramsPerLb = 453.592;
+    const mwhPerKwh = 1 / 1000;
+    const gramsCo2ePerKwh = this.props.co2eLbsMwh * gramsPerLb * mwhPerKwh;
+    return gramsCo2ePerKwh * (kwh100Miles / 100);
+  }
+
   getKgCo2PerYear(vehicle) {
     const fuel1Miles = this.getFuel1YearlyMiles(vehicle.id);
     const fuel2Miles = this.getFuel2YearlyMiles(vehicle.id);
-    const fuel1Co2Gpm = parseFloat(vehicle.co2GpmFuel1) || 0;
-    const fuel2Co2Gpm = parseFloat(vehicle.co2GpmFuel2) || 0;
+    let fuel1Co2Gpm = parseFloat(vehicle.co2GpmFuel1) || 0;
+    let fuel2Co2Gpm = parseFloat(vehicle.co2GpmFuel2) || 0;
+
+    if (vehicle.fuelType1 === 'Electricity') {
+      fuel1Co2Gpm = this.getPerMileGramsCo2e(vehicle.kwh100Miles);
+    }
+
+    if (vehicle.fuelType2 === 'Electricity') {
+      fuel2Co2Gpm = this.getPerMileGramsCo2e(vehicle.kwh100Miles);
+    }
+
     return ((fuel1Co2Gpm * fuel1Miles) + (fuel2Co2Gpm * fuel2Miles)) / 1000;
   }
 
@@ -86,7 +102,7 @@ class VehicleChartWrapper extends Component {
 
   getCo2PerYearData(vehicle) {
     const data = [];
-    const co2PerYear = this.getKgCo2PerYear(vehicle);
+    const co2PerYear = Math.round(this.getKgCo2PerYear(vehicle));
     const currYear = new Date().getFullYear();
     let prevYearCo2 = 0;
 
@@ -177,6 +193,7 @@ VehicleChartWrapper.propTypes = {
   milesPerYear: PropTypes.number.isRequired,
   selectedVehicles: PropTypes.array.isRequired,
   vehiclePrices: PropTypes.object.isRequired,
+  co2eLbsMwh: PropTypes.number.isRequired,
 };
 
 export default VehicleChartWrapper;

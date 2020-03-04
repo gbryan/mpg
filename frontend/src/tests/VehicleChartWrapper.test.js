@@ -10,6 +10,7 @@ it('shows expected title when currently showing fuel costs', () => {
   const onToggle = jest.fn();
   const {container} = render(
     <VehicleChartWrapper
+      co2eLbsMwh={1086.2}
       onToggleShowFuelCost={onToggle}
       isShowingFuelCost={true}
       fuelCostsDollars={{
@@ -31,6 +32,7 @@ it('shows expected title when currently showing emissions data', () => {
   const onToggle = jest.fn();
   const {container} = render(
     <VehicleChartWrapper
+      co2eLbsMwh={1086.2}
       onToggleShowFuelCost={onToggle}
       isShowingFuelCost={false}
       fuelCostsDollars={{
@@ -52,6 +54,7 @@ it('hides chart when no vehicles are selected', () => {
   const onToggle = jest.fn();
   const {container} = render(
     <VehicleChartWrapper
+      co2eLbsMwh={1086.2}
       onToggleShowFuelCost={onToggle}
       isShowingFuelCost={false}
       fuelCostsDollars={{}}
@@ -69,6 +72,7 @@ it('generates correct chart series data for fuel costs with gas and E85', () => 
   const onToggle = jest.fn();
   const testRenderer = TestRenderer.create(
     <VehicleChartWrapper
+      co2eLbsMwh={1086.2}
       onToggleShowFuelCost={onToggle}
       isShowingFuelCost={true}
       fuelCostsDollars={{
@@ -273,6 +277,7 @@ it('generates correct chart series data for fuel costs with electric vehicle', (
   const onToggle = jest.fn();
   const testRenderer = TestRenderer.create(
     <VehicleChartWrapper
+      co2eLbsMwh={1086.2}
       onToggleShowFuelCost={onToggle}
       isShowingFuelCost={true}
       fuelCostsDollars={{
@@ -383,10 +388,11 @@ it('generates correct chart series data for fuel costs with electric vehicle', (
   expect(chart.props.unit).toBe('currency');
 });
 
-it('generates correct chart series data for emissions data', () => {
+it('generates correct chart series data for emissions data - gas vehicle', () => {
   const onToggle = jest.fn();
   const testRenderer = TestRenderer.create(
     <VehicleChartWrapper
+      co2eLbsMwh={1086.2}
       onToggleShowFuelCost={onToggle}
       isShowingFuelCost={false}
       fuelCostsDollars={{}}
@@ -491,5 +497,117 @@ it('generates correct chart series data for emissions data', () => {
     },
   ];
   expect(chart.props.series).toStrictEqual(expectedSeries);
-  expect(chart.props.unit).toBe('kilograms CO₂');
+  expect(chart.props.unit).toBe('kg CO₂');
+});
+
+it('generates correct chart series data for emissions data - electric vehicle', () => {
+  const onToggle = jest.fn();
+  const testRenderer = TestRenderer.create(
+    <VehicleChartWrapper
+      co2eLbsMwh={1086.2}
+      onToggleShowFuelCost={onToggle}
+      isShowingFuelCost={false}
+      fuelCostsDollars={{}}
+      fuel2MilesPct={{}}
+      milesPerYear={12000}
+      selectedVehicles={[electricVehicle]}
+      vehiclePrices={{}}
+    />
+  );
+  const testInstance = testRenderer.root;
+  const chart = testInstance.findByType(VehicleChart);
+
+  const expectedSeries = [
+    {
+      data: [
+        {
+          category: 2020,
+          value: 1460,
+        },
+        {
+          category: 2021,
+          value: 2920,
+        },
+        {
+          category: 2022,
+          value: 4380,
+        },
+        {
+          category: 2023,
+          value: 5840,
+        },
+        {
+          category: 2024,
+          value: 7300,
+        },
+        {
+          category: 2025,
+          value: 8760,
+        },
+        {
+          category: 2026,
+          value: 10220,
+        },
+        {
+          category: 2027,
+          value: 11680,
+        },
+        {
+          category: 2028,
+          value: 13140,
+        },
+        {
+          category: 2029,
+          value: 14600,
+        },
+        {
+          category: 2030,
+          value: 16060,
+        },
+        {
+          category: 2031,
+          value: 17520,
+        },
+        {
+          category: 2032,
+          value: 18980,
+        },
+        {
+          category: 2033,
+          value: 20440,
+        },
+        {
+          category: 2034,
+          value: 21900,
+        },
+        {
+          category: 2035,
+          value: 23360,
+        },
+        {
+          category: 2036,
+          value: 24820,
+        },
+        {
+          category: 2037,
+          value: 26280,
+        },
+        {
+          category: 2038,
+          value: 27740,
+        },
+        {
+          category: 2039,
+          value: 29200,
+        },
+        {
+          category: 2040,
+          value: 30660,
+        },
+      ],
+      name: '2020 Tesla Model 3 Long Range',
+    },
+  ];
+  expect(chart.props.series).toStrictEqual(expectedSeries);
+  expect(chart.props.unit).toBe('kg CO₂');
 });
