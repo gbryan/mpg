@@ -6,6 +6,7 @@
 ul.co2Toggle {
   list-style: none;
   height: 30px;
+  padding: 0;
   margin-top: 0;
   margin-bottom: 20px;
 }
