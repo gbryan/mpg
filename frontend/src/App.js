@@ -15,9 +15,11 @@ import BackLinkHeader from './BackLinkHeader';
 /*
 TODO
 
+* Add Google Analytics.
 * Add context about what this calculator does.
 * Summary under chart, including info about how to interpret
 * Update the readme.
+* Remove temp robots.txt that I set up to block crawling.
 * Deploy prod.
  */
 class App extends Component {
