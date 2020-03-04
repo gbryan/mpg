@@ -15,10 +15,13 @@ import BackLinkHeader from './BackLinkHeader';
 /*
 TODO
 
+* Currently, emissions are 0 for electricity as a fuel type. This is misleading because
+CO2 emissions will be based on the grid mix at the user's location where they charge the
+vehicle. Pull in a data set of carbon intensity by zip code, and use it for calculation.
 * Add Google Analytics.
 * Add context about what this calculator does.
 * Summary under chart, including info about how to interpret
-* Update the readme.
+* Update the readme with link to prod.
 * Remove temp robots.txt that I set up to block crawling.
 * Deploy prod.
  */
