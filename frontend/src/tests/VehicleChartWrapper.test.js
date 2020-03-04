@@ -6,7 +6,7 @@ import electricVehicle from './fixtures/ElectricCar';
 import TestRenderer from 'react-test-renderer';
 import VehicleChart from '../VehicleChart';
 
-it('shows expected values for toggle button label and title when currently showing fuel costs', () => {
+it('shows expected title when currently showing fuel costs', () => {
   const onToggle = jest.fn();
   const {container} = render(
     <VehicleChartWrapper
@@ -25,11 +25,9 @@ it('shows expected values for toggle button label and title when currently showi
 
   const title = container.querySelector('.chartTitle');
   expect(title.textContent).toEqual('Cumulative Fuel Cost');
-
-  expect(container.textContent).toContain('Show Emissions Data');
 });
 
-it('shows expected values for toggle button label and title when currently showing emissions data', () => {
+it('shows expected title when currently showing emissions data', () => {
   const onToggle = jest.fn();
   const {container} = render(
     <VehicleChartWrapper
@@ -48,8 +46,6 @@ it('shows expected values for toggle button label and title when currently showi
 
   const title = container.querySelector('.chartTitle');
   expect(title.textContent).toEqual('Cumulative Kilograms of CO2 Emitted');
-
-  expect(container.textContent).toContain('Show Fuel Cost');
 });
 
 it('hides chart when no vehicles are selected', () => {

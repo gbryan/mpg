@@ -1,3 +1,34 @@
 .chartTitle {
   text-align: center;
+  clear: both;
+}
+
+ul.co2Toggle {
+  list-style: none;
+  height: 30px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+ul.co2Toggle li {
+  padding: 5px 10px;
+  color: #444444;
+  float: left;
+  font-family: Montserrat, sans-serif;
+}
+
+ul.co2Toggle li:not(:last-child) {
+  border-right: 1px solid darkgrey;
+}
+
+ul.co2Toggle li:hover {
+  cursor: pointer;
+}
+
+ul.co2Toggle li:hover, ul.co2Toggle li.selected {
+  color: #577963;
+}
+
+ul.co2Toggle li.selected {
+  text-decoration: underline;
 }

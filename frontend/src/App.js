@@ -175,10 +175,8 @@ class App extends Component {
     this.setState({fuel2MilesPct});
   }
 
-  onToggleShowFuelCost() {
-    this.setState(prevState => {
-      return {isShowingFuelCost: !prevState.isShowingFuelCost};
-    });
+  onToggleShowFuelCost(showFuelCost) {
+    this.setState({isShowingFuelCost: showFuelCost});
   }
 
   render() {

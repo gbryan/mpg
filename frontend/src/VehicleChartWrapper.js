@@ -121,12 +121,9 @@ class VehicleChartWrapper extends Component {
     });
   }
 
-  getToggleLabel() {
-    return this.props.isShowingFuelCost ? 'Show Emissions Data' : 'Show Fuel Cost';
-  }
-
-  toggleShowCo2() {
-    this.props.onToggleShowFuelCost();
+  toggleShowCo2(e) {
+    const showFuelCost = e.currentTarget.getAttribute('data-id') === 'fuelCost';
+    this.props.onToggleShowFuelCost(showFuelCost);
   }
 
   render() {
@@ -138,6 +135,24 @@ class VehicleChartWrapper extends Component {
 
     return (
       <div>
+        <div>
+          <ul className={styles.co2Toggle}>
+            <li
+              className={this.props.isShowingFuelCost ? styles.selected : ''}
+              data-id="fuelCost"
+              onClick={this.toggleShowCo2}
+            >
+              By Fuel Cost
+            </li>
+            <li
+              className={!this.props.isShowingFuelCost ? styles.selected : ''}
+              data-id="emissions"
+              onClick={this.toggleShowCo2}
+            >
+              By Co<sub>2</sub> Emissions
+            </li>
+          </ul>
+        </div>
         <h2 className={styles.chartTitle}>
           {
             this.props.isShowingFuelCost ?
@@ -149,7 +164,6 @@ class VehicleChartWrapper extends Component {
           series={chartSeries}
           unit={this.props.isShowingFuelCost ? 'currency': 'kilograms CO₂'}
         />
-        <button onClick={this.toggleShowCo2}>{this.getToggleLabel()}</button>
       </div>
     );
   }
