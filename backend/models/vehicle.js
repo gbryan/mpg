@@ -67,6 +67,10 @@ module.exports = (sequelize, DataTypes) => {
     kwh_100_miles: {
       type: DataTypes.FLOAT,
       default: null
+    },
+    comb_utility_factor: {
+      type: DataTypes.FLOAT,
+      default: null
     }
   }, {timestamps: false});
   Vehicle.associate = function (models) {

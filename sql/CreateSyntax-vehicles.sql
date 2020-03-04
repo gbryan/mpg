@@ -20,5 +20,6 @@ CREATE TABLE `vehicles` (
   `transmission` varchar(128) DEFAULT '',
   `vehicle_class` varchar(128) DEFAULT '',
   `kwh_100_miles` float DEFAULT NULL,
+  `comb_utility_factor` float DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
