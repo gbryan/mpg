@@ -6,6 +6,7 @@ const helmet = require('helmet');
 
 const indexRouter = require('./routes/index');
 const vehiclesRouter = require('./routes/vehicles');
+const emissionsRouter = require('./routes/emissions');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, '../build/frontend')));
 
 app.use('/', indexRouter);
 app.use('/api/v1/vehicles', vehiclesRouter);
+app.use('/api/v1/emissions', emissionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
