@@ -14,14 +14,6 @@ import GridEmissions from './GridEmissions';
 import {FUEL_TYPES} from './constants';
 
 
-/*
-TODO
-
-* Remove temp robots.txt that I set up to block crawling.
-* Deploy prod.
-* Update the readme with link to prod.
- */
-
 const nationalMedianCo2eLbsMwh = 1086.2;
 
 class App extends Component {
