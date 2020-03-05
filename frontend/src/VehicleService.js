@@ -38,6 +38,14 @@ export async function getModels(year, make) {
   return json.models;
 }
 
+export async function getGridEmissions(zipCode) {
+  //TODO: error handling
+  const response = await fetch(`${BASE_URL}/emissions?zip_code=${zipCode}`);
+  const json = await response.json();
+
+  return json.avgCo2eLbsMwh;
+}
+
 export function getYears() {
   const startYear = 1985;
   const numYears = (new Date().getFullYear() - startYear) + 1;

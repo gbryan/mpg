@@ -96,6 +96,10 @@ p.finePrint, .finePrint a {
   color: darkred;
 }
 
+.success {
+  color: darkgreen;
+}
+
 .milesPerYear > div {
   max-width: 400px;
 }

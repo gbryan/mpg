@@ -10,15 +10,13 @@ import './rc-slider.css';
 import VehicleDetails from './VehicleDetails';
 import VehicleChartWrapper from './VehicleChartWrapper';
 import BackLinkHeader from './BackLinkHeader';
+import GridEmissions from "./GridEmissions";
 
 
 /*
 TODO
 
-* Currently, emissions are based on national median carbon intensity for vehicles that use
-electricity as a fuel type. This is not precise because
-CO2 emissions will be based on the grid mix at the user's location where they charge the
-vehicle. Pull in a data set of carbon intensity by zip code, and use it for calculation.
+* Tests for ZipCodeInput and GridEmissions
 * Use constants for fuel types.
 * Add Google Analytics.
 * Add context about what this calculator does.
@@ -27,13 +25,15 @@ vehicle. Pull in a data set of carbon intensity by zip code, and use it for calc
 * Remove temp robots.txt that I set up to block crawling.
 * Deploy prod.
  */
+
+const nationalMedianCo2eLbsMwh = 1086.2;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      co2eLbsMwh: 1086.2, // initially set to national average
-      zipCode: null,
+      co2eLbsMwh: nationalMedianCo2eLbsMwh,
       milesPerYear: 12000,
       fuel2MilesPct: {},
       isShowingFuelCost: true,
@@ -68,6 +68,7 @@ class App extends Component {
     this.handleUpdateMiles = this.handleUpdateMiles.bind(this);
     this.handleUpdateFuel2MilesPct = this.handleUpdateFuel2MilesPct.bind(this);
     this.onToggleShowFuelCost = this.onToggleShowFuelCost.bind(this);
+    this.handleChangeGridEmissions = this.handleChangeGridEmissions.bind(this);
   }
 
   componentDidMount() {
@@ -187,6 +188,10 @@ class App extends Component {
     this.setState({isShowingFuelCost: showFuelCost});
   }
 
+  handleChangeGridEmissions(co2eLbsMwh) {
+    this.setState({co2eLbsMwh});
+  }
+
   render() {
     return (
       <div>
@@ -203,10 +208,13 @@ class App extends Component {
               faucibus tellus, et rutrum felis ex at lacus.
             </p>
             <p className={styles.finePrint}>
-              Data source:
+              Data sources:
               &nbsp;<a href="https://www.fueleconomy.gov/feg/download.shtml" target="_blank" rel="noopener noreferrer">
                 U.S. Department of Energy Fuel Economy Data 1984-2020
-              </a>, downloaded 2020-01-28
+              </a>, downloaded 2020-01-28 and
+              &nbsp;<a href="https://www.epa.gov/energy/power-profiler"
+                       target="_blank" rel="noopener noreferrer">Power Profiler Emissions Tool 2016</a>, downloaded
+              &nbsp;2020-03-04
             </p>
             <p className={styles.finePrint}>
               Vehicles with a primary or secondary fuel type of natural gas or propane were excluded.
@@ -278,6 +286,14 @@ class App extends Component {
                   onChange={this.handleUpdateMiles}
                 />
               </div>
+              {
+                !this.state.isShowingFuelCost ?
+                  <GridEmissions
+                    defaultCo2eLbsMwh={nationalMedianCo2eLbsMwh}
+                    onChange={this.handleChangeGridEmissions}
+                  />
+                  : null
+              }
             </div>
           </div>
         </div>
