@@ -17,9 +17,7 @@ the chart showing fuel cost and CO₂ emissions over time.
 
 ## Where is it hosted?
 
-(It's currently a WIP.)
-
-See [https://stage.mpgcompare.com](https://stage.mpgcompare.com).
+See [https://mpgcompare.com](https://mpgcompare.com).
 
 ## Technical Overview
 
@@ -28,15 +26,12 @@ See [https://stage.mpgcompare.com](https://stage.mpgcompare.com).
 [CSS modules](https://github.com/css-modules/css-modules) for styling.
 * The backend is a simple Node.js + Express app that uses MySQL as the data store.
 * The project is hosted on a Kubernetes cluster that I set up because of an interest to learn
-more about how to set it up from scratch. If this were a high-traffic project, I'd definitely
-do some things differently in how it's set up.
+more about how to set it up from scratch. If I hadn't specifically wanted to learn how to set up
+a K8s cluster, I wouldn't have used K8s for this. Also, if this were a high-traffic site, I'd
+definitely do some things differently in how I organized the resources in K8s.
 
 ## Deployment
 
 Prod: `make build-prod && make deploy-prod`
 
-Stage: `make build-stage && make deploy-stage`
-
-## TODO
-
-See a partial list [here](https://github.com/gbryan/mpg/blob/master/frontend/src/App.js#L15).
+Stage (not currently active): `make build-stage && make deploy-stage`
