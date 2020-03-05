@@ -22,6 +22,22 @@ class VehicleDetails extends Component {
     this.props.onDeselectVehicle(parseInt(vehicleId));
   }
 
+  getTitle() {
+    let title;
+
+    if (this.props.showVehiclePrices) {
+      title = 'Purchase Price';
+
+      if (this.hasAlternativeFuels()) {
+        title += ' and Alternative Fuel Usage';
+      }
+    } else {
+      title = 'Selected Vehicles'
+    }
+
+    return title;
+  }
+
   render() {
     if (!this.props.selectedVehicles.length) {
       return null;
@@ -30,12 +46,7 @@ class VehicleDetails extends Component {
     return (
       <div className={mainStyles.subsection}>
         <p className={`${mainStyles.instructions} ${mainStyles.medium}`}>
-          Purchase Price
-          {
-            this.hasAlternativeFuels() ?
-              ' and Alternative Fuel Usage'
-              : null
-          }
+          {this.getTitle()}
         </p>
         {this.props.selectedVehicles.map((v) => {
           return (
