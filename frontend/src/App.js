@@ -16,6 +16,7 @@ import GridEmissions from "./GridEmissions";
 /*
 TODO
 
+* Show GridEmissions only if at least one selected vehicle uses electricity for one of its fuel types.
 * Tests for ZipCodeInput and GridEmissions
 * Use constants for fuel types.
 * Add Google Analytics.
