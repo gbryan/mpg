@@ -40,7 +40,7 @@ class GridEmissions extends PureComponent {
 
     if (zipCode.length === 5) {
       this.setState({status: STATUSES.LOADING});
-      
+
       (async () => {
         let avgCo2eLbsMwh = await getGridEmissions(zipCode);
 
