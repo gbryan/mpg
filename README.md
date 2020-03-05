@@ -1,4 +1,4 @@
-# Vehicle Fuel Efficiency and CO2 Emissions Comparison Calculator
+# Vehicle Fuel Efficiency and CO2 Emissions Calculator
 
 ## What is it?
 
