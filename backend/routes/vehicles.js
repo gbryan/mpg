@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
     queryOptions.where = filters;
   }
 
-  const vehicles = await models.vehicle.findAll(queryOptions);
+  const vehicles = await models.Vehicle.findAll(queryOptions);
 
   res.json({vehicles});
 });
@@ -63,7 +63,7 @@ async function getUniquesForAttr(attr, filters) {
     options.where = filters;
   }
 
-  const results = await models.vehicle.findAll(options);
+  const results = await models.Vehicle.findAll(options);
 
   return results.map(v => {
     return v.get(attr);

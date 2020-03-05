@@ -9,7 +9,7 @@ function generateVehicle(options) {
     city_mpg_fuel1: 39,
     hwy_mpg_fuel1: 42,
   }, options);
-  return models.vehicle.create(values);
+  return models.Vehicle.create(values);
 }
 
 module.exports = {

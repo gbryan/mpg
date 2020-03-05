@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Vehicle = sequelize.define('vehicle', {
+  const Vehicle = sequelize.define('Vehicle', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -72,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       default: null
     }
-  }, {timestamps: false});
+  }, {timestamps: false, tableName: 'vehicles'});
   Vehicle.associate = function (models) {
     // associations can be defined here
   };
