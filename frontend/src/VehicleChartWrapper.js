@@ -104,8 +104,9 @@ class VehicleChartWrapper extends Component {
     let dollarsPerYear = this.getCostPerYear(vehicle);
     const currYear = new Date().getFullYear();
     let prevYearCost = this.props.vehiclePrices[vehicle.id] || 0;
+    data.push({category: currYear, value: prevYearCost})
 
-    for (let year = currYear; year <= currYear + 20; year++) {
+    for (let year = currYear + 1; year <= currYear + 20; year++) {
       let cumulativeCost = prevYearCost + dollarsPerYear;
       data.push({category: year, value: cumulativeCost});
       prevYearCost = cumulativeCost;
@@ -119,8 +120,9 @@ class VehicleChartWrapper extends Component {
     const co2PerYear = Math.round(this.getKgCo2PerYear(vehicle));
     const currYear = new Date().getFullYear();
     let prevYearCo2 = 0;
+    data.push({category: currYear, value: prevYearCo2});
 
-    for (let year = currYear; year <= currYear + 20; year++) {
+    for (let year = currYear + 1; year <= currYear + 20; year++) {
       const cumulativeCo2 = co2PerYear + prevYearCo2;
       data.push({category: year, value: cumulativeCo2});
       prevYearCo2 = cumulativeCo2;

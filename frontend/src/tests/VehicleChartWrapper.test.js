@@ -93,87 +93,87 @@ it('generates correct chart series data for fuel costs with gas and E85', () => 
       data: [
         {
           category: 2020,
-          value: 20617.391304347824,
+          value: 19000,
         },
         {
           category: 2021,
-          value: 22234.78260869565,
+          value: 20617.391304347824,
         },
         {
           category: 2022,
-          value: 23852.173913043473,
+          value: 22234.78260869565,
         },
         {
           category: 2023,
-          value: 25469.565217391297,
+          value: 23852.173913043473,
         },
         {
           category: 2024,
-          value: 27086.95652173912,
+          value: 25469.565217391297,
         },
         {
           category: 2025,
-          value: 28704.347826086945,
+          value: 27086.95652173912,
         },
         {
           category: 2026,
-          value: 30321.73913043477,
+          value: 28704.347826086945,
         },
         {
           category: 2027,
-          value: 31939.130434782594,
+          value: 30321.73913043477,
         },
         {
           category: 2028,
-          value: 33556.52173913042,
+          value: 31939.130434782594,
         },
         {
           category: 2029,
-          value: 35173.91304347824,
+          value: 33556.52173913042,
         },
         {
           category: 2030,
-          value: 36791.304347826066,
+          value: 35173.91304347824,
         },
         {
           category: 2031,
-          value: 38408.69565217389,
+          value: 36791.304347826066,
         },
         {
           category: 2032,
-          value: 40026.086956521714,
+          value: 38408.69565217389,
         },
         {
           category: 2033,
-          value: 41643.47826086954,
+          value: 40026.086956521714,
         },
         {
           category: 2034,
-          value: 43260.86956521736,
+          value: 41643.47826086954,
         },
         {
           category: 2035,
-          value: 44878.26086956519,
+          value: 43260.86956521736,
         },
         {
           category: 2036,
-          value: 46495.65217391301,
+          value: 44878.26086956519,
         },
         {
           category: 2037,
-          value: 48113.043478260835,
+          value: 46495.65217391301,
         },
         {
           category: 2038,
-          value: 49730.43478260866,
+          value: 48113.043478260835,
         },
         {
           category: 2039,
-          value: 51347.826086956484,
+          value: 49730.43478260866,
         },
         {
           category: 2040,
-          value: 52965.21739130431,
+          value: 51347.826086956484,
         },
       ],
       name: '2019 Chrysler 300',
@@ -182,87 +182,87 @@ it('generates correct chart series data for fuel costs with gas and E85', () => 
       data: [
         {
           category: 2020,
-          value: 21367.519181585678,
+          value: 19500,
         },
         {
           category: 2021,
-          value: 23235.038363171356,
+          value: 21367.519181585678,
         },
         {
           category: 2022,
-          value: 25102.557544757034,
+          value: 23235.038363171356,
         },
         {
           category: 2023,
-          value: 26970.07672634271,
+          value: 25102.557544757034,
         },
         {
           category: 2024,
-          value: 28837.59590792839,
+          value: 26970.07672634271,
         },
         {
           category: 2025,
-          value: 30705.115089514067,
+          value: 28837.59590792839,
         },
         {
           category: 2026,
-          value: 32572.634271099745,
+          value: 30705.115089514067,
         },
         {
           category: 2027,
-          value: 34440.15345268542,
+          value: 32572.634271099745,
         },
         {
           category: 2028,
-          value: 36307.672634271104,
+          value: 34440.15345268542,
         },
         {
           category: 2029,
-          value: 38175.191815856786,
+          value: 36307.672634271104,
         },
         {
           category: 2030,
-          value: 40042.71099744247,
+          value: 38175.191815856786,
         },
         {
           category: 2031,
-          value: 41910.23017902815,
+          value: 40042.71099744247,
         },
         {
           category: 2032,
-          value: 43777.74936061383,
+          value: 41910.23017902815,
         },
         {
           category: 2033,
-          value: 45645.26854219951,
+          value: 43777.74936061383,
         },
         {
           category: 2034,
-          value: 47512.78772378519,
+          value: 45645.26854219951,
         },
         {
           category: 2035,
-          value: 49380.306905370875,
+          value: 47512.78772378519,
         },
         {
           category: 2036,
-          value: 51247.82608695656,
+          value: 49380.306905370875,
         },
         {
           category: 2037,
-          value: 53115.34526854224,
+          value: 51247.82608695656,
         },
         {
           category: 2038,
-          value: 54982.86445012792,
+          value: 53115.34526854224,
         },
         {
           category: 2039,
-          value: 56850.3836317136,
+          value: 54982.86445012792,
         },
         {
           category: 2040,
-          value: 58717.90281329928,
+          value: 56850.3836317136,
         },
       ],
       name: '2019 Chrysler 300 FlexFuel',
@@ -297,87 +297,87 @@ it('generates correct chart series data for fuel costs with electric vehicle', (
       data: [
         {
           category: 2020,
-          value: 39796.3076,
+          value: 39500,
         },
         {
           category: 2021,
-          value: 40092.6152,
+          value: 39796.3076,
         },
         {
           category: 2022,
-          value: 40388.9228,
+          value: 40092.6152,
         },
         {
           category: 2023,
-          value: 40685.2304,
+          value: 40388.9228,
         },
         {
           category: 2024,
-          value: 40981.538,
+          value: 40685.2304,
         },
         {
           category: 2025,
-          value: 41277.8456,
+          value: 40981.538,
         },
         {
           category: 2026,
-          value: 41574.1532,
+          value: 41277.8456,
         },
         {
           category: 2027,
-          value: 41870.4608,
+          value: 41574.1532,
         },
         {
           category: 2028,
-          value: 42166.7684,
+          value: 41870.4608,
         },
         {
           category: 2029,
-          value: 42463.076,
+          value: 42166.7684,
         },
         {
           category: 2030,
-          value: 42759.3836,
+          value: 42463.076,
         },
         {
           category: 2031,
-          value: 43055.6912,
+          value: 42759.3836,
         },
         {
           category: 2032,
-          value: 43351.9988,
+          value: 43055.6912,
         },
         {
           category: 2033,
-          value: 43648.3064,
+          value: 43351.9988,
         },
         {
           category: 2034,
-          value: 43944.614,
+          value: 43648.3064,
         },
         {
           category: 2035,
-          value: 44240.9216,
+          value: 43944.614,
         },
         {
           category: 2036,
-          value: 44537.2292,
+          value: 44240.9216,
         },
         {
           category: 2037,
-          value: 44833.5368,
+          value: 44537.2292,
         },
         {
           category: 2038,
-          value: 45129.8444,
+          value: 44833.5368,
         },
         {
           category: 2039,
-          value: 45426.152,
+          value: 45129.8444,
         },
         {
           category: 2040,
-          value: 45722.4596,
+          value: 45426.152,
         },
       ],
       name: '2020 Tesla Model 3 Long Range',
@@ -410,87 +410,87 @@ it('generates correct chart series data for emissions data - gas vehicle', () =>
       data: [
         {
           category: 2020,
-          value: 4668,
+          value: 0,
         },
         {
           category: 2021,
-          value: 9336,
+          value: 4668,
         },
         {
           category: 2022,
-          value: 14004,
+          value: 9336,
         },
         {
           category: 2023,
-          value: 18672,
+          value: 14004,
         },
         {
           category: 2024,
-          value: 23340,
+          value: 18672,
         },
         {
           category: 2025,
-          value: 28008,
+          value: 23340,
         },
         {
           category: 2026,
-          value: 32676,
+          value: 28008,
         },
         {
           category: 2027,
-          value: 37344,
+          value: 32676,
         },
         {
           category: 2028,
-          value: 42012,
+          value: 37344,
         },
         {
           category: 2029,
-          value: 46680,
+          value: 42012,
         },
         {
           category: 2030,
-          value: 51348,
+          value: 46680,
         },
         {
           category: 2031,
-          value: 56016,
+          value: 51348,
         },
         {
           category: 2032,
-          value: 60684,
+          value: 56016,
         },
         {
           category: 2033,
-          value: 65352,
+          value: 60684,
         },
         {
           category: 2034,
-          value: 70020,
+          value: 65352,
         },
         {
           category: 2035,
-          value: 74688,
+          value: 70020,
         },
         {
           category: 2036,
-          value: 79356,
+          value: 74688,
         },
         {
           category: 2037,
-          value: 84024,
+          value: 79356,
         },
         {
           category: 2038,
-          value: 88692,
+          value: 84024,
         },
         {
           category: 2039,
-          value: 93360,
+          value: 88692,
         },
         {
           category: 2040,
-          value: 98028,
+          value: 93360,
         },
       ],
       name: '2019 Chrysler 300',
@@ -522,87 +522,87 @@ it('generates correct chart series data for emissions data - electric vehicle', 
       data: [
         {
           category: 2020,
-          value: 1460,
+          value: 0,
         },
         {
           category: 2021,
-          value: 2920,
+          value: 1460,
         },
         {
           category: 2022,
-          value: 4380,
+          value: 2920,
         },
         {
           category: 2023,
-          value: 5840,
+          value: 4380,
         },
         {
           category: 2024,
-          value: 7300,
+          value: 5840,
         },
         {
           category: 2025,
-          value: 8760,
+          value: 7300,
         },
         {
           category: 2026,
-          value: 10220,
+          value: 8760,
         },
         {
           category: 2027,
-          value: 11680,
+          value: 10220,
         },
         {
           category: 2028,
-          value: 13140,
+          value: 11680,
         },
         {
           category: 2029,
-          value: 14600,
+          value: 13140,
         },
         {
           category: 2030,
-          value: 16060,
+          value: 14600,
         },
         {
           category: 2031,
-          value: 17520,
+          value: 16060,
         },
         {
           category: 2032,
-          value: 18980,
+          value: 17520,
         },
         {
           category: 2033,
-          value: 20440,
+          value: 18980,
         },
         {
           category: 2034,
-          value: 21900,
+          value: 20440,
         },
         {
           category: 2035,
-          value: 23360,
+          value: 21900,
         },
         {
           category: 2036,
-          value: 24820,
+          value: 23360,
         },
         {
           category: 2037,
-          value: 26280,
+          value: 24820,
         },
         {
           category: 2038,
-          value: 27740,
+          value: 26280,
         },
         {
           category: 2039,
-          value: 29200,
+          value: 27740,
         },
         {
           category: 2040,
-          value: 30660,
+          value: 29200,
         },
       ],
       name: '2020 Tesla Model 3 Long Range',
