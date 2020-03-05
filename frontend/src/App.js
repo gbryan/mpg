@@ -17,7 +17,6 @@ import {FUEL_TYPES} from './constants';
 /*
 TODO
 
-* Add Google Analytics.
 * Remove temp robots.txt that I set up to block crawling.
 * Deploy prod.
 * Update the readme with link to prod.
