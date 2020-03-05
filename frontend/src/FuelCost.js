@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import mainStyles from './App.module.css';
 import styles from './FuelCost.module.css';
+import {FUEL_TYPES} from './constants';
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -44,7 +45,7 @@ class FuelCost extends Component {
   }
 
   formatLabel(fuelType) {
-    return `${fuelType} (per ${fuelType === "Electricity" ? "kWh" : "gallon"})`;
+    return `${fuelType} (per ${fuelType === FUEL_TYPES.ELECTRICITY ? "kWh" : "gallon"})`;
   }
 
   render() {

@@ -4,6 +4,7 @@ import styles from './VehicleDetails.module.css';
 import PriceInput from './PriceInput';
 import Slider from 'rc-slider';
 import PropTypes from 'prop-types';
+import {FUEL_TYPES} from './constants';
 
 class VehicleDetails extends Component {
   constructor(props) {
@@ -70,7 +71,7 @@ class VehicleDetails extends Component {
                   <div className={`${styles.fuel2Pct} ${styles.boxLabelContainer}`}>
                     <p>
                       Miles driven using {
-                      v.fuelType2 === 'E85' ?
+                      v.fuelType2 === FUEL_TYPES.E85 ?
                         v.fuelType2 :
                         v.fuelType2.toLowerCase()
                     }:

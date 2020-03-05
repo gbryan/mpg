@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import VehicleChart from './VehicleChart';
 import styles from './VehicleChartWrapper.module.css';
+import {FUEL_TYPES} from './constants';
 
 class VehicleChartWrapper extends Component {
   constructor(props) {
@@ -34,13 +35,13 @@ class VehicleChartWrapper extends Component {
     let fuel1Co2Gpm;
     let fuel2Co2Gpm;
 
-    if (vehicle.fuelType1 === 'Electricity') {
+    if (vehicle.fuelType1 === FUEL_TYPES.ELECTRICITY) {
       fuel1Co2Gpm = this.getPerMileGramsCo2e(vehicle.kwh100Miles);
     } else {
       fuel1Co2Gpm = electricRatio > 0 ? fuel1Co2GpmCombined / (1 - electricRatio) : fuel1Co2GpmCombined;
     }
 
-    if (vehicle.fuelType2 === 'Electricity') {
+    if (vehicle.fuelType2 === FUEL_TYPES.ELECTRICITY) {
       fuel2Co2Gpm = this.getPerMileGramsCo2e(vehicle.kwh100Miles);
     } else {
       fuel2Co2Gpm = electricRatio > 0 ? fuel2Co2GpmCombined / (1 - electricRatio) : fuel2Co2GpmCombined;
@@ -76,7 +77,7 @@ class VehicleChartWrapper extends Component {
       const fuel2Miles = this.getFuel2YearlyMiles(vehicle.id);
       let dollarsPerMile;
 
-      if (vehicle.fuelType2 === 'Electricity') {
+      if (vehicle.fuelType2 === FUEL_TYPES.ELECTRICITY) {
         dollarsPerMile = this.getElectricCostPerMile(vehicle);
       } else {
         dollarsPerMile = this.getHydrocarbonCostPerMile(vehicle.fuelType2, vehicle.combMpgFuel2);
@@ -88,7 +89,7 @@ class VehicleChartWrapper extends Component {
     const fuel1Miles = this.getFuel1YearlyMiles(vehicle.id);
     let dollarsPerMile;
 
-    if (vehicle.fuelType1 === 'Electricity') {
+    if (vehicle.fuelType1 === FUEL_TYPES.ELECTRICITY) {
       dollarsPerMile = this.getElectricCostPerMile(vehicle);
     } else {
       dollarsPerMile = this.getHydrocarbonCostPerMile(vehicle.fuelType1, vehicle.combMpgFuel1);

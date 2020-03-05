@@ -10,14 +10,13 @@ import './rc-slider.css';
 import VehicleDetails from './VehicleDetails';
 import VehicleChartWrapper from './VehicleChartWrapper';
 import BackLinkHeader from './BackLinkHeader';
-import GridEmissions from "./GridEmissions";
+import GridEmissions from './GridEmissions';
+import {FUEL_TYPES} from './constants';
 
 
 /*
 TODO
 
-* Tests for ZipCodeInput and GridEmissions
-* Use constants for fuel types.
 * Add Google Analytics.
 * Remove temp robots.txt that I set up to block crawling.
 * Deploy prod.
@@ -36,12 +35,12 @@ class App extends Component {
       fuel2MilesPct: {},
       isShowingFuelCost: true,
       fuelCostsDollars: {
-        'Regular Gasoline': 3.00,
-        'Midgrade Gasoline': 3.25,
-        'Premium Gasoline': 3.50,
-        'E85': 3.00,
-        Diesel: 3.50,
-        Electricity: 0.10
+        [FUEL_TYPES.REGULAR_GAS]: 3.00,
+        [FUEL_TYPES.MIDGRADE_GAS]: 3.25,
+        [FUEL_TYPES.PREMIUM_GAS]: 3.50,
+        [FUEL_TYPES.E85]: 3.00,
+        [FUEL_TYPES.DIESEL]: 3.50,
+        [FUEL_TYPES.ELECTRICITY]: 0.10
       },
       vehiclePrices: {},
       selectedVehicles: [],
@@ -298,7 +297,7 @@ class App extends Component {
                 />
               </div>
               {
-                !this.state.isShowingFuelCost && this.getSelectedFuelTypes().includes('Electricity') ?
+                !this.state.isShowingFuelCost && this.getSelectedFuelTypes().includes(FUEL_TYPES.ELECTRICITY) ?
                   <GridEmissions
                     defaultCo2eLbsMwh={nationalMedianCo2eLbsMwh}
                     onChange={this.handleChangeGridEmissions}
