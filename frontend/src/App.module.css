@@ -8,13 +8,9 @@ html, body {
 
 body {
   position: relative;
-  font-family: Domine, serif;
+  font-family: Montserrat, sans-serif;
   min-width: 300px;
   margin: 0;
-}
-
-h1, h2, h3, h4, h5, p.instructions, .heading {
-  font-family: Montserrat, sans-serif;
 }
 
 .wrapper {
@@ -32,21 +28,35 @@ h1, h2, h3, h4, h5, p.instructions, .heading {
 }
 
 body, .introContainer {
-  min-height: 700px;
+  min-height: 100vh;
 }
 
 .introContainer {
   background-color: #d9d9d970;
-  flex: 1 0 225px;
+  flex: 1 0 250px;
   padding: 0 20px;
 }
 
 .introContainer p {
   color: #444444;
+  font-size: 0.9em;
 }
 
 .introContainer h1 {
-  font-size: 1.2em;
+  font-size: 1.4em;
+  margin-bottom: 0;
+}
+
+.introContainer h2:first-of-type {
+  font-size: 1.1em;
+  color: #444444;
+  font-weight: normal;
+  margin-top: 10px;
+}
+
+.introContainer h3 {
+  font-size: 1em;
+  margin: 0;
 }
 
 p.finePrint, .finePrint a {

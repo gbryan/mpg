@@ -19,11 +19,9 @@ TODO
 * Tests for ZipCodeInput and GridEmissions
 * Use constants for fuel types.
 * Add Google Analytics.
-* Add context about what this calculator does.
-* Summary under chart, including info about how to interpret
-* Update the readme with link to prod.
 * Remove temp robots.txt that I set up to block crawling.
 * Deploy prod.
+* Update the readme with link to prod.
  */
 
 const nationalMedianCo2eLbsMwh = 1086.2;
@@ -198,20 +196,29 @@ class App extends Component {
         <BackLinkHeader queryString={window.location.search}/>
         <div className={styles.collapsibleContainer}>
           <div className={styles.introContainer}>
-            <h1>Vehicle Fuel Cost and CO<sub>2</sub> Emissions Calculator</h1>
+            <h1>Compare Vehicles</h1>
+            <h2>by Lifetime Fuel Cost & Carbon Emissions</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id mollis urna. Aliquam pulvinar ornare
-              commodo. Duis euismod enim quis ante tincidunt, vel efficitur diam rhoncus. Nunc luctus purus libero,
-              quis egestas odio pretium vel. Vestibulum elit dolor, convallis ullamcorper mauris in, tincidunt placerat
-              mi. Cras finibus lobortis felis, non congue diam ultricies sit amet. Sed sed imperdiet nisl. Nunc dui eros,
-              pharetra sed mattis eget, malesuada quis felis. Proin vestibulum, erat ut tincidunt congue, massa magna
-              faucibus tellus, et rutrum felis ex at lacus.
+              Choose your next vehicle wisely by comparing lifetime fuel cost and emissions impact.
+              Select the vehicles you wish to compare, and enter their purchase prices and how many miles you drive
+              per year. Then, check out the charts to see how they stack up!
+            </p>
+            <h3>Cost Chart</h3>
+            <p>
+              For each vehicle, cost starts at the purchase price and increases yearly by the estimated fuel cost.
+              When one vehicle's line crosses another's, it means the lower-priced one has become more expensive
+              over its lifespan due to higher fuel costs.
+            </p>
+            <h3>Emissions Chart</h3>
+            <p>
+              The emissions line increases each year proportionately to the vehicle's fuel type and efficiency.
+              Use this chart to see the sustainability impact of your vehicle choices.
             </p>
             <p className={styles.finePrint}>
               Data sources:
               &nbsp;<a href="https://www.fueleconomy.gov/feg/download.shtml" target="_blank" rel="noopener noreferrer">
-                U.S. Department of Energy Fuel Economy Data 1984-2020
-              </a>, downloaded 2020-01-28 and
+              U.S. Department of Energy Fuel Economy Data 1984-2020
+            </a>, downloaded 2020-01-28 and
               &nbsp;<a href="https://www.epa.gov/energy/power-profiler"
                        target="_blank" rel="noopener noreferrer">Power Profiler Emissions Tool 2016</a>, downloaded
               &nbsp;2020-03-04
@@ -262,17 +269,17 @@ class App extends Component {
               />
               {
                 this.state.isShowingFuelCost ?
-                <FuelCost
-                  visibleFuelTypes={[
-                    ...new Set([
-                      ...this.state.selectedVehicles.map(v => v.fuelType1),
-                      ...this.state.selectedVehicles.map(v => v.fuelType2),
-                    ].filter(t => !!t)),
-                  ]}
-                  prices={this.state.fuelCostsDollars}
-                  onChange={this.onUpdateFuelCost}
-                />
-                : null
+                  <FuelCost
+                    visibleFuelTypes={[
+                      ...new Set([
+                        ...this.state.selectedVehicles.map(v => v.fuelType1),
+                        ...this.state.selectedVehicles.map(v => v.fuelType2),
+                      ].filter(t => !!t)),
+                    ]}
+                    prices={this.state.fuelCostsDollars}
+                    onChange={this.onUpdateFuelCost}
+                  />
+                  : null
               }
               <div className={`${styles.subsection} ${styles.milesPerYear}`}>
                 <p className={`${styles.instructions} ${styles.medium}`}>

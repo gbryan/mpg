@@ -15,7 +15,6 @@ ul.co2Toggle li {
   padding: 5px 10px;
   color: #444444;
   float: left;
-  font-family: Montserrat, sans-serif;
 }
 
 ul.co2Toggle li:not(:last-child) {
