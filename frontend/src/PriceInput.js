@@ -58,6 +58,7 @@ class PriceInput extends Component {
         placeholder={this.props.placeholder}
         value={this.toCurrency(this.props.value)}
         onFocus={this.toggleEditable}
+        onClick={this.toggleEditable}
         data-id={this.props.fieldId}
         readOnly={true}
       />

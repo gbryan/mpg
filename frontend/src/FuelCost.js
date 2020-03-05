@@ -79,6 +79,7 @@ class FuelCost extends Component {
                       placeholder="$0.00"
                       value={this.formatPrice(this.props.prices[t])}
                       onFocus={this.handleFocus}
+                      onClick={this.handleFocus}
                       readOnly={true}
                     />
                 }
