@@ -16,7 +16,6 @@ import GridEmissions from "./GridEmissions";
 /*
 TODO
 
-* Show GridEmissions only if at least one selected vehicle uses electricity for one of its fuel types.
 * Tests for ZipCodeInput and GridEmissions
 * Use constants for fuel types.
 * Add Google Analytics.
@@ -191,6 +190,15 @@ class App extends Component {
     this.setState({co2eLbsMwh});
   }
 
+  getSelectedFuelTypes() {
+    return [
+      ...new Set([
+        ...this.state.selectedVehicles.map(v => v.fuelType1),
+        ...this.state.selectedVehicles.map(v => v.fuelType2),
+      ].filter(t => !!t)),
+    ];
+  }
+
   render() {
     return (
       <div>
@@ -271,12 +279,7 @@ class App extends Component {
               {
                 this.state.isShowingFuelCost ?
                   <FuelCost
-                    visibleFuelTypes={[
-                      ...new Set([
-                        ...this.state.selectedVehicles.map(v => v.fuelType1),
-                        ...this.state.selectedVehicles.map(v => v.fuelType2),
-                      ].filter(t => !!t)),
-                    ]}
+                    visibleFuelTypes={this.getSelectedFuelTypes()}
                     prices={this.state.fuelCostsDollars}
                     onChange={this.onUpdateFuelCost}
                   />
@@ -295,7 +298,7 @@ class App extends Component {
                 />
               </div>
               {
-                !this.state.isShowingFuelCost ?
+                !this.state.isShowingFuelCost && this.getSelectedFuelTypes().includes('Electricity') ?
                   <GridEmissions
                     defaultCo2eLbsMwh={nationalMedianCo2eLbsMwh}
                     onChange={this.handleChangeGridEmissions}
