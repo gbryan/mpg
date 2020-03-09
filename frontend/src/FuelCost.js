@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import mainStyles from './App.module.css';
 import styles from './FuelCost.module.css';
 import {FUEL_TYPES} from './constants';
+import {parseNumeric} from './utils';
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -25,9 +26,11 @@ class FuelCost extends Component {
 
   handlePriceUpdated(e) {
     const fuelType = e.currentTarget.name;
-    const dollars = e.currentTarget.value;
 
-    this.props.onChange(fuelType, dollars);
+    try {
+      const dollars = parseNumeric(e.currentTarget.value);
+      this.props.onChange(fuelType, dollars);
+    } catch {}
   }
 
   handleFocus(e) {
@@ -66,8 +69,9 @@ class FuelCost extends Component {
                     <input
                       key={key}
                       name={t}
-                      type="number"
+                      type="text"
                       placeholder={0}
+                      pattern="[0-9.]*"
                       value={this.props.prices[t]}
                       onChange={this.handlePriceUpdated}
                       onBlur={this.handleBlur}
@@ -79,7 +83,6 @@ class FuelCost extends Component {
                       placeholder="$0.00"
                       value={this.formatPrice(this.props.prices[t])}
                       onFocus={this.handleFocus}
-                      onClick={this.handleFocus}
                       readOnly={true}
                     />
                 }

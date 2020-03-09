@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
+import {parseNumeric} from './utils';
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -33,8 +34,11 @@ class PriceInput extends Component {
 
   handleChange(e) {
     const id = e.currentTarget.getAttribute('data-id');
-    const price = parseFloat(e.target.value);
-    this.props.onChange(id, price);
+
+    try {
+      const dollars = parseNumeric(e.currentTarget.value);
+      this.props.onChange(id, parseFloat(dollars));
+    } catch {}
   }
 
   render() {
@@ -42,7 +46,8 @@ class PriceInput extends Component {
       return (
         <input
           style={{width: 150}}
-          type="number"
+          type="text"
+          pattern="[0-9.]*"
           value={this.props.value}
           onChange={this.handleChange}
           onBlur={this.toggleEditable}
@@ -58,7 +63,6 @@ class PriceInput extends Component {
         placeholder={this.props.placeholder}
         value={this.toCurrency(this.props.value)}
         onFocus={this.toggleEditable}
-        onClick={this.toggleEditable}
         data-id={this.props.fieldId}
         readOnly={true}
       />
