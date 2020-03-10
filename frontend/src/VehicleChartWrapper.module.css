@@ -15,6 +15,7 @@ ul.co2Toggle li {
   padding: 5px 10px;
   color: #444444;
   float: left;
+  text-decoration: underline;
 }
 
 ul.co2Toggle li:not(:last-child) {
@@ -25,10 +26,15 @@ ul.co2Toggle li:hover {
   cursor: pointer;
 }
 
-ul.co2Toggle li:hover, ul.co2Toggle li.selected {
+ul.co2Toggle li.selected:hover {
+  cursor: default;
+}
+
+ul.co2Toggle li:hover {
   color: #577963;
 }
 
 ul.co2Toggle li.selected {
-  text-decoration: underline;
+  color: #577963;
+  text-decoration: none;
 }
