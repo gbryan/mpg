@@ -5,6 +5,7 @@ import vehicles from './fixtures/MatchingVehicles';
 import electricVehicle from './fixtures/ElectricCar';
 import TestRenderer from 'react-test-renderer';
 import VehicleChart from '../VehicleChart';
+import {CHART_VIEW} from '../constants';
 
 describe('VehicleChartWrapper', () => {
   it('shows expected title when currently showing fuel costs', () => {
@@ -12,8 +13,8 @@ describe('VehicleChartWrapper', () => {
     const {container} = render(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleShowFuelCost={onToggle}
-        isShowingFuelCost={true}
+        onToggleChartView={onToggle}
+        chartView={CHART_VIEW.FUEL_COST}
         fuelCostsDollars={{
           'Regular Gasoline': 3.1,
           'E85': 3.0,
@@ -34,8 +35,8 @@ describe('VehicleChartWrapper', () => {
     const {container} = render(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleShowFuelCost={onToggle}
-        isShowingFuelCost={false}
+        onToggleChartView={onToggle}
+        chartView={CHART_VIEW.EMISSIONS}
         fuelCostsDollars={{
           'Regular Gasoline': 3.1,
           'E85': 3.0,
@@ -56,8 +57,8 @@ describe('VehicleChartWrapper', () => {
     const {container} = render(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleShowFuelCost={onToggle}
-        isShowingFuelCost={false}
+        onToggleChartView={onToggle}
+        chartView={CHART_VIEW.EMISSIONS}
         fuelCostsDollars={{}}
         fuel2MilesPct={{}}
         milesPerYear={12000}
@@ -74,8 +75,8 @@ describe('VehicleChartWrapper', () => {
     const testRenderer = TestRenderer.create(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleShowFuelCost={onToggle}
-        isShowingFuelCost={true}
+        onToggleChartView={onToggle}
+        chartView={CHART_VIEW.FUEL_COST}
         fuelCostsDollars={{
           'Regular Gasoline': 3.1,
           'E85': 3.0,
@@ -279,8 +280,8 @@ describe('VehicleChartWrapper', () => {
     const testRenderer = TestRenderer.create(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleShowFuelCost={onToggle}
-        isShowingFuelCost={true}
+        onToggleChartView={onToggle}
+        chartView={CHART_VIEW.FUEL_COST}
         fuelCostsDollars={{
           'Electricity': 0.1,
         }}
@@ -394,8 +395,8 @@ describe('VehicleChartWrapper', () => {
     const testRenderer = TestRenderer.create(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleShowFuelCost={onToggle}
-        isShowingFuelCost={false}
+        onToggleChartView={onToggle}
+        chartView={CHART_VIEW.EMISSIONS}
         fuelCostsDollars={{}}
         fuel2MilesPct={{}}
         milesPerYear={12000}
@@ -506,8 +507,8 @@ describe('VehicleChartWrapper', () => {
     const testRenderer = TestRenderer.create(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleShowFuelCost={onToggle}
-        isShowingFuelCost={false}
+        onToggleChartView={onToggle}
+        chartView={CHART_VIEW.EMISSIONS}
         fuelCostsDollars={{}}
         fuel2MilesPct={{}}
         milesPerYear={12000}

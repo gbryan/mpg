@@ -8,6 +8,13 @@ const FUEL_TYPES = {
 };
 Object.freeze(FUEL_TYPES);
 
+const CHART_VIEW = {
+  FUEL_COST: 'fuelCost',
+  EMISSIONS: 'emissions',
+};
+Object.freeze(CHART_VIEW);
+
 export {
   FUEL_TYPES,
+  CHART_VIEW,
 };

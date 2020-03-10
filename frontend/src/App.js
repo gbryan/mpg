@@ -11,7 +11,7 @@ import VehicleDetails from './VehicleDetails';
 import VehicleChartWrapper from './VehicleChartWrapper';
 import BackLinkHeader from './BackLinkHeader';
 import GridEmissions from './GridEmissions';
-import {FUEL_TYPES} from './constants';
+import {CHART_VIEW, FUEL_TYPES} from './constants';
 
 
 const nationalMedianCo2eLbsMwh = 1086.2;
@@ -24,7 +24,7 @@ class App extends Component {
       co2eLbsMwh: nationalMedianCo2eLbsMwh,
       milesPerYear: 12000,
       fuel2MilesPct: {},
-      isShowingFuelCost: true,
+      chartView: CHART_VIEW.FUEL_COST,
       fuelCostsDollars: {
         [FUEL_TYPES.REGULAR_GAS]: 3.00,
         [FUEL_TYPES.MIDGRADE_GAS]: 3.25,
@@ -36,7 +36,9 @@ class App extends Component {
       vehiclePrices: {},
       selectedVehicles: [],
       filterOptions: {
-        year: [],
+        year: getYears().map(v => {
+          return {label: v, value: v}
+        }),
         make: [],
         model: [],
       },
@@ -50,26 +52,14 @@ class App extends Component {
 
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
     this.handleVehicleSelected = this.handleVehicleSelected.bind(this);
-    this.deselectVehicle = this.deselectVehicle.bind(this);
+    this.handleVehicleDeselected = this.handleVehicleDeselected.bind(this);
     this.handleUpdatePrice = this.handleUpdatePrice.bind(this);
     this.onUpdateFuelCost = this.onUpdateFuelCost.bind(this);
     this.handleUpdateMiles = this.handleUpdateMiles.bind(this);
     this.handleUpdateFuel2MilesPct = this.handleUpdateFuel2MilesPct.bind(this);
-    this.onToggleShowFuelCost = this.onToggleShowFuelCost.bind(this);
+    this.onToggleChartView = this.onToggleChartView.bind(this);
     this.handleChangeGridEmissions = this.handleChangeGridEmissions.bind(this);
   }
-
-  componentDidMount() {
-    this.setState({
-      filterOptions: {
-        year: getYears().map(v => {
-          return {label: v, value: v}
-        }),
-        make: [],
-        model: [],
-      }
-    });
-  };
 
   handleFiltersChanged(updatedFilters) {
     const filterValues = Object.assign({}, this.state.filterValues);
@@ -140,7 +130,7 @@ class App extends Component {
     });
   }
 
-  deselectVehicle(vehicleId) {
+  handleVehicleDeselected(vehicleId) {
     this.setState((state) => {
       return {selectedVehicles: state.selectedVehicles.filter((v) => v.id !== vehicleId)};
     });
@@ -172,15 +162,15 @@ class App extends Component {
     this.setState({fuel2MilesPct});
   }
 
-  onToggleShowFuelCost(showFuelCost) {
-    this.setState({isShowingFuelCost: showFuelCost});
+  onToggleChartView(chartView) {
+    this.setState({chartView});
   }
 
   handleChangeGridEmissions(co2eLbsMwh) {
     this.setState({co2eLbsMwh});
   }
 
-  getSelectedFuelTypes() {
+  getUniqueSelectedFuels() {
     return [
       ...new Set([
         ...this.state.selectedVehicles.map(v => v.fuelType1),
@@ -228,8 +218,8 @@ class App extends Component {
           </div>
           <div className={styles.calculatorContainer}>
             <VehicleChartWrapper
-              onToggleShowFuelCost={this.onToggleShowFuelCost}
-              isShowingFuelCost={this.state.isShowingFuelCost}
+              onToggleChartView={this.onToggleChartView}
+              chartView={this.state.chartView}
               fuelCostsDollars={this.state.fuelCostsDollars}
               fuel2MilesPct={this.state.fuel2MilesPct}
               milesPerYear={this.state.milesPerYear}
@@ -259,17 +249,17 @@ class App extends Component {
               <p className={`${styles.instructions} ${styles.large}`}>3. Add your details</p>
               <VehicleDetails
                 selectedVehicles={this.state.selectedVehicles}
-                onDeselectVehicle={this.deselectVehicle}
+                onDeselectVehicle={this.handleVehicleDeselected}
                 onUpdatePrice={this.handleUpdatePrice}
-                showVehiclePrices={this.state.isShowingFuelCost}
+                showVehiclePrices={this.state.chartView === CHART_VIEW.FUEL_COST}
                 vehiclePrices={this.state.vehiclePrices}
                 fuel2MilesPct={this.state.fuel2MilesPct}
                 onUpdateFuel2MilesPct={this.handleUpdateFuel2MilesPct}
               />
               {
-                this.state.isShowingFuelCost ?
+                this.state.chartView === CHART_VIEW.FUEL_COST ?
                   <FuelCost
-                    visibleFuelTypes={this.getSelectedFuelTypes()}
+                    visibleFuelTypes={this.getUniqueSelectedFuels()}
                     prices={this.state.fuelCostsDollars}
                     onChange={this.onUpdateFuelCost}
                   />
@@ -288,7 +278,8 @@ class App extends Component {
                 />
               </div>
               {
-                !this.state.isShowingFuelCost && this.getSelectedFuelTypes().includes(FUEL_TYPES.ELECTRICITY) ?
+                this.state.chartView === CHART_VIEW.EMISSIONS &&
+                this.getUniqueSelectedFuels().includes(FUEL_TYPES.ELECTRICITY) ?
                   <GridEmissions
                     defaultCo2eLbsMwh={nationalMedianCo2eLbsMwh}
                     onChange={this.handleChangeGridEmissions}

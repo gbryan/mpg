@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import VehicleChart from './VehicleChart';
 import styles from './VehicleChartWrapper.module.css';
-import {FUEL_TYPES} from './constants';
+import {CHART_VIEW, FUEL_TYPES} from './constants';
 
 class VehicleChartWrapper extends Component {
   constructor(props) {
@@ -139,7 +139,7 @@ class VehicleChartWrapper extends Component {
 
     let dataFn;
 
-    if (this.props.isShowingFuelCost) {
+    if (this.props.chartView === CHART_VIEW.FUEL_COST) {
       dataFn = this.getDollarPerYearData;
     } else {
       dataFn = this.getCo2PerYearData;
@@ -155,8 +155,8 @@ class VehicleChartWrapper extends Component {
   }
 
   toggleShowCo2(e) {
-    const showFuelCost = e.currentTarget.getAttribute('data-id') === 'fuelCost';
-    this.props.onToggleShowFuelCost(showFuelCost);
+    const chartView = e.currentTarget.getAttribute('data-id');
+    this.props.onToggleChartView(chartView);
   }
 
   render() {
@@ -171,15 +171,15 @@ class VehicleChartWrapper extends Component {
         <div>
           <ul className={styles.co2Toggle}>
             <li
-              className={this.props.isShowingFuelCost ? styles.selected : ''}
-              data-id="fuelCost"
+              className={this.props.chartView === CHART_VIEW.FUEL_COST ? styles.selected : ''}
+              data-id={CHART_VIEW.FUEL_COST}
               onClick={this.toggleShowCo2}
             >
               By Fuel Cost
             </li>
             <li
-              className={!this.props.isShowingFuelCost ? styles.selected : ''}
-              data-id="emissions"
+              className={this.props.chartView === CHART_VIEW.EMISSIONS ? styles.selected : ''}
+              data-id={CHART_VIEW.EMISSIONS}
               onClick={this.toggleShowCo2}
             >
               By Co<sub>2</sub> Emissions
@@ -188,14 +188,14 @@ class VehicleChartWrapper extends Component {
         </div>
         <h2 className={styles.chartTitle}>
           {
-            this.props.isShowingFuelCost ?
+            this.props.chartView === CHART_VIEW.FUEL_COST ?
               'Cumulative Fuel Cost'
               : <span>Cumulative Kilograms of CO<sub>2</sub> Emitted</span>
           }
         </h2>
         <VehicleChart
           series={chartSeries}
-          unit={this.props.isShowingFuelCost ? 'currency': 'kg CO₂'}
+          unit={this.props.chartView === CHART_VIEW.FUEL_COST ? 'currency': 'kg CO₂'}
         />
       </div>
     );
@@ -203,8 +203,8 @@ class VehicleChartWrapper extends Component {
 }
 
 VehicleChartWrapper.propTypes = {
-  onToggleShowFuelCost: PropTypes.func.isRequired,
-  isShowingFuelCost: PropTypes.bool.isRequired,
+  onToggleChartView: PropTypes.func.isRequired,
+  chartView: PropTypes.string.isRequired,
   fuelCostsDollars: PropTypes.object.isRequired,
   fuel2MilesPct: PropTypes.object.isRequired,
   milesPerYear: PropTypes.number.isRequired,
