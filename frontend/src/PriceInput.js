@@ -34,11 +34,8 @@ class PriceInput extends Component {
 
   handleChange(e) {
     const id = e.currentTarget.getAttribute('data-id');
-
-    try {
-      const dollars = parseNumeric(e.currentTarget.value);
-      this.props.onChange(id, parseFloat(dollars));
-    } catch {}
+    const dollars = parseNumeric(e.currentTarget.value);
+    this.props.onChange(id, parseFloat(dollars));
   }
 
   render() {

@@ -26,11 +26,8 @@ class FuelCost extends Component {
 
   handlePriceUpdated(e) {
     const fuelType = e.currentTarget.name;
-
-    try {
-      const dollars = parseNumeric(e.currentTarget.value);
-      this.props.onChange(fuelType, dollars);
-    } catch {}
+    const dollars = parseNumeric(e.currentTarget.value);
+    this.props.onChange(fuelType, dollars);
   }
 
   handleFocus(e) {
