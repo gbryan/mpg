@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react'
+import {render} from '@testing-library/react'
 import Filters from '../Filters';
 import makes from './fixtures/Makes';
 import models from './fixtures/Models';
