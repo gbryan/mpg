@@ -53,12 +53,12 @@ class App extends Component {
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
     this.handleVehicleSelected = this.handleVehicleSelected.bind(this);
     this.handleVehicleDeselected = this.handleVehicleDeselected.bind(this);
-    this.handleUpdatePrice = this.handleUpdatePrice.bind(this);
-    this.onUpdateFuelCost = this.onUpdateFuelCost.bind(this);
-    this.handleUpdateMiles = this.handleUpdateMiles.bind(this);
-    this.handleUpdateFuel2MilesPct = this.handleUpdateFuel2MilesPct.bind(this);
-    this.onToggleChartView = this.onToggleChartView.bind(this);
-    this.handleChangeGridEmissions = this.handleChangeGridEmissions.bind(this);
+    this.handlePriceUpdated = this.handlePriceUpdated.bind(this);
+    this.handleFuelCostUpdated = this.handleFuelCostUpdated.bind(this);
+    this.handleMilesUpdated = this.handleMilesUpdated.bind(this);
+    this.handleFuel2MilesPctUpdated = this.handleFuel2MilesPctUpdated.bind(this);
+    this.handleChartViewUpdated = this.handleChartViewUpdated.bind(this);
+    this.handleGridEmissionsChanged = this.handleGridEmissionsChanged.bind(this);
   }
 
   handleFiltersChanged(updatedFilters) {
@@ -136,7 +136,7 @@ class App extends Component {
     });
   }
 
-  handleUpdatePrice(vehicleId, price) {
+  handlePriceUpdated(vehicleId, price) {
     this.setState(prevState => {
       const vehiclePrices = Object.assign({}, prevState.vehiclePrices);
       vehiclePrices[vehicleId] = price;
@@ -144,7 +144,7 @@ class App extends Component {
     });
   }
 
-  onUpdateFuelCost(fuelType, dollars) {
+  handleFuelCostUpdated(fuelType, dollars) {
     this.setState(prevState => {
       const fuelCostsDollars = Object.assign({}, prevState.fuelCostsDollars);
       fuelCostsDollars[fuelType] = dollars;
@@ -152,21 +152,21 @@ class App extends Component {
     });
   }
 
-  handleUpdateMiles(miles) {
+  handleMilesUpdated(miles) {
     this.setState({milesPerYear: parseInt(miles)});
   }
 
-  handleUpdateFuel2MilesPct(id, pct) {
+  handleFuel2MilesPctUpdated(id, pct) {
     const fuel2MilesPct = Object.assign({}, this.state.fuel2MilesPct);
     fuel2MilesPct[id] = parseInt(pct);
     this.setState({fuel2MilesPct});
   }
 
-  onToggleChartView(chartView) {
+  handleChartViewUpdated(chartView) {
     this.setState({chartView});
   }
 
-  handleChangeGridEmissions(co2eLbsMwh) {
+  handleGridEmissionsChanged(co2eLbsMwh) {
     this.setState({co2eLbsMwh});
   }
 
@@ -218,7 +218,7 @@ class App extends Component {
           </div>
           <div className={styles.calculatorContainer}>
             <VehicleChartWrapper
-              onToggleChartView={this.onToggleChartView}
+              onUpdateChartView={this.handleChartViewUpdated}
               chartView={this.state.chartView}
               fuelCostsDollars={this.state.fuelCostsDollars}
               fuel2MilesPct={this.state.fuel2MilesPct}
@@ -250,18 +250,18 @@ class App extends Component {
               <VehicleDetails
                 selectedVehicles={this.state.selectedVehicles}
                 onDeselectVehicle={this.handleVehicleDeselected}
-                onUpdatePrice={this.handleUpdatePrice}
+                onUpdatePrice={this.handlePriceUpdated}
                 showVehiclePrices={this.state.chartView === CHART_VIEW.FUEL_COST}
                 vehiclePrices={this.state.vehiclePrices}
                 fuel2MilesPct={this.state.fuel2MilesPct}
-                onUpdateFuel2MilesPct={this.handleUpdateFuel2MilesPct}
+                onUpdateFuel2MilesPct={this.handleFuel2MilesPctUpdated}
               />
               {
                 this.state.chartView === CHART_VIEW.FUEL_COST ?
                   <FuelCost
                     visibleFuelTypes={this.getUniqueSelectedFuels()}
                     prices={this.state.fuelCostsDollars}
-                    onChange={this.onUpdateFuelCost}
+                    onChange={this.handleFuelCostUpdated}
                   />
                   : null
               }
@@ -274,7 +274,7 @@ class App extends Component {
                   max={100000}
                   step={500}
                   value={this.state.milesPerYear}
-                  onChange={this.handleUpdateMiles}
+                  onChange={this.handleMilesUpdated}
                 />
               </div>
               {
@@ -282,7 +282,7 @@ class App extends Component {
                 this.getUniqueSelectedFuels().includes(FUEL_TYPES.ELECTRICITY) ?
                   <GridEmissions
                     defaultCo2eLbsMwh={nationalMedianCo2eLbsMwh}
-                    onChange={this.handleChangeGridEmissions}
+                    onChange={this.handleGridEmissionsChanged}
                   />
                   : null
               }

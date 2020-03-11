@@ -156,7 +156,7 @@ class VehicleChartWrapper extends Component {
 
   toggleShowCo2(e) {
     const chartView = e.currentTarget.getAttribute('data-id');
-    this.props.onToggleChartView(chartView);
+    this.props.onUpdateChartView(chartView);
   }
 
   render() {
@@ -203,7 +203,7 @@ class VehicleChartWrapper extends Component {
 }
 
 VehicleChartWrapper.propTypes = {
-  onToggleChartView: PropTypes.func.isRequired,
+  onUpdateChartView: PropTypes.func.isRequired,
   chartView: PropTypes.string.isRequired,
   fuelCostsDollars: PropTypes.object.isRequired,
   fuel2MilesPct: PropTypes.object.isRequired,

@@ -9,11 +9,11 @@ import {CHART_VIEW} from '../constants';
 
 describe('VehicleChartWrapper', () => {
   it('shows expected title when currently showing fuel costs', () => {
-    const onToggle = jest.fn();
+    const onChange = jest.fn();
     const {container} = render(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleChartView={onToggle}
+        onUpdateChartView={onChange}
         chartView={CHART_VIEW.FUEL_COST}
         fuelCostsDollars={{
           'Regular Gasoline': 3.1,
@@ -31,11 +31,11 @@ describe('VehicleChartWrapper', () => {
   });
 
   it('shows expected title when currently showing emissions data', () => {
-    const onToggle = jest.fn();
+    const onChange = jest.fn();
     const {container} = render(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleChartView={onToggle}
+        onUpdateChartView={onChange}
         chartView={CHART_VIEW.EMISSIONS}
         fuelCostsDollars={{
           'Regular Gasoline': 3.1,
@@ -53,11 +53,11 @@ describe('VehicleChartWrapper', () => {
   });
 
   it('hides chart when no vehicles are selected', () => {
-    const onToggle = jest.fn();
+    const onChange = jest.fn();
     const {container} = render(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleChartView={onToggle}
+        onUpdateChartView={onChange}
         chartView={CHART_VIEW.EMISSIONS}
         fuelCostsDollars={{}}
         fuel2MilesPct={{}}
@@ -71,11 +71,11 @@ describe('VehicleChartWrapper', () => {
   });
 
   it('generates correct chart series data for fuel costs with gas and E85', () => {
-    const onToggle = jest.fn();
+    const onChange = jest.fn();
     const testRenderer = TestRenderer.create(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleChartView={onToggle}
+        onUpdateChartView={onChange}
         chartView={CHART_VIEW.FUEL_COST}
         fuelCostsDollars={{
           'Regular Gasoline': 3.1,
@@ -276,11 +276,11 @@ describe('VehicleChartWrapper', () => {
   });
 
   it('generates correct chart series data for fuel costs with electric vehicle', () => {
-    const onToggle = jest.fn();
+    const onChange = jest.fn();
     const testRenderer = TestRenderer.create(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleChartView={onToggle}
+        onUpdateChartView={onChange}
         chartView={CHART_VIEW.FUEL_COST}
         fuelCostsDollars={{
           'Electricity': 0.1,
@@ -391,11 +391,11 @@ describe('VehicleChartWrapper', () => {
   });
 
   it('generates correct chart series data for emissions data - gas vehicle', () => {
-    const onToggle = jest.fn();
+    const onChange = jest.fn();
     const testRenderer = TestRenderer.create(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleChartView={onToggle}
+        onUpdateChartView={onChange}
         chartView={CHART_VIEW.EMISSIONS}
         fuelCostsDollars={{}}
         fuel2MilesPct={{}}
@@ -503,11 +503,11 @@ describe('VehicleChartWrapper', () => {
   });
 
   it('generates correct chart series data for emissions data - electric vehicle', () => {
-    const onToggle = jest.fn();
+    const onChange = jest.fn();
     const testRenderer = TestRenderer.create(
       <VehicleChartWrapper
         co2eLbsMwh={1086.2}
-        onToggleChartView={onToggle}
+        onUpdateChartView={onChange}
         chartView={CHART_VIEW.EMISSIONS}
         fuelCostsDollars={{}}
         fuel2MilesPct={{}}
