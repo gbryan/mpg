@@ -15,7 +15,7 @@ This tool helps answer both questions. Just select vehicles to compare, enter th
 purchase price of the vehicles, optionally modify other assumptions, and check out
 the chart showing fuel cost and CO₂ emissions over time.
 
-## Where is it hosted?
+## Where can I access it?
 
 See [https://mpgcompare.com](https://mpgcompare.com).
 
