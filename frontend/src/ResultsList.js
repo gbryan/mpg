@@ -45,7 +45,11 @@ class ResultsList extends Component {
                 className={this.isSelected(v.id) ? styles.selected : ''}
               >
                 <td>
-                  <span className={styles.addBtn}><i className="fas fa-plus-circle"></i></span>
+                  {
+                    !this.isSelected(v.id) ?
+                      <span className={styles.addBtn}><i className="fas fa-plus-circle"></i></span>
+                      : null
+                  }
                   <span className={styles.heading}>Year</span>{v.year}
                 </td>
                 <td><span className={styles.heading}>Make</span>{v.make}</td>
