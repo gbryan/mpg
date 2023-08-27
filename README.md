@@ -15,10 +15,6 @@ This tool helps answer both questions. Just select vehicles to compare, enter th
 purchase price of the vehicles, optionally modify other assumptions, and check out
 the chart showing fuel cost and CO₂ emissions over time.
 
-## Where can I access it?
-
-See [https://mpgcompare.com](https://mpgcompare.com).
-
 ## Technical Overview
 
 * The frontend is a single-page React app build from create-react-app.
@@ -29,9 +25,3 @@ See [https://mpgcompare.com](https://mpgcompare.com).
 more about how to set it up from scratch. If I hadn't specifically wanted to learn how to set up
 a K8s cluster, I wouldn't have used K8s for this. Also, if this were a high-traffic site, I'd
 definitely do some things differently in how I organized the resources in K8s.
-
-## Deployment
-
-Prod: `make build-prod && make deploy-prod`
-
-Stage (not currently active): `make build-stage && make deploy-stage`
